@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gomoku AI</title>
+    <title>GOMOKU AI</title>
 
     <script src="./coi-serviceworker.js"></script>
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -16,12 +16,10 @@
     <main id="app">
         <header id="topbar">
             <div class="score black">
-                <span class="score-label">黑</span>
                 <span id="black-count">00</span>
             </div>
-            <h1>五子棋 AI</h1>
+            <h1>GOMOKU AI</h1>
             <div class="score white">
-                <span class="score-label">白</span>
                 <span id="white-count">00</span>
             </div>
         </header>
@@ -29,6 +27,11 @@
         <section id="game-layout">
             <section id="board-shell" aria-label="五子棋棋盘">
                 <canvas id="board-canvas" width="900" height="900"></canvas>
+                <div id="mode-menu">
+                    <button class="mode-btn" type="button" data-mode="pve">人机</button>
+                    <button class="mode-btn" type="button" data-mode="pvp">人人</button>
+                    <button class="mode-btn" type="button" data-mode="eve">机机</button>
+                </div>
             </section>
 
             <aside id="ai-panel" aria-label="AI 搜索评分">
@@ -40,6 +43,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>方</th>
+                                <th>来源</th>
                                 <th>落子</th>
                                 <th>深度</th>
                                 <th>节点</th>
@@ -50,7 +54,7 @@
                         </thead>
                         <tbody id="ai-stats-body">
                             <tr id="ai-stats-empty">
-                                <td colspan="8">开始对局后显示搜索记录</td>
+                                <td colspan="9">开始对局后显示搜索记录</td>
                             </tr>
                         </tbody>
                     </table>
@@ -60,8 +64,8 @@
         </section>
 
         <section id="controls">
-            <button id="restart-btn" type="button">再来一局</button>
             <div id="status">人机：人类黑子先手，AI 白子后手。</div>
+            <button id="restart-btn" class="hidden" type="button">再来一局</button>
         </section>
 
         <section id="engine-note">

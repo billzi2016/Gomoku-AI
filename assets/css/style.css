@@ -10,7 +10,8 @@
 }
 
 :root {
-    --board-size: min(72vh, 760px);
+    --board-size: min(76vh, 840px);
+    --board-frame-size: calc(var(--board-size) + 44px);
     --ink: #1f2428;
     --paper: #77736b;
     --wood: #d3a35e;
@@ -29,7 +30,7 @@ body {
 }
 
 #app {
-    width: min(1500px, calc(100vw - 40px));
+    width: min(1680px, calc(100vw - 40px));
     margin: 0 auto;
     padding: 28px 0 22px;
 }
@@ -83,12 +84,12 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap: 34px;
+    gap: 56px;
 }
 
 #ai-panel {
-    width: min(560px, calc(100vw - 32px));
-    height: calc(var(--board-size) + 24px);
+    width: min(760px, calc(100vw - 32px));
+    height: var(--board-frame-size);
     padding: 16px;
     color: #e8eaef;
     background: var(--panel);
@@ -111,7 +112,7 @@ body {
 
 #ai-table-wrap {
     margin-top: 14px;
-    max-height: calc(var(--board-size) - 104px);
+    max-height: calc(var(--board-frame-size) - 148px);
     overflow: auto;
 }
 
@@ -119,14 +120,51 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
+    table-layout: fixed;
 }
 
 #ai-stats-table th,
 #ai-stats-table td {
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--panel-line);
     text-align: left;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#ai-stats-table th:nth-child(1),
+#ai-stats-table td:nth-child(1) {
+    width: 52px;
+}
+
+#ai-stats-table th:nth-child(2),
+#ai-stats-table td:nth-child(2) {
+    width: 44px;
+}
+
+#ai-stats-table th:nth-child(3),
+#ai-stats-table td:nth-child(3) {
+    width: 64px;
+}
+
+#ai-stats-table th:nth-child(4),
+#ai-stats-table td:nth-child(4) {
+    width: 66px;
+}
+
+#ai-stats-table th:nth-child(5),
+#ai-stats-table td:nth-child(5) {
+    width: 58px;
+}
+
+#ai-stats-table th:nth-child(6),
+#ai-stats-table td:nth-child(6),
+#ai-stats-table th:nth-child(7),
+#ai-stats-table td:nth-child(7),
+#ai-stats-table th:nth-child(8),
+#ai-stats-table td:nth-child(8) {
+    width: 92px;
 }
 
 #ai-stats-table th {
@@ -167,6 +205,16 @@ body {
     color: #e8eaef;
 }
 
+.source-ai {
+    color: var(--blue);
+    font-weight: 800;
+}
+
+.source-human {
+    color: #f4d06f;
+    font-weight: 800;
+}
+
 #controls {
     width: min(100%, calc(var(--board-size) + 594px));
     margin: 18px auto 0;
@@ -174,6 +222,10 @@ body {
     align-items: center;
     justify-content: center;
     gap: 18px;
+}
+
+#controls .hidden {
+    display: none;
 }
 
 #restart-btn {
@@ -221,6 +273,7 @@ body {
 @media (max-width: 1180px) {
     :root {
         --board-size: min(86vw, 720px);
+        --board-frame-size: calc(var(--board-size) + 44px);
     }
 
     #game-layout {

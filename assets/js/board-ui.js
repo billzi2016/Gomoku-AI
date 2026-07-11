@@ -125,15 +125,19 @@ export class BoardUI {
             const { x, y } = this.toPixel(item.r, item.c);
             ctx.fillStyle = heatColor(value);
             ctx.beginPath();
-            ctx.arc(x, y, cell * 0.24, 0, Math.PI * 2);
+            ctx.arc(x, y, cell * 0.3, 0, Math.PI * 2);
             ctx.fill();
+        }
 
+        for (const item of this.heatmap) {
+            const value = (item.score - min) / range;
+            const { x, y } = this.toPixel(item.r, item.c);
             if (item.score >= labelCutoff) {
                 ctx.fillStyle = value > 0.66 ? "#073b1a" : "#402d00";
-                ctx.font = `700 ${Math.max(10, cell * 0.22)}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+                ctx.font = `800 ${Math.max(13, cell * 0.28)}px ui-monospace, SFMono-Regular, Menlo, monospace`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.fillText(shortScore(item.score), x, y);
+                ctx.fillText(shortScore(item.score), x, y + cell * 0.015);
             }
         }
     }

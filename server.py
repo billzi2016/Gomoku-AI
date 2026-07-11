@@ -29,7 +29,7 @@ def main():
     handler = lambda *h_args, **h_kwargs: HeaderHandler(*h_args, directory=str(root), **h_kwargs)
     server = ThreadingHTTPServer((args.host, args.port), handler)
     host, port = server.server_address
-    print(f"http://{host}:{port}/")
+    print(f"http://{host}:{port}/", flush=True)
     server.serve_forever()
 
 

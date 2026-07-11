@@ -11,6 +11,21 @@ const WIN_NOW: i32 = 40_000_000;
 const BLOCK_WIN_NOW: i32 = 35_000_000;
 const FORCE_FOUR: i32 = 8_000_000;
 const OPEN_THREE: i32 = 1_500_000;
+const DOUBLE_THREAT: i32 = 4_500_000;
+
+#[derive(Clone, Copy, Default)]
+struct ThreatStats {
+    /*
+     * 候选点落下后形成的局部威胁统计。
+     *
+     * best 用于和旧逻辑兼容；force_count/open_three_count 用来识别“双威胁”。
+     * 双威胁是五子棋主动进攻的关键：如果一步棋制造两个必须处理的点，
+     * 对手通常只能堵一个，下一手就可能进入必胜线。
+     */
+    best: i32,
+    force_count: i32,
+    open_three_count: i32,
+}
 
 /// 返回 root 方视角的静态分数。
 pub fn evaluate(board: &Board, root_side: i8) -> i32 {
@@ -48,8 +63,12 @@ pub fn quick_move_score(board: &Board, mv: Move, side: i8) -> i32 {
     if winning_move(board, mv, -side) {
         return BLOCK_WIN_NOW;
     }
-    let attack_threat = window_threat_score(board, mv, side);
-    let defend_threat = window_threat_score(board, mv, -side);
+    let attack_stats = window_threat_stats(board, mv, side);
+    let defend_stats = window_threat_stats(board, mv, -side);
+    let attack_threat = attack_stats.best;
+    let defend_threat = defend_stats.best;
+    let attack_fork = fork_bonus(attack_stats);
+    let defend_fork = fork_bonus(defend_stats);
 
     /*
      * 攻防平衡：
@@ -58,27 +77,40 @@ pub fn quick_move_score(board: &Board, mv: Move, side: i8) -> i32 {
      * 这里按强制程度分层，而不是简单让防守永远大于进攻。
      */
     if attack_threat >= FORCE_FOUR {
-        return 30_000_000 + attack_threat;
+        return 34_000_000 + attack_threat + attack_fork;
     }
     if defend_threat >= FORCE_FOUR {
-        return 28_000_000 + defend_threat;
+        return 30_000_000 + defend_threat + defend_fork;
+    }
+    if attack_fork >= DOUBLE_THREAT {
+        return 22_000_000 + attack_threat + attack_fork;
+    }
+    if defend_fork >= DOUBLE_THREAT {
+        return 18_000_000 + defend_threat + defend_fork;
     }
     if attack_threat >= OPEN_THREE {
-        return 8_000_000 + attack_threat;
+        return 11_000_000 + attack_threat + attack_fork;
     }
     if defend_threat >= OPEN_THREE {
-        return 6_000_000 + defend_threat;
+        return 7_000_000 + defend_threat + defend_fork;
     }
 
     let attack = local_shape_score(board, mv, side);
     let defend = local_shape_score(board, mv, -side);
-    center_bonus(mv) + attack * 6 + defend * 5 + attack_threat * 2 + defend_threat * 2
+    center_bonus(mv)
+        + attack * 8
+        + defend * 4
+        + attack_threat * 3
+        + defend_threat * 2
+        + attack_fork
+        + defend_fork / 2
 }
 
 /// 根节点战术分。
 ///
 /// 根节点必须优先处理确定性战术：自己能五连就直接赢，
-/// 对手下一手能五连就必须堵。这个函数只检查当前候选点，不生成候选列表。
+/// 对手下一手能五连就必须堵。强制四也可以作为根节点强战术提前返回。
+/// 活三和双威胁只用于排序，不在这里截断搜索，避免没看对手反击就盲攻。
 pub fn root_tactical_score(board: &Board, mv: Move, side: i8) -> Option<i32> {
     if winning_move(board, mv, side) {
         return Some(500_000_000);
@@ -86,19 +118,17 @@ pub fn root_tactical_score(board: &Board, mv: Move, side: i8) -> Option<i32> {
     if winning_move(board, mv, -side) {
         return Some(450_000_000);
     }
-    let attack_threat = window_threat_score(board, mv, side);
-    let defend_threat = window_threat_score(board, mv, -side);
+    let attack_stats = window_threat_stats(board, mv, side);
+    let defend_stats = window_threat_stats(board, mv, -side);
+    let attack_threat = attack_stats.best;
+    let defend_threat = defend_stats.best;
+    let attack_fork = fork_bonus(attack_stats);
+    let defend_fork = fork_bonus(defend_stats);
     if attack_threat >= FORCE_FOUR {
-        return Some(260_000_000 + attack_threat);
+        return Some(300_000_000 + attack_threat + attack_fork);
     }
     if defend_threat >= FORCE_FOUR {
-        return Some(240_000_000 + defend_threat);
-    }
-    if attack_threat >= OPEN_THREE {
-        return Some(70_000_000 + attack_threat);
-    }
-    if defend_threat >= OPEN_THREE {
-        return Some(55_000_000 + defend_threat);
+        return Some(270_000_000 + defend_threat + defend_fork);
     }
     None
 }
@@ -200,18 +230,18 @@ fn pattern_score(len: i32, open: i32) -> i32 {
      */
     match (len, open) {
         (5.., _) => 20_000_000,
-        (4, 2) => 2_000_000,
-        (4, 1) => 250_000,
-        (3, 2) => 60_000,
-        (3, 1) => 8_000,
-        (2, 2) => 2_500,
+        (4, 2) => 3_200_000,
+        (4, 1) => 360_000,
+        (3, 2) => 110_000,
+        (3, 1) => 12_000,
+        (2, 2) => 3_500,
         (2, 1) => 600,
         (1, 2) => 80,
         _ => 10,
     }
 }
 
-fn window_threat_score(board: &Board, mv: Move, side: i8) -> i32 {
+fn window_threat_stats(board: &Board, mv: Move, side: i8) -> ThreatStats {
     /*
      * 5 格窗口威胁识别。
      *
@@ -223,16 +253,44 @@ fn window_threat_score(board: &Board, mv: Move, side: i8) -> i32 {
      * 这里假设 side 下在 mv，然后枚举四个方向上所有包含 mv 的 5 格窗口。
      * 只要窗口内没有对手棋，就根据己方棋子数、空位数和窗口两端开口给分。
      */
-    let mut best = 0;
+    let mut stats = ThreatStats::default();
     for &(dr, dc) in &DIRS {
         for offset in -4..=0 {
             let sr = mv.r as i16 + dr * offset;
             let sc = mv.c as i16 + dc * offset;
             let score = score_window(board, mv, side, sr, sc, dr, dc);
-            best = best.max(score);
+            stats.best = stats.best.max(score);
+            if score >= FORCE_FOUR {
+                stats.force_count += 1;
+            } else if score >= OPEN_THREE {
+                stats.open_three_count += 1;
+            }
         }
     }
-    best
+    stats
+}
+
+fn fork_bonus(stats: ThreatStats) -> i32 {
+    /*
+     * 双威胁奖励。
+     *
+     * - 两个强制四窗口：通常是直接进入必胜节奏。
+     * - 一个强制四加一个活三：对手虽然能堵一边，但另一边会继续扩大。
+     * - 两个活三：常见的“双活三”，能把单纯防守方拖进被动。
+     *
+     * 这里返回独立 bonus，不替代 best。best 保证单个最强窗口仍然有效，
+     * bonus 则让“同时制造多个问题”的进攻点排到普通防守前面。
+     */
+    if stats.force_count >= 2 {
+        return 18_000_000;
+    }
+    if stats.force_count >= 1 && stats.open_three_count >= 1 {
+        return 9_000_000;
+    }
+    if stats.open_three_count >= 2 {
+        return DOUBLE_THREAT;
+    }
+    0
 }
 
 fn score_window(

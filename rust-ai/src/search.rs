@@ -10,8 +10,10 @@ use crate::evaluate::{relative_score, root_tactical_score};
 use crate::movegen::{generate_candidates, ScoredMove};
 use crate::types::{HeatPoint, Move, SearchOutput, EMPTY, INF, SIZE};
 
-const ROOT_LIMIT: usize = 28;
-const CHILD_LIMIT: usize = 18;
+// 根节点多保留一些候选，避免主动进攻点在热力图分片前被截掉。
+const ROOT_LIMIT: usize = 36;
+// 子节点宽度略放大，让 Alpha-Beta 有机会验证进攻后的反击，而不是只看局部评分。
+const CHILD_LIMIT: usize = 22;
 const MAX_DEPTH: u8 = 12;
 
 struct Context {

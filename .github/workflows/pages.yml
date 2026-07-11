@@ -34,12 +34,23 @@ jobs:
         # wasm-bindgen 负责把 cargo 产出的 .wasm 包装成浏览器 ES module。
         run: cargo install wasm-bindgen-cli --locked
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install documentation dependencies
+        run: python -m pip install -r docs-site/requirements.txt
+
       - name: Build Wasm
         # 构建发布版 Wasm，并输出到前端固定加载目录 assets/wasm。
         working-directory: rust-ai
         run: |
           cargo build --target wasm32-unknown-unknown --release
           wasm-bindgen --target web --out-dir ../assets/wasm --out-name gomoku_ai target/wasm32-unknown-unknown/release/gomoku_ai.wasm
+
+      - name: Build documentation site
+        run: mkdocs build -f docs-site/mkdocs.yml --strict
 
       - name: Prepare artifact
         # Pages artifact 只需要静态站点文件，排除 Git 元数据和 Rust 构建缓存。
@@ -48,10 +59,13 @@ jobs:
           rsync -a \
             --exclude='.git' \
             --exclude='.github' \
+            --exclude='docs-site' \
             --exclude='rust-ai/target' \
             --exclude='target' \
             --exclude='__pycache__' \
             ./ public/
+          mkdir -p public/docs
+          rsync -a docs-site/site/ public/docs/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

@@ -8,6 +8,10 @@ Rust/Wasm Gomoku AI running entirely in the browser with Bitboard win detection,
 
 https://billzi2016.github.io/Gomoku-AI/
 
+## Documentation
+
+https://billzi2016.github.io/Gomoku-AI/docs/
+
 ## Features
 
 - Browser-only Gomoku game deployable to GitHub Pages.

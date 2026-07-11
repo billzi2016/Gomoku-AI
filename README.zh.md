@@ -8,6 +8,10 @@
 
 https://billzi2016.github.io/Gomoku-AI/
 
+## 文档站
+
+https://billzi2016.github.io/Gomoku-AI/docs/
+
 ## 功能
 
 - 可部署到 GitHub Pages 的纯前端五子棋。

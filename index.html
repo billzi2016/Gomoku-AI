@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+    五子棋 AI 单页应用入口。
+
+    页面只声明布局结构：顶部计数、棋盘、模式菜单、AI 搜索评分表和底部说明。
+    具体规则流程在 assets/js/game.js，棋盘绘制在 assets/js/board-ui.js，
+    Rust/Wasm 搜索通过 Web Worker 加载。
+-->
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">

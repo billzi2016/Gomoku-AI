@@ -15,19 +15,32 @@ const CHILD_LIMIT: usize = 18;
 const MAX_DEPTH: u8 = 12;
 
 struct Context {
+    // root_side 固定为本次搜索方，用于把叶子评估转换成正确视角。
     root_side: i8,
+    // deadline 用浏览器时间戳表示，所有递归层共享同一个超时点。
     deadline: f64,
+    // 递归层采样到超时后置 true，避免每个节点都跨 Wasm 边界调用 Date::now。
+    stopped: bool,
+    // 节点计数用于 UI 展示 NPS，也能帮助观察棋力/性能变化。
     nodes: u64,
+    // 简单置换表：同一棋盘和行动方在足够深度下可以复用分数。
     table: HashMap<u64, Entry>,
 }
 
 #[derive(Clone, Copy)]
 struct Entry {
+    // 只有缓存深度不浅于当前请求深度时才复用。
     depth: u8,
     score: i32,
 }
 
 pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: Vec<u8>) -> String {
+    /*
+     * 搜索入口。
+     *
+     * allowed 为空表示由 Rust 自己生成根候选；非空表示 JS Worker 池已经
+     * 把根候选分片，本 Worker 只搜索分到的那一批。
+     */
     let board = Board::from_cells(&cells);
     let start = js_sys::Date::now();
     let deadline = start + think_ms as f64;
@@ -55,6 +68,7 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
     let mut ctx = Context {
         root_side: side,
         deadline,
+        stopped: false,
         nodes: 0,
         table: HashMap::new(),
     };
@@ -72,7 +86,13 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
         .collect::<Vec<_>>();
 
     for depth in 1..=MAX_DEPTH {
-        if timed_out(&ctx) {
+        /*
+         * 迭代加深。
+         *
+         * 每完成一层就保留当前最佳结果。即使 5 秒时间到，也能返回上一层
+         * 已完整搜索过的最优解，而不是返回半截搜索中的不稳定结果。
+         */
+        if ctx.stopped || timed_out(&ctx) {
             break;
         }
         let mut depth_best = best;
@@ -80,12 +100,13 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
         let mut depth_heat = Vec::with_capacity(roots.len());
 
         for item in &roots {
-            if timed_out(&ctx) {
+            if ctx.stopped || timed_out(&ctx) {
                 break;
             }
             let mut next = board.clone();
             next.place(item.mv, side);
             let score = if let Some(tactical) = root_tactical_score(&board, item.mv, side) {
+                // 根节点先处理“自己立即赢 / 对手立即赢必须堵”的强制战术。
                 tactical
             } else if next.has_five(item.mv, side) {
                 INF / 2
@@ -132,26 +153,35 @@ fn negamax(
     beta: i32,
     ctx: &mut Context,
 ) -> i32 {
+    /*
+     * NegaMax 递归。
+     *
+     * 返回值永远表示“当前行动方 turn_side 的视角”。
+     * 因此递归回来要取负号，超时和叶子也必须用 relative_score。
+     */
     ctx.nodes += 1;
-    if timed_out(ctx) || depth == 0 || board.is_full() {
+    if sample_timeout(ctx) || depth == 0 || board.is_full() {
         return relative_score(board, turn_side, ctx.root_side);
     }
 
     let key = hash(board, turn_side);
     if let Some(entry) = ctx.table.get(&key) {
+        // 缓存深度足够时直接复用，避免重复搜索相同局面。
         if entry.depth >= depth {
             return entry.score;
         }
     }
 
     let moves = generate_candidates(board, turn_side, CHILD_LIMIT);
+    // 没有候选点通常意味着棋盘已满或局面异常，返回当前静态估值兜底。
     if moves.is_empty() {
         return relative_score(board, turn_side, ctx.root_side);
     }
 
     let mut best = -INF;
     for item in moves {
-        if timed_out(ctx) {
+        if ctx.stopped {
+            // 超时不能随便返回 root 视角分数，否则 NegaMax 符号会被污染。
             return best.max(relative_score(board, turn_side, ctx.root_side));
         }
         let mut next = board.clone();
@@ -173,6 +203,12 @@ fn negamax(
 }
 
 fn root_moves(board: &Board, side: i8, allowed: &[u8]) -> Vec<ScoredMove> {
+    /*
+     * 生成当前 Worker 要搜索的根节点。
+     *
+     * allowed 非空时来自 JS 的分片，编码为单字节索引 r * 15 + c。
+     * 这里仍然重新计算排序分，让每个 Worker 内部按强候选优先搜索。
+     */
     if allowed.is_empty() {
         return generate_candidates(board, side, ROOT_LIMIT);
     }
@@ -196,6 +232,11 @@ fn root_moves(board: &Board, side: i8, allowed: &[u8]) -> Vec<ScoredMove> {
 }
 
 fn candidate_only(start: f64, roots: &[ScoredMove]) -> SearchOutput {
+    /*
+     * 仅返回候选热力图。
+     *
+     * JS 搜索前会用 1ms 请求触发这个分支，以便拿到根候选并分片给 Worker。
+     */
     let best = roots[0];
     SearchOutput {
         r: best.mv.r as i16,
@@ -217,28 +258,52 @@ fn candidate_only(start: f64, roots: &[ScoredMove]) -> SearchOutput {
 }
 
 fn hash(board: &Board, side: i8) -> u64 {
+    /*
+     * 轻量棋盘哈希。
+     *
+     * 这里不是严格 Zobrist 表，但足以把棋盘内容和行动方混合成置换表 key。
+     * 哈希只混合黑白 Bitboard 的 8 个 u64，不再扫描 225 个数组格子。
+     */
     let mut h: u64 = if side > 0 { 0x9e37_79b9_7f4a_7c15 } else { 0xbf58_476d_1ce4_e5b9 };
-    for (idx, &cell) in board.cells().iter().enumerate() {
-        let v: u64 = match cell {
-            1 => 0x1000_0000_01b3,
-            -1 => 0xc6a4_a793_5bd1_e995,
-            _ => 0,
-        };
-        h ^= v.wrapping_mul((idx as u64 + 1).wrapping_mul(0x9e37_79b9));
+    let (black, white) = board.bitboards();
+    for i in 0..4 {
+        h ^= black[i].wrapping_mul(0x1000_0000_01b3 ^ (i as u64 + 1));
         h = h.rotate_left(7).wrapping_mul(0x1000_0000_01b3);
+        h ^= white[i].wrapping_mul(0xc6a4_a793_5bd1_e995 ^ (i as u64 + 11));
+        h = h.rotate_left(11).wrapping_mul(0x9e37_79b9_7f4a_7c15);
     }
     h
 }
 
 fn timed_out(ctx: &Context) -> bool {
+    // 所有递归层都用同一个 deadline，保证总思考时间受控。
     js_sys::Date::now() >= ctx.deadline
 }
 
+fn sample_timeout(ctx: &mut Context) -> bool {
+    /*
+     * 递归层超时采样。
+     *
+     * Date::now() 是 Wasm 调 JS，成本比普通整数运算高很多。
+     * 每 1024 个节点检查一次，5 秒搜索的误差通常只有几毫秒，
+     * 但可以明显减少热路径上的跨边界调用。
+     */
+    if ctx.stopped {
+        return true;
+    }
+    if (ctx.nodes & 1023) == 0 {
+        ctx.stopped = js_sys::Date::now() >= ctx.deadline;
+    }
+    ctx.stopped
+}
+
 fn elapsed_ms(start: f64) -> u64 {
+    // Date::now 返回 f64 毫秒，UI 展示用整数毫秒。
     (js_sys::Date::now() - start).max(0.0) as u64
 }
 
 fn nps(nodes: u64, time_ms: u64) -> u64 {
+    // time_ms 为 0 时避免除零，直接用节点数作为瞬时 NPS。
     if time_ms == 0 {
         nodes
     } else {
@@ -247,5 +312,6 @@ fn nps(nodes: u64, time_ms: u64) -> u64 {
 }
 
 fn encode(out: SearchOutput) -> String {
+    // wasm-bindgen 传复杂结构不如 JSON 稳定，前端统一 JSON.parse。
     serde_json::to_string(&out).unwrap_or_else(|_| "{\"r\":-1,\"c\":-1}".to_string())
 }

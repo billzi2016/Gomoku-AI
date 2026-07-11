@@ -1,3 +1,7 @@
+# GitHub Pages 自动部署流程。
+#
+# 每次推送 main 时重新编译 Rust/Wasm，准备静态文件 artifact，
+# 然后部署到 GitHub Pages。不要直接上传 rust-ai/target 等构建缓存。
 name: Deploy GitHub Pages
 
 on:
@@ -27,15 +31,18 @@ jobs:
           targets: wasm32-unknown-unknown
 
       - name: Install wasm-bindgen
+        # wasm-bindgen 负责把 cargo 产出的 .wasm 包装成浏览器 ES module。
         run: cargo install wasm-bindgen-cli --locked
 
       - name: Build Wasm
+        # 构建发布版 Wasm，并输出到前端固定加载目录 assets/wasm。
         working-directory: rust-ai
         run: |
           cargo build --target wasm32-unknown-unknown --release
           wasm-bindgen --target web --out-dir ../assets/wasm --out-name gomoku_ai target/wasm32-unknown-unknown/release/gomoku_ai.wasm
 
       - name: Prepare artifact
+        # Pages artifact 只需要静态站点文件，排除 Git 元数据和 Rust 构建缓存。
         run: |
           mkdir public
           rsync -a \

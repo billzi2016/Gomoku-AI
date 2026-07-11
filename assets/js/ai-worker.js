@@ -9,6 +9,11 @@ let wasmReady = null;
 let searchBestMove = null;
 
 async function initWasm(wasmUrl) {
+    /*
+     * Worker 内部的 Wasm 懒加载。
+     *
+     * wasmReady 会缓存 Promise，避免同一个 Worker 收到多次 init 时重复下载或实例化。
+     */
     if (wasmReady) return wasmReady;
     wasmReady = import(wasmUrl).then(async (mod) => {
         await mod.default();
@@ -18,6 +23,13 @@ async function initWasm(wasmUrl) {
 }
 
 self.onmessage = async (event) => {
+    /*
+     * Worker 消息入口。
+     *
+     * 支持两种消息：
+     * - init：加载 Wasm；
+     * - search：调用 Rust 导出的 search_best_move，并把 JSON 字符串转回对象。
+     */
     const { jobId, type } = event.data;
     try {
         if (type === "init") {

@@ -10,6 +10,12 @@
 }
 
 :root {
+    /*
+     * 棋盘尺寸只在这里定义。
+     *
+     * --board-frame-size 包含 canvas、padding 和边框宽度，
+     * 右侧 AI 面板使用同一个高度，保证左右视觉等高。
+     */
     --board-size: min(76vh, 840px);
     --board-frame-size: calc(var(--board-size) + 44px);
     --ink: #1f2428;
@@ -36,6 +42,7 @@ body {
 }
 
 #topbar {
+    /* 标题栏宽度跟棋盘本体一致，左右计数圆不会跟评分表宽度联动。 */
     width: var(--board-size);
     margin: 0 auto 18px;
     display: flex;
@@ -81,6 +88,7 @@ body {
 }
 
 #game-layout {
+    /* 桌面端左右布局；窄屏在 media query 中改为上下布局。 */
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -88,6 +96,10 @@ body {
 }
 
 #ai-panel {
+    /*
+     * 评分表高度跟整个棋盘外框一致。
+     * 宽度给足，配合 table-layout: fixed 避免出现横向滚动条。
+     */
     width: min(760px, calc(100vw - 32px));
     height: var(--board-frame-size);
     padding: 16px;
@@ -111,12 +123,14 @@ body {
 }
 
 #ai-table-wrap {
+    /* 表体纵向滚动，表头 sticky；横向空间由固定列宽控制。 */
     margin-top: 14px;
     max-height: calc(var(--board-frame-size) - 148px);
     overflow: auto;
 }
 
 #ai-stats-table {
+    /* 固定布局可以防止长分数或长 NPS 把表格撑出面板。 */
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
@@ -135,6 +149,7 @@ body {
 
 #ai-stats-table th:nth-child(1),
 #ai-stats-table td:nth-child(1) {
+    /* # 序号列。 */
     width: 52px;
 }
 
@@ -216,6 +231,7 @@ body {
 }
 
 #controls {
+    /* 终局信息和“再来一局”按钮位于棋盘下方，不遮挡复盘。 */
     width: min(100%, calc(var(--board-size) + 594px));
     margin: 18px auto 0;
     display: flex;
@@ -252,6 +268,7 @@ body {
 }
 
 #engine-note {
+    /* 技术说明放在最底部，避免和主要对局区域抢注意力。 */
     width: min(100%, calc(var(--board-size) + 594px));
     margin: 24px auto 0;
     color: #f4f4f4;
@@ -271,6 +288,7 @@ body {
 }
 
 @media (max-width: 1180px) {
+    /* 评分表无法和棋盘并排时，改为上下布局并限制表格高度。 */
     :root {
         --board-size: min(86vw, 720px);
         --board-frame-size: calc(var(--board-size) + 44px);
@@ -296,6 +314,7 @@ body {
 }
 
 @media (max-width: 720px) {
+    /* 手机端减少横向留白，说明文字允许换行。 */
     #app {
         width: calc(100vw - 20px);
         padding-top: 18px;

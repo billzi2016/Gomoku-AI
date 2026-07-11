@@ -1,3 +1,7 @@
+# Rust/Wasm 五子棋 AI 引擎 crate。
+#
+# 这个 crate 只编译为 cdylib，供 wasm-bindgen 生成浏览器可加载的 Wasm 产物。
+# 前端 JS 负责 UI 和 Worker 调度，搜索、评估、Bitboard 胜负判断都在 src/ 内。
 [package]
 name = "gomoku_ai"
 version = "0.1.0"

@@ -24,6 +24,7 @@ pub fn search_best_move(
     think_time_ms: u32,
     allowed_moves: Vec<u8>,
 ) -> String {
+    // JS 用 boolean 表示黑方是否行动；Rust 内部用 1/-1 便于取反切换阵营。
     let side = if is_black_turn { types::BLACK } else { types::WHITE };
     search::search_best_move_json(cells, side, think_time_ms, allowed_moves)
 }

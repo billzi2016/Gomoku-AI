@@ -2,6 +2,15 @@
 
 This page explains how the engine chooses a move. It starts with board encoding and ends with the search result shown in the browser.
 
+Read each section as one layer of the same question:
+
+- Input: what the browser, Worker, or Rust engine receives.
+- Work: what waste this layer removes, or what pattern it recognizes.
+- Output: what the next layer receives.
+- Normal result: how to judge the move, score, depth, nodes, and timing shown in the UI.
+
+If you only want to check whether the engine is doing real search, focus on candidate generation, move ordering, threat windows, NegaMax, and Alpha-Beta. Those parts decide whether the AI is calculating lines or only applying surface-level scores.
+
 ## 1. Board state
 
 The board is 15 by 15, so it has 225 intersections. The engine stores it in row-major order:
@@ -29,6 +38,18 @@ JavaScript sends Rust a 225-entry array:
 
 This format is easy to inspect and pass across the Wasm boundary. Rust builds a `Board` from it.
 
+A real transfer looks like this:
+
+```text
+The user clicks (7, 9)
+index = 7 * 15 + 9 = 114
+If the current side is white, JavaScript writes board[114] = -1
+The Worker sends the 225-entry array to Rust
+Rust rebuilds cells, black_bits, and white_bits
+```
+
+The input is the whole board, not only the last move. That makes the worker path more robust: even if a Worker restarts, it can rebuild the position from the full board instead of relying on cached history.
+
 ## 2. Why Bitboards are used
 
 An array is convenient for asking "what is at row 7, column 7?" Win detection is faster with bits.
@@ -46,6 +67,30 @@ The engine keeps both forms:
 
 - `cells` for readable coordinate evaluation.
 - Bitboards for fast five-in-a-row checks.
+
+The four-`u64` layout uses this bucket mapping:
+
+```text
+bucket = index / 64
+offset = index % 64
+mask   = 1_u64 << offset
+```
+
+For `(7, 7)`, the index is `112`:
+
+```text
+bucket = 112 / 64 = 1
+offset = 112 % 64 = 48
+mask   = 1_u64 << 48
+```
+
+If white owns that point, bit 48 in `white_bits[1]` is set. Checking the point is a single bit test:
+
+```text
+white_bits[1] & (1_u64 << 48) != 0
+```
+
+The point of this structure is not complexity for its own sake. It turns repeated board checks into bit operations that CPUs handle efficiently.
 
 ## 3. Five-in-a-row with shift-and
 
@@ -84,6 +129,14 @@ If a bit remains set, that bit is the start of five consecutive stones.
 
 The engine also applies a direction mask. Without a mask, a horizontal shift could connect the end of one row to the start of the next row. For horizontal five, legal start columns are `0..10`.
 
+An easy false-positive case is:
+
+```text
+(0, 13), (0, 14), (1, 0), (1, 1), (1, 2)
+```
+
+Those indexes are consecutive in the one-dimensional array, `13..17`, but they are not a horizontal five on the board. The direction mask blocks this row-wrap mistake.
+
 Normal result: `has_five()` returns true for real horizontal, vertical, or diagonal five-in-a-row, and false for row-boundary accidents.
 
 ## 4. Candidate generation
@@ -119,6 +172,16 @@ The center bonus is deliberately small. It helps quiet positions but cannot over
 
 Defense is not absolute. The engine must block a move that loses immediately, but it should attack when its own forcing threat is stronger than the opponent's quiet pressure. This keeps the AI from playing a full-board blocking style with no initiative.
 
+Move ordering is not the final answer. It only decides what to search first. If a high-priority candidate allows a stronger reply, NegaMax can still reject it after the deeper search.
+
+Good ordering should show up in three kinds of positions:
+
+```text
+The AI has an immediate winning move: search it first.
+The human can win next move: search the block first.
+Neither side has a direct kill: prefer improving the AI's own open-three and open-four threats over patching distant weak points.
+```
+
 ## 6. Threat windows
 
 Counting only continuous stones is not enough. It sees `XXXX_`, but it can miss patterns such as:
@@ -147,6 +210,22 @@ white to move
 
 If white plays the gap, black no longer has that five-cell threat. The engine gives that defensive move a high score.
 
+Compare two patterns:
+
+```text
+X X X _ _
+```
+
+This is a three with two empty points. It matters, but it is not an immediate win.
+
+```text
+X X _ X X
+```
+
+This is a broken four. If the gap is not handled, black can fill it and make five. Defending that point must rank much higher than responding to an ordinary three.
+
+One candidate can belong to multiple windows. A point that blocks the opponent's broken four and also creates the AI's open three receives a stronger combined score. That is why the heatmap can show a clearly dominant point.
+
 Normal result: when the human has a broken four, the AI should treat the gap and relevant ends as urgent defensive candidates.
 
 ## 7. Static evaluation
@@ -165,6 +244,16 @@ two         smaller
 
 These numbers are not win probabilities. They rank branches.
 
+Static evaluation means "estimate who is better when the search stops here." Its input is a full board, and its output is an integer:
+
+```text
+positive: better for the root side
+negative: worse for the root side
+near 0: roughly balanced
+```
+
+The score is not a move probability and not a stone-count lead. In Gomoku, one key point can matter more than many quiet connections, so the evaluation gives forcing threats more weight than ordinary shape.
+
 Normal result: forcing threats should dominate quiet shape gains. A small center bonus should not beat a required block. A forcing attack should beat a passive block against a non-forcing threat.
 
 ## 8. NegaMax search
@@ -180,6 +269,18 @@ score(position, side) = -score(position_after_move, other_side)
 If white tries a move, the recursive call is from black's point of view. When that score returns, white negates it.
 
 This only works if leaf and timeout scores use the current side's perspective. That is why the engine uses `relative_score()`.
+
+A two-ply example:
+
+```text
+White has two candidates:
+A: white creates an open four, but black can block it, final estimate +300
+B: white blocks black's broken four, final estimate +800
+```
+
+White does not only ask whether the first move looks aggressive. It also includes black's best reply, so B wins.
+
+The key NegaMax rule is that every level scores from the current side's perspective. When a recursive call returns, the caller negates the value to convert the opponent's view back into its own view.
 
 Normal result: hitting the time limit should not flip good and bad moves because of a sign error.
 
@@ -202,6 +303,16 @@ Move B lets black hold white below +100.
 ```
 
 White does not need to finish every line under Move B. Move A is already better.
+
+A more concrete pruning sequence:
+
+```text
+White searches A first and gets +500, so alpha becomes +500.
+While searching B, black finds a reply that holds white to +100.
+Because +100 cannot beat +500, the rest of B can be skipped.
+```
+
+This is not guessing or random skipping. The prune is valid because both sides are assumed to choose their best available reply.
 
 Normal result: better move ordering means more pruning and fewer wasted nodes.
 

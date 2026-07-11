@@ -282,6 +282,33 @@ body {
     margin: 0;
 }
 
+#engine-note .docs-entry {
+    margin-top: 10px;
+}
+
+#engine-note .docs-entry a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 86px;
+    min-height: 34px;
+    padding: 7px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 6px;
+    color: #f7f7f7;
+    background: rgba(18, 22, 29, 0.55);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-decoration: none;
+    text-shadow: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+#engine-note .docs-entry a:hover {
+    background: rgba(30, 36, 46, 0.72);
+}
+
 #engine-note .engine-tech {
     white-space: nowrap;
     font-size: 13px;

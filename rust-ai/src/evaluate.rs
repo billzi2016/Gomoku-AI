@@ -7,6 +7,10 @@ use crate::board::{in_board, Board};
 use crate::types::{Move, EMPTY};
 
 const DIRS: [(i16, i16); 4] = [(1, 0), (0, 1), (1, 1), (1, -1)];
+const WIN_NOW: i32 = 40_000_000;
+const BLOCK_WIN_NOW: i32 = 35_000_000;
+const FORCE_FOUR: i32 = 8_000_000;
+const OPEN_THREE: i32 = 1_500_000;
 
 /// 返回 root 方视角的静态分数。
 pub fn evaluate(board: &Board, root_side: i8) -> i32 {
@@ -39,31 +43,36 @@ pub fn quick_move_score(board: &Board, mv: Move, side: i8) -> i32 {
      * 排序比较阶段不会再调用这个函数，不会出现 comparator 重复生成子局面的性能坑。
      */
     if winning_move(board, mv, side) {
-        return 40_000_000;
+        return WIN_NOW;
     }
     if winning_move(board, mv, -side) {
-        return 35_000_000;
+        return BLOCK_WIN_NOW;
     }
     let attack_threat = window_threat_score(board, mv, side);
     let defend_threat = window_threat_score(board, mv, -side);
 
-    // 对手的四连、断点四和活三必须优先处理；业余局最容易输在这里。
-    if defend_threat >= 8_000_000 {
-        return 30_000_000 + defend_threat;
+    /*
+     * 攻防平衡：
+     *
+     * 立即输的点必须堵，但“对手普通活三”不能压过自己的强制进攻。
+     * 这里按强制程度分层，而不是简单让防守永远大于进攻。
+     */
+    if attack_threat >= FORCE_FOUR {
+        return 30_000_000 + attack_threat;
     }
-    if attack_threat >= 8_000_000 {
-        return 25_000_000 + attack_threat;
+    if defend_threat >= FORCE_FOUR {
+        return 28_000_000 + defend_threat;
     }
-    if defend_threat >= 1_500_000 {
-        return 12_000_000 + defend_threat;
-    }
-    if attack_threat >= 1_500_000 {
+    if attack_threat >= OPEN_THREE {
         return 8_000_000 + attack_threat;
+    }
+    if defend_threat >= OPEN_THREE {
+        return 6_000_000 + defend_threat;
     }
 
     let attack = local_shape_score(board, mv, side);
     let defend = local_shape_score(board, mv, -side);
-    center_bonus(mv) + attack * 3 + defend * 8 + attack_threat + defend_threat * 2
+    center_bonus(mv) + attack * 6 + defend * 5 + attack_threat * 2 + defend_threat * 2
 }
 
 /// 根节点战术分。
@@ -79,17 +88,17 @@ pub fn root_tactical_score(board: &Board, mv: Move, side: i8) -> Option<i32> {
     }
     let attack_threat = window_threat_score(board, mv, side);
     let defend_threat = window_threat_score(board, mv, -side);
-    if defend_threat >= 8_000_000 {
-        return Some(260_000_000 + defend_threat);
+    if attack_threat >= FORCE_FOUR {
+        return Some(260_000_000 + attack_threat);
     }
-    if attack_threat >= 8_000_000 {
-        return Some(220_000_000 + attack_threat);
+    if defend_threat >= FORCE_FOUR {
+        return Some(240_000_000 + defend_threat);
     }
-    if defend_threat >= 1_500_000 {
-        return Some(90_000_000 + defend_threat);
-    }
-    if attack_threat >= 1_500_000 {
+    if attack_threat >= OPEN_THREE {
         return Some(70_000_000 + attack_threat);
+    }
+    if defend_threat >= OPEN_THREE {
+        return Some(55_000_000 + defend_threat);
     }
     None
 }

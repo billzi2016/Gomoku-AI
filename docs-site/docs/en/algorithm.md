@@ -109,11 +109,15 @@ Alpha-Beta pruning works better when strong moves are searched first. The engine
 
 1. Win immediately.
 2. Block the opponent's immediate win.
-3. Handle a broken four or strong four.
-4. Create or block an open three.
-5. Use ordinary shape score and a small center bonus.
+3. Create its own forcing four or broken four.
+4. Block the opponent's forcing four or broken four.
+5. Create its own open three.
+6. Block the opponent's open three.
+7. Use ordinary shape score and a small center bonus.
 
 The center bonus is deliberately small. It helps quiet positions but cannot override a tactical threat.
+
+Defense is not absolute. The engine must block a move that loses immediately, but it should attack when its own forcing threat is stronger than the opponent's quiet pressure. This keeps the AI from playing a full-board blocking style with no initiative.
 
 ## 6. Threat windows
 
@@ -161,7 +165,7 @@ two         smaller
 
 These numbers are not win probabilities. They rank branches.
 
-Normal result: forcing threats should dominate quiet shape gains. A small center bonus should not beat a required block.
+Normal result: forcing threats should dominate quiet shape gains. A small center bonus should not beat a required block. A forcing attack should beat a passive block against a non-forcing threat.
 
 ## 8. NegaMax search
 

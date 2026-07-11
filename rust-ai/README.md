@@ -67,7 +67,19 @@ Gomoku requires direct tactical defense. The evaluator handles:
 - broken fours such as `XX_XX`, `XXX_X`, and `X_XXX`,
 - open threes that can lead to forcing sequences.
 
-The engine gives defensive threat scores more weight than quiet attacks. This is why the AI should block a human threat even when it has a moderate attacking move elsewhere.
+The engine does not make defense absolute. Immediate losses and strong fours still force defense, but the AI's own forcing attack is scored above the opponent's quiet threat. This prevents the engine from filling the board with passive blocks when it can take the initiative.
+
+The current move-ordering balance is:
+
+```text
+win now
+block opponent win now
+create own forcing four or broken four
+block opponent forcing four or broken four
+create own open three
+block opponent open three
+ordinary attack and defense shape score
+```
 
 ## Performance notes
 

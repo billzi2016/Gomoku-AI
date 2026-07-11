@@ -24,7 +24,7 @@ https://billzi2016.github.io/Gomoku-AI/docs/
 - Iterative deepening so the engine always has a usable best move inside the time limit.
 - Transposition table to reuse searched positions during a move search.
 - Threat-aware move ordering and evaluation for open threes, fours, broken fours, and immediate wins.
-- Explicit attack/defense balance: the AI blocks urgent human threats before chasing weaker attacks.
+- Explicit attack/defense balance: forced wins and forced blocks come first, but the AI will attack when its own forcing threat is stronger than the opponent's quiet threat.
 - Up to 5 seconds of thinking time per AI move.
 - Web Worker pool using about 90% of local CPU threads by default.
 - Candidate heatmap on the board: green is strong, yellow is medium, red is weaker.
@@ -160,13 +160,14 @@ Inside Rust:
 
 ## Attack and Defense Balance
 
-Gomoku AI loses quickly if it only evaluates material-like shape scores. This engine gives defense explicit priority:
+Gomoku AI loses quickly if it only evaluates material-like shape scores. This engine separates forced tactics from ordinary pressure:
 
 - If the AI can win immediately, it plays the winning move.
 - If the human can win immediately, the AI blocks.
 - Broken fours such as `XX_XX`, `XXX_X`, and `X_XXX` are recognized with 5-cell window scoring.
 - Open threes are treated as serious threats because they can become forcing sequences.
-- Defensive threat scores are weighted higher than non-forcing attacks.
+- The AI's own forcing attack is scored above the opponent's quiet threat, so the engine does not fill the board with passive blocks.
+- Defensive scores are still high enough to stop immediate losses and strong fours.
 - Ordinary center preference is intentionally small and cannot override urgent tactical defense.
 
 This does not claim to be a solved Gomoku engine. It is a practical browser AI aimed at beating casual and many amateur players within a fixed 5-second move budget.
@@ -179,7 +180,7 @@ This does not claim to be a solved Gomoku engine. It is a practical browser AI a
 - **Alpha-Beta pruning**: branches that cannot affect the final decision are cut early.
 - **Iterative deepening**: searches depth 1, then depth 2, and so on, keeping a stable best move under time pressure.
 - **Transposition table**: repeated positions are cached during a search to reduce duplicated work.
-- **Threat ordering**: immediate wins, forced blocks, fours, broken fours, and open threes are searched before quiet moves.
+- **Threat ordering**: immediate wins, forced blocks, forcing attacks, fours, broken fours, and open threes are searched before quiet moves.
 - **Time sampling**: recursive timeout checks are sampled by node count to reduce expensive Wasm-to-JS time calls.
 - **Web Worker parallelism**: root moves are split across Workers using about 90% of available CPU threads.
 - **Search telemetry**: every AI move reports depth, Minimax score, visited nodes, nodes per second, and elapsed time.

@@ -114,6 +114,30 @@ assets/wasm/gomoku_ai_bg.wasm
 
 `ai-worker.js` 会加载 `assets/wasm/gomoku_ai.js`，并调用 Rust 导出的 `search_best_move()`。
 
+## 生成开局库
+
+网页实战仍然使用每步 5 秒搜索预算。开局库是离线生成的，所以每个关键局面可以使用更慢的 15 秒搜索，不会让玩家等待。
+
+生成紧凑开局库：
+
+```bash
+./tools/opening-book/generate-opening-book.sh
+```
+
+控制规模：
+
+```bash
+THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
+```
+
+输出文件：
+
+```text
+assets/opening-book/opening-book.json
+```
+
+生成器复用浏览器 AI 的根节点分片 Worker 搜索路径，只把离线搜索时间调长。它会限制中心区域，使用对称和平移归一化，并输出 `[canonicalKey, canonicalMoveIndex, score]` 形式的紧凑条目。
+
 ## AI 设计
 
 引擎使用紧凑的 15x15 棋盘模型：

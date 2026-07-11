@@ -1,0 +1,29 @@
+# 开局库结果
+
+这个目录只放浏览器运行时读取的开局库结果，不放生成逻辑。
+
+生成后的文件：
+
+```text
+opening-book.json
+```
+
+JSON 使用紧凑格式：
+
+```text
+entries: [canonicalKey, canonicalMoveIndex, score]
+```
+
+这样比对象数组更小，后续扩到几千条也不会让静态资源膨胀太快。
+
+运行时流程：
+
+```text
+assets/js/opening-book.js 尝试读取 JSON
+JSON 不存在时自动退回实时搜索
+对当前棋盘做 8 种对称加平移归一化
+用规范 key 查找 entries
+命中后把规范坐标反变换回当前棋盘
+```
+
+`opening-book.json` 是生成产物。需要更强开局库时，从 `tools/opening-book/` 重新生成它。

@@ -5,6 +5,9 @@
  * 管理器负责把候选根节点分配给约 90% CPU 数量的 Worker，并合并最佳结果。
  */
 
+import { OpeningBook } from "./opening-book.js";
+import { parallelSearchPosition } from "./ai-search-core.js";
+
 export class GomokuAIManager {
     /*
      * 创建 Worker 池。
@@ -20,6 +23,7 @@ export class GomokuAIManager {
         this.workers = [];
         this.jobs = new Map();
         this.nextJobId = 1;
+        this.openingBook = new OpeningBook();
 
         for (let i = 0; i < this.workerCount; i++) {
             const worker = new Worker(this.workerUrl, { type: "module" });
@@ -29,17 +33,21 @@ export class GomokuAIManager {
         }
     }
 
-    ready() {
+    async ready() {
         /*
          * 预热所有 Worker。
          *
          * 每个 Worker 都会独立加载同一个 wasm-bindgen 生成的 JS glue 和 Wasm。
          * ready 完成后，后续搜索不再支付首次加载成本。
          */
-        return Promise.all(this.workers.map((_, index) => this.call(index, {
-            type: "init",
-            wasmUrl: new URL("../wasm/gomoku_ai.js", import.meta.url).href
-        })));
+        const [book] = await Promise.all([
+            OpeningBook.load(),
+            ...this.workers.map((_, index) => this.call(index, {
+                type: "init",
+                wasmUrl: new URL("../wasm/gomoku_ai.js", import.meta.url).href
+            }))
+        ]);
+        this.openingBook = book;
     }
 
     handleMessage(event) {
@@ -78,68 +86,19 @@ export class GomokuAIManager {
 
     async search({ board, isBlackTurn }) {
         /*
-         * 搜索流程分两阶段：
-         * 1. 先让 0 号 Worker 用 1ms 请求 Rust 生成根候选和初始热力图；
-         * 2. 再把这些根候选平均分片给 Worker 池并行搜索。
-         *
-         * Rust 端接收的是一维 0..224 索引，不是 (r,c) 二元组。
+         * 先查离线开局库。命中时立即返回 15s 离线搜索得到的结果；
+         * 未命中时走和开局库生成器共享的并行搜索调度，网页实时预算仍是 5s。
          */
         const cells = new Int8Array(board);
-        const candidateResult = await this.call(0, {
-            type: "search",
-            cells,
+        const bookResult = this.openingBook.lookup(cells, isBlackTurn);
+        if (bookResult) return bookResult;
+        return parallelSearchPosition({
+            board,
             isBlackTurn,
-            thinkTimeMs: 1,
-            legalMoves: new Uint8Array()
+            thinkTimeMs: this.thinkTimeMs,
+            workerCount: this.workerCount,
+            call: (index, payload) => this.call(index, payload)
         });
-        const moves = candidateResult.heatmap || [];
-        if (!moves.length) return candidateResult;
-
-        const chunks = Array.from({ length: Math.min(this.workerCount, moves.length) }, () => []);
-        // 轮转分片，让高低评分候选尽量均匀分到各 Worker，减少长尾等待。
-        for (let i = 0; i < moves.length; i++) {
-            chunks[i % chunks.length].push(moves[i]);
-        }
-
-        const calls = chunks.map((chunk, index) => {
-            const encoded = new Uint8Array(chunk.length);
-            for (let i = 0; i < chunk.length; i++) {
-                // 协议约定：Rust allowed_moves 是单字节索引 r * 15 + c。
-                encoded[i] = chunk[i].r * 15 + chunk[i].c;
-            }
-            return this.call(index, {
-                type: "search",
-                cells,
-                isBlackTurn,
-                thinkTimeMs: this.thinkTimeMs,
-                legalMoves: encoded
-            });
-        });
-
-        const results = await Promise.all(calls);
-        let best = null;
-        let totalNodes = 0;
-        let maxTimeMs = 0;
-        let maxDepth = 0;
-        const heatmap = [];
-
-        for (const result of results) {
-            // 节点数累加，耗时和深度取各 Worker 最大值，最佳落子按 score 取最大。
-            totalNodes += result.nodes || 0;
-            maxTimeMs = Math.max(maxTimeMs, result.timeMs || 0);
-            maxDepth = Math.max(maxDepth, result.depth || 0);
-            if (result.heatmap) heatmap.push(...result.heatmap);
-            if (!best || result.score > best.score) best = result;
-        }
-
-        if (!best) return candidateResult;
-        best.nodes = totalNodes;
-        best.timeMs = maxTimeMs;
-        best.depth = maxDepth;
-        best.nps = maxTimeMs > 0 ? Math.round(totalNodes * 1000 / maxTimeMs) : totalNodes;
-        best.heatmap = heatmap;
-        best.workerCount = chunks.length;
-        return best;
     }
 
     terminate() {

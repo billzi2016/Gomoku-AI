@@ -10,6 +10,12 @@ repo_name: billzi2016/Gomoku-AI
 
 docs_dir: docs
 site_dir: site
+exclude_docs: |
+  zh/index.zh.md
+  zh/rules.zh.md
+validation:
+  nav:
+    omitted_files: ignore
 
 theme:
   name: material
@@ -57,14 +63,14 @@ markdown_extensions:
 
 nav:
   - GitHub: https://github.com/billzi2016/Gomoku-AI
-  - Home: index.md
-  - Project README: project/README.md
-  - How To Play: rules.md
-  - Specification: spec.md
-  - Algorithm: algorithm.md
-  - JavaScript layer: js/README.md
-  - Rust engine: rust/README.md
-  - Wasm bindings: wasm/README.md
+  - Home: en/index.md
+  - Project README: en/project/README.md
+  - How To Play: en/rules.md
+  - Specification: en/spec.md
+  - Algorithm: en/algorithm.md
+  - JavaScript layer: en/js/README.md
+  - Rust engine: en/rust/README.md
+  - Wasm bindings: en/wasm/README.md
   - Process documents:
-      - MkDocs PRD: prd/mkdocs_prd.md
-      - GitHub Actions PRD: prd/github_action_prd.md
+      - MkDocs PRD: en/prd/mkdocs_prd.md
+      - GitHub Actions PRD: en/prd/github_action_prd.md

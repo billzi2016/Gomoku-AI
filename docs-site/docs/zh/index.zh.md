@@ -16,6 +16,16 @@ GOMOKU AI 在浏览器中运行自由五子棋。GitHub Pages 只提供静态文
 - 修改 UI、Worker 分发或热力图前，看 JavaScript 层。
 - 修改搜索、评估、Bitboard 或性能前，看 Rust 引擎。
 
+## 生成开局库
+
+网页实战保持每步 5 秒搜索预算。开局库是离线生成的，可以给每个局面 15 秒搜索时间。
+
+```bash
+THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
+```
+
+输出文件是 `assets/opening-book/opening-book.json`。生成器复用浏览器 AI 的根节点分片逻辑，只把离线预算调长。条目使用对称和平移归一化，避免保存重复局面。
+
 ## 文档站链接
 
 发布后，文档站地址是：

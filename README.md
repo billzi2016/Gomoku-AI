@@ -114,6 +114,30 @@ assets/wasm/gomoku_ai_bg.wasm
 
 `ai-worker.js` loads `assets/wasm/gomoku_ai.js` and calls the exported Rust function `search_best_move()`.
 
+## Generate Opening Book
+
+The browser game still uses a 5-second real-time search budget. The opening book is generated offline, so each key position can use a slower 15-second search without making players wait.
+
+Generate a compact opening book:
+
+```bash
+./tools/opening-book/generate-opening-book.sh
+```
+
+Scale controls:
+
+```bash
+THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
+```
+
+Output:
+
+```text
+assets/opening-book/opening-book.json
+```
+
+The generator uses the same root-sharded Worker search path as the browser AI. It only changes the offline time budget. It also uses center-limited positions, symmetry and translation normalization, and compact entries of the form `[canonicalKey, canonicalMoveIndex, score]`.
+
 ## AI Design
 
 The engine uses a compact 15x15 board model:

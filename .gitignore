@@ -1,0 +1,6 @@
+rust-ai/target/
+target/
+__pycache__/
+*.py[cod]
+.DS_Store
+node_modules/

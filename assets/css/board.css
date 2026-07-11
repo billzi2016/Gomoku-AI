@@ -1,0 +1,23 @@
+/*
+ * 棋盘样式。
+ *
+ * 棋盘本体使用 canvas 绘制，CSS 只负责尺寸、边框和阴影。
+ * 星位、棋子、热力图和分数文字都在 board-ui.js 中绘制。
+ */
+
+#board-shell {
+    width: calc(var(--board-size) + 24px);
+    height: calc(var(--board-size) + 24px);
+    padding: 12px;
+    background: #0b0b0b;
+    border: 10px solid #000;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.35), inset 0 0 0 8px #b50000;
+}
+
+#board-canvas {
+    display: block;
+    width: var(--board-size);
+    height: var(--board-size);
+    background: #d3a35e;
+    cursor: crosshair;
+}

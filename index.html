@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gomoku AI</title>
+
+    <script src="./coi-serviceworker.js"></script>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/board.css">
+
+    <script type="module" src="./assets/js/main.js"></script>
+</head>
+<body>
+    <main id="app">
+        <header id="topbar">
+            <div class="score black">
+                <span class="score-label">黑</span>
+                <span id="black-count">00</span>
+            </div>
+            <h1>五子棋 AI</h1>
+            <div class="score white">
+                <span class="score-label">白</span>
+                <span id="white-count">00</span>
+            </div>
+        </header>
+
+        <section id="game-layout">
+            <section id="board-shell" aria-label="五子棋棋盘">
+                <canvas id="board-canvas" width="900" height="900"></canvas>
+            </section>
+
+            <aside id="ai-panel" aria-label="AI 搜索评分">
+                <div id="ai-panel-title">AI 搜索评分</div>
+                <div id="ai-panel-subtitle">记录每一步搜索深度、节点数、耗时、NPS 和 Alpha-Beta 分数。</div>
+                <div id="ai-table-wrap">
+                    <table id="ai-stats-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>方</th>
+                                <th>落子</th>
+                                <th>深度</th>
+                                <th>节点</th>
+                                <th>NPS</th>
+                                <th>耗时</th>
+                                <th>分数</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ai-stats-body">
+                            <tr id="ai-stats-empty">
+                                <td colspan="8">开始对局后显示搜索记录</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="ai-current">人类执黑先手，点击棋盘落子。</div>
+            </aside>
+        </section>
+
+        <section id="controls">
+            <button id="restart-btn" type="button">再来一局</button>
+            <div id="status">人机：人类黑子先手，AI 白子后手。</div>
+        </section>
+
+        <section id="engine-note">
+            <p class="engine-tech">引擎使用 Rust/Wasm、Bitboard、NegaMax Minimax、Alpha-Beta 剪枝、置换表、迭代加深和 Web Worker 并行搜索。</p>
+            <p>AI 在你的本机浏览器中计算，默认使用约 90% 的 CPU 线程；每步最大思考时间为 5 秒。</p>
+            <p>热力图表示 AI 对空位的候选评分：绿色更强，黄色居中，红色较低。</p>
+        </section>
+    </main>
+</body>
+</html>

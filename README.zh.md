@@ -133,7 +133,16 @@ THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/op
 输出文件：
 
 ```text
-assets/opening-book/opening-book.json
+assets/opening-book/runs/book-t15000-e500-p8-r4-b8-v1.json
+assets/opening-book/manifest.json
+```
+
+生成器会把结果写到 `assets/opening-book/runs/` 下的参数化文件。同一组参数再次运行会续算同一个文件。不同参数会生成不同文件名，所以 15 秒开局库不会和其他搜索预算或树形参数混在一起。
+
+网页运行时先读取 `assets/opening-book/manifest.json`，再加载 `active` 指向的 run 文件。生成器默认不激活结果。确认质量后，用 `ACTIVATE=1` 更新 manifest：
+
+```bash
+ACTIVATE=1 THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
 ```
 
 生成器复用浏览器 AI 的根节点分片 Worker 搜索路径，只把离线搜索时间调长。它会限制中心区域，使用对称和平移归一化，并输出 `[canonicalKey, canonicalMoveIndex, score]` 形式的紧凑条目。

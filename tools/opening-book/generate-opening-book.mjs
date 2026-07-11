@@ -2,7 +2,7 @@
  * 离线开局库生成器。
  *
  * 运行方式：
- * node tools/opening-book/generate-opening-book.mjs --think-ms 15000 --max-entries 500 --max-ply 8 --radius 4 --branch 8
+ * node tools/opening-book/generate-opening-book.mjs --think-ms 15000 --max-entries 500 --max-ply 8 --radius 4 --branch 8 --activate
  *
  * 队列、去重和保存逻辑只存在 tools/opening-book；真正的一步棋并行搜索复用
  * assets/js/ai-search-core.js，避免离线生成器和网页实时 AI 走两套算法。
@@ -22,7 +22,9 @@ const BLACK = 1;
 const WHITE = -1;
 const EMPTY = 0;
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const OUT = path.join(ROOT, "assets/opening-book/opening-book.json");
+const BOOK_DIR = path.join(ROOT, "assets/opening-book");
+const RUN_DIR = path.join(BOOK_DIR, "runs");
+const MANIFEST = path.join(BOOK_DIR, "manifest.json");
 const WORKER_URL = new URL("./search-worker.mjs", import.meta.url);
 
 const args = parseArgs(process.argv.slice(2));
@@ -32,12 +34,15 @@ const maxPly = Number(args["max-ply"] || 8);
 const radius = Number(args.radius || 4);
 const branch = Number(args.branch || 8);
 const workerCount = positiveNumber(args.workers, defaultWorkerCount());
+const activate = Boolean(args.activate);
+const runName = safeRunName(args.out || buildRunName());
+const runRel = `runs/${runName}`;
+const runPath = path.join(RUN_DIR, runName);
 
 const entries = new Map();
 const visited = new Set();
 const queued = new Set();
-const queue = [{ board: new Int8Array(SIZE * SIZE), side: BLACK, ply: 0 }];
-queued.add(canonicalizePosition(queue[0].board, true).key);
+const queue = [];
 let pool = null;
 
 async function addSearchedEntry(board, side, label) {
@@ -89,6 +94,78 @@ async function addSearchedEntry(board, side, label) {
         `json~${formatBytes(estimatedBytes)}`
     ].join(" "));
     return point;
+}
+
+async function loadExistingRun() {
+    /*
+     * 断点续算只读取同参数 run 文件。
+     * 参数不同会得到不同文件名，因此不会把不同预算或树形配置混在一起。
+     */
+    try {
+        const raw = await fs.readFile(runPath, "utf8");
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data.entries)) return 0;
+        for (const entry of data.entries) {
+            if (!Array.isArray(entry) || typeof entry[0] !== "string") continue;
+            entries.set(entry[0], entry);
+            visited.add(entry[0]);
+            queued.add(entry[0]);
+        }
+        if (Array.isArray(data.frontier)) {
+            for (const encoded of data.frontier) {
+                const state = decodeState(encoded);
+                if (!state) continue;
+                enqueue(state.board, state.side, state.ply);
+            }
+        }
+        return entries.size;
+    } catch (error) {
+        if (error && error.code === "ENOENT") return 0;
+        throw error;
+    }
+}
+
+async function writeRunFile() {
+    const output = makeOutput();
+    await fs.mkdir(RUN_DIR, { recursive: true });
+    await writeJsonAtomic(runPath, output);
+}
+
+async function writeManifest() {
+    const manifest = {
+        v: 1,
+        active: runRel,
+        updatedAt: new Date().toISOString()
+    };
+    await fs.mkdir(BOOK_DIR, { recursive: true });
+    await writeJsonAtomic(MANIFEST, manifest);
+}
+
+async function writeJsonAtomic(file, data) {
+    /*
+     * 先写临时文件，再 rename 覆盖目标。
+     * 这样中断时不容易留下半截 JSON，下一次 resume 更可靠。
+     */
+    const tmp = `${file}.tmp`;
+    await fs.writeFile(tmp, `${JSON.stringify(data)}\n`);
+    await fs.rename(tmp, file);
+}
+
+function makeOutput() {
+    return {
+        v: 1,
+        size: SIZE,
+        rule: "freestyle",
+        generatedBy: "tools/opening-book/generate-opening-book.mjs",
+        thinkMs,
+        maxEntries,
+        maxPly,
+        centerRadius: radius,
+        branch,
+        format: "entries: [canonicalKey, canonicalMoveIndex, score]",
+        entries: [...entries.values()],
+        frontier: queue.map(encodeState)
+    };
 }
 
 class NodeWorkerPool {
@@ -204,6 +281,28 @@ function positiveNumber(value, fallback) {
     return Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : fallback;
 }
 
+function buildRunName() {
+    return [
+        "book",
+        `t${thinkMs}`,
+        `e${maxEntries}`,
+        `p${maxPly}`,
+        `r${radius}`,
+        `b${branch}`,
+        "v1"
+    ].join("-") + ".json";
+}
+
+function safeRunName(value) {
+    /*
+     * --out 只允许传文件名，不能带目录。
+     * 生成器统一写入 assets/opening-book/runs/，避免误写到项目其他位置。
+     */
+    const name = String(value || "").trim();
+    if (/^[A-Za-z0-9._-]+\.json$/.test(name)) return name;
+    throw new Error(`Invalid run filename: ${value}`);
+}
+
 function defaultWorkerCount() {
     /*
      * 和网页端保持同一思路：默认使用约 90% 本机线程。
@@ -217,6 +316,52 @@ function defaultWorkerCount() {
 
 function place(board, point, side) {
     board[point.r * SIZE + point.c] = side;
+}
+
+function seedInitialQueue() {
+    const empty = new Int8Array(SIZE * SIZE);
+    enqueue(empty, BLACK, 0);
+    for (const firstMove of centerCandidates(empty, radius)) {
+        const board = new Int8Array(SIZE * SIZE);
+        place(board, firstMove, BLACK);
+        enqueue(board, WHITE, 1);
+    }
+}
+
+function encodeState(state) {
+    return [encodeBoard(state.board), state.side, state.ply];
+}
+
+function decodeState(value) {
+    if (!Array.isArray(value) || value.length !== 3) return null;
+    const board = decodeBoard(value[0]);
+    const side = Number(value[1]);
+    const ply = Number(value[2]);
+    if (!board || (side !== BLACK && side !== WHITE) || !Number.isInteger(ply)) return null;
+    return { board, side, ply };
+}
+
+function encodeBoard(board) {
+    const stones = [];
+    for (let i = 0; i < board.length; i++) {
+        const cell = board[i];
+        if (cell === EMPTY) continue;
+        stones.push(`${cell === BLACK ? "B" : "W"}${i.toString(36)}`);
+    }
+    return stones.join(",");
+}
+
+function decodeBoard(value) {
+    if (typeof value !== "string") return null;
+    const board = new Int8Array(SIZE * SIZE);
+    if (!value) return board;
+    for (const token of value.split(",")) {
+        const side = token[0] === "B" ? BLACK : token[0] === "W" ? WHITE : 0;
+        const index = Number.parseInt(token.slice(1), 36);
+        if (!side || !Number.isInteger(index) || index < 0 || index >= board.length) return null;
+        board[index] = side;
+    }
+    return board;
 }
 
 function centerDistance(point) {
@@ -257,13 +402,16 @@ async function main() {
         `maxEntries=${maxEntries}`,
         `maxPly=${maxPly}`,
         `radius=${radius}`,
-        `branch=${branch}`
+        `branch=${branch}`,
+        `run=${runRel}`,
+        `activate=${activate ? "yes" : "no"}`
     ].join(" "));
 
-    for (const firstMove of centerCandidates(new Int8Array(SIZE * SIZE), radius)) {
-        const board = new Int8Array(SIZE * SIZE);
-        place(board, firstMove, BLACK);
-        enqueue(board, WHITE, 1);
+    const resumed = await loadExistingRun();
+    console.log(`resumeEntries=${resumed} output=${path.relative(ROOT, runPath)}`);
+
+    if (!queue.length) {
+        seedInitialQueue();
     }
 
     try {
@@ -277,7 +425,10 @@ async function main() {
             visited.add(key);
 
             const best = await addSearchedEntry(state.board, state.side, `ply-${state.ply}`);
-            if (!best || state.ply + 1 >= maxPly) continue;
+            if (!best || state.ply + 1 >= maxPly) {
+                await writeRunFile();
+                continue;
+            }
 
             /*
              * 为了覆盖常见人类变化，不只沿最佳线走。先把当前方最佳手落下，
@@ -293,26 +444,18 @@ async function main() {
                 place(next, reply, nextSide);
                 enqueue(next, state.side, state.ply + 2);
             }
+            await writeRunFile();
         }
     } finally {
         if (pool) await pool.terminate();
     }
 
-    const output = {
-        v: 1,
-        size: SIZE,
-        rule: "freestyle",
-        generatedBy: "tools/opening-book/generate-opening-book.mjs",
-        thinkMs,
-        maxPly,
-        centerRadius: radius,
-        branch,
-        format: "entries: [canonicalKey, canonicalMoveIndex, score]",
-        entries: [...entries.values()]
-    };
-
-    await fs.writeFile(OUT, `${JSON.stringify(output)}\n`);
-    console.log(`wrote ${output.entries.length} entries to ${path.relative(ROOT, OUT)}`);
+    await writeRunFile();
+    console.log(`wrote ${entries.size} entries to ${path.relative(ROOT, runPath)}`);
+    if (activate) {
+        await writeManifest();
+        console.log(`activated ${runRel} in ${path.relative(ROOT, MANIFEST)}`);
+    }
 }
 
 await main();

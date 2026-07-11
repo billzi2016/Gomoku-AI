@@ -1,7 +1,19 @@
+# Rust build output
 rust-ai/target/
 target/
+
+# Python cache
 __pycache__/
 *.py[cod]
+
+# Local OS files
 .DS_Store
+
+# JavaScript dependencies
 node_modules/
+
+# MkDocs build output
 docs-site/site/
+
+# Temporary files
+*.tmp

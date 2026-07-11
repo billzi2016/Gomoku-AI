@@ -24,7 +24,7 @@ GOMOKU AI 在浏览器中运行自由五子棋。GitHub Pages 只提供静态文
 THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
 ```
 
-输出文件是 `assets/opening-book/opening-book.json`。生成器复用浏览器 AI 的根节点分片逻辑，只把离线预算调长。条目使用对称和平移归一化，避免保存重复局面。
+输出文件是 `assets/opening-book/runs/` 下的参数化 run 文件。网页运行时读取 `assets/opening-book/manifest.json`，再加载 active 指向的 run。同一组参数会续算同一个文件，改参数会生成另一个文件。生成器复用浏览器 AI 的根节点分片逻辑，只把离线预算调长。条目使用对称和平移归一化，避免保存重复局面。
 
 ## 文档站链接
 

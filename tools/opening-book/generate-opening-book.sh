@@ -6,7 +6,7 @@ set -eu
 # 默认每个局面搜索 15 秒；网页实时对局仍然是 5 秒。
 # 可以用环境变量控制规模：
 #
-# THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
+# THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ACTIVATE=1 ./tools/opening-book/generate-opening-book.sh
 
 ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)"
 
@@ -19,6 +19,10 @@ set -- \
 
 if [ -n "${WORKERS:-}" ]; then
   set -- "$@" --workers "$WORKERS"
+fi
+
+if [ -n "${ACTIVATE:-}" ]; then
+  set -- "$@" --activate
 fi
 
 node "$ROOT_DIR/tools/opening-book/generate-opening-book.mjs" "$@"

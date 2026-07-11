@@ -5,7 +5,8 @@
 目标输出：
 
 ```text
-assets/opening-book/opening-book.json
+assets/opening-book/runs/book-t15000-e500-p8-r4-b8-v1.json
+assets/opening-book/manifest.json
 ```
 
 推荐生成策略：
@@ -25,7 +26,7 @@ assets/opening-book/opening-book.json
 [canonicalKey, canonicalMoveIndex, score]
 ```
 
-运行时代码不关心生成器如何得到结果。只要 JSON 结构不变，网页开局时就能直接 match。生成器复用 `assets/js/ai-search-core.js`，所以离线搜索和浏览器搜索使用同一套根节点分片与结果合并逻辑。
+运行时代码不关心生成器如何得到结果。它先读取 `assets/opening-book/manifest.json`，再加载 `active` 指向的 run 文件。生成器复用 `assets/js/ai-search-core.js`，所以离线搜索和浏览器搜索使用同一套根节点分片与结果合并逻辑。
 
 当前生成命令：
 
@@ -37,4 +38,12 @@ assets/opening-book/opening-book.json
 
 ```text
 THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
+```
+
+续算和激活：
+
+```text
+同一组参数 -> 续算同一个 runs/book-*.json 文件
+不同参数 -> 写入另一个 runs/book-*.json 文件
+ACTIVATE=1 -> 本轮完成后更新 manifest.json
 ```

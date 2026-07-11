@@ -5,7 +5,8 @@
 生成后的文件：
 
 ```text
-opening-book.json
+manifest.json
+runs/book-*.json
 ```
 
 JSON 使用紧凑格式：
@@ -19,11 +20,12 @@ entries: [canonicalKey, canonicalMoveIndex, score]
 运行时流程：
 
 ```text
-assets/js/opening-book.js 尝试读取 JSON
-JSON 不存在时自动退回实时搜索
+assets/js/opening-book.js 尝试读取 manifest.json
+manifest.active 指向一个 runs/book-*.json 文件
+manifest 或 run JSON 不存在时自动退回实时搜索
 对当前棋盘做 8 种对称加平移归一化
 用规范 key 查找 entries
 命中后把规范坐标反变换回当前棋盘
 ```
 
-`opening-book.json` 是生成产物。需要更强开局库时，从 `tools/opening-book/` 重新生成它。
+run 文件是生成产物。需要更强开局库时，从 `tools/opening-book/` 重新生成，再通过 `manifest.json` 激活选中的 run。

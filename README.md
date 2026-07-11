@@ -133,7 +133,16 @@ THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/op
 Output:
 
 ```text
-assets/opening-book/opening-book.json
+assets/opening-book/runs/book-t15000-e500-p8-r4-b8-v1.json
+assets/opening-book/manifest.json
+```
+
+The generator writes a parameterized run file under `assets/opening-book/runs/`. Running the same parameter set again resumes that file. Different parameters produce different filenames, so a 15-second book is not mixed with another search budget or tree shape.
+
+The web runtime reads `assets/opening-book/manifest.json` first, then loads the active run named by `active`. The generator does not activate a run by default. Use `ACTIVATE=1` after you decide the run is good enough:
+
+```bash
+ACTIVATE=1 THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
 ```
 
 The generator uses the same root-sharded Worker search path as the browser AI. It only changes the offline time budget. It also uses center-limited positions, symmetry and translation normalization, and compact entries of the form `[canonicalKey, canonicalMoveIndex, score]`.

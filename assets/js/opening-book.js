@@ -2,12 +2,12 @@
  * 开局库运行时模块。
  *
  * 这个文件只负责加载和匹配开局库，不负责生成开局库。
- * 离线生成器输出紧凑 JSON，浏览器运行时做 8 种对称归一化后直接 match。
+ * 离线生成器输出紧凑 run JSON，浏览器运行时先读 manifest，再做归一化 match。
  */
 
 import { BLACK, EMPTY, SIZE } from "./board-ui.js";
 
-const BOOK_URL = "./assets/opening-book/opening-book.json";
+const MANIFEST_URL = "./assets/opening-book/manifest.json";
 
 const TRANSFORMS = [
     { map: (r, c) => [r, c], inv: (r, c) => [r, c] },
@@ -33,11 +33,18 @@ export class OpeningBook {
         this.entries = new Map(entries.map(([key, move, score]) => [key, { move, score }]));
     }
 
-    static async load(url = BOOK_URL) {
+    static async load(manifestUrl = MANIFEST_URL) {
         try {
-            const response = await fetch(url, { cache: "no-cache" });
-            if (!response.ok) return new OpeningBook();
-            const data = await response.json();
+            const manifestResponse = await fetch(manifestUrl, { cache: "no-cache" });
+            if (!manifestResponse.ok) return new OpeningBook();
+            const manifest = await manifestResponse.json();
+            const active = typeof manifest.active === "string" ? manifest.active : "";
+            if (!isSafeRelativeRunPath(active)) return new OpeningBook();
+
+            const bookUrl = new URL(active, manifestResponse.url).href;
+            const bookResponse = await fetch(bookUrl, { cache: "no-cache" });
+            if (!bookResponse.ok) return new OpeningBook();
+            const data = await bookResponse.json();
             return new OpeningBook(Array.isArray(data.entries) ? data.entries : []);
         } catch (_error) {
             return new OpeningBook();
@@ -69,6 +76,17 @@ export class OpeningBook {
             book: true
         };
     }
+}
+
+function isSafeRelativeRunPath(value) {
+    /*
+     * manifest 是静态文件，但仍然限制 active 只能指向 runs/ 下的 JSON。
+     * 这样不会因为手误把运行时引到站外 URL 或其他路径。
+     */
+    return value.startsWith("runs/")
+        && value.endsWith(".json")
+        && !value.includes("..")
+        && !value.includes("\\");
 }
 
 export function canonicalizePosition(board, isBlackTurn) {

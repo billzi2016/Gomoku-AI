@@ -5,7 +5,8 @@ This directory is reserved for opening-book generation code. It is separate from
 Target output:
 
 ```text
-assets/opening-book/opening-book.json
+assets/opening-book/runs/book-t15000-e500-p8-r4-b8-v1.json
+assets/opening-book/manifest.json
 ```
 
 Recommended generation strategy:
@@ -25,7 +26,7 @@ The result file must use the compact format:
 [canonicalKey, canonicalMoveIndex, score]
 ```
 
-The runtime does not care how the book was produced. As long as the JSON format stays stable, the web game can match it directly at the opening. The generator reuses `assets/js/ai-search-core.js`, so offline search and browser search use the same root-sharding and result-merging logic.
+The runtime does not care how the book was produced. It reads `assets/opening-book/manifest.json`, then loads the run file named by `active`. The generator reuses `assets/js/ai-search-core.js`, so offline search and browser search use the same root-sharding and result-merging logic.
 
 Current generation command:
 
@@ -37,4 +38,12 @@ Scale controls:
 
 ```text
 THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/opening-book/generate-opening-book.sh
+```
+
+Resume and activation:
+
+```text
+same parameters -> resume the same runs/book-*.json file
+different parameters -> write a different runs/book-*.json file
+ACTIVATE=1 -> update manifest.json after the run completes
 ```

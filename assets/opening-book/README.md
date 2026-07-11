@@ -29,3 +29,5 @@ the canonical move is transformed back to the current board
 ```
 
 Run files are generated output. Recreate them from `tools/opening-book/` when you want a stronger book, then activate the selected run through `manifest.json`.
+
+The official project run should be generated on an Apple M2 Ultra with 24 CPU cores. Avoid replacing it with a run from a weaker or similar machine unless the run uses a longer search budget. The default estimate is `500 entries * 15s = 7500s = 125 minutes`, usually about 2 to 2.5 hours after overhead.

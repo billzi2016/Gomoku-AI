@@ -26,6 +26,8 @@ THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/op
 
 输出文件是 `assets/opening-book/runs/` 下的参数化 run 文件。网页运行时读取 `assets/opening-book/manifest.json`，再加载 active 指向的 run。同一组参数会续算同一个文件，改参数会生成另一个文件。生成器复用浏览器 AI 的根节点分片逻辑，只把离线预算调长。条目使用对称和平移归一化，避免保存重复局面。
 
+项目预期使用 Apple M2 Ultra 24 核 CPU 生成正式开局库。这个性能是本仓库的基准。除非机器更强，或者搜索预算更长，否则在更弱或差不多的电脑上重新生成通常没有意义。默认估算是 `500 条 * 15 秒 = 7500 秒 = 125 分钟`，算上额外开销通常约 2 到 2.5 小时。
+
 ## 文档站链接
 
 发布后，文档站地址是：

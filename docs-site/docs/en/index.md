@@ -26,6 +26,8 @@ THINK_MS=15000 MAX_ENTRIES=500 MAX_PLY=8 RADIUS=4 BRANCH=8 WORKERS=22 ./tools/op
 
 The output is a parameterized run file under `assets/opening-book/runs/`. The web runtime reads `assets/opening-book/manifest.json` and then loads the active run. Running the same parameters resumes the same run file; changing parameters creates a different file. The generator reuses the browser AI root-sharding logic and only changes the offline time budget. Entries use symmetry and translation normalization to keep the file compact.
 
+The intended project opening book is generated on an Apple M2 Ultra with 24 CPU cores. That is the baseline for this repository. Regenerating the book on a weaker or similar machine is usually not useful unless the search budget is longer. The default estimate is `500 entries * 15s = 7500s = 125 minutes`, so expect about 2 to 2.5 hours including overhead.
+
 ## Documentation site link
 
 When published, this site is available at:

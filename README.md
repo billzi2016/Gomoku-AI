@@ -139,6 +139,8 @@ assets/opening-book/manifest.json
 
 The generator writes a parameterized run file under `assets/opening-book/runs/`. Running the same parameter set again resumes that file. Different parameters produce different filenames, so a 15-second book is not mixed with another search budget or tree shape.
 
+The intended project book is generated on an Apple M2 Ultra machine with 24 CPU cores. That is already a strong local search environment. Do not regenerate the opening book on a weaker or similar machine unless you deliberately use a longer search budget or a stronger computer; otherwise the generated book may be worse than the checked result. Time estimate for the default run: `500 entries * 15s = 7500s = 125 minutes`, which is about 2 hours 5 minutes of pure search time. With Worker scheduling and file writes, expect roughly 2 to 2.5 hours.
+
 The web runtime reads `assets/opening-book/manifest.json` first, then loads the active run named by `active`. The generator does not activate a run by default. Use `ACTIVATE=1` after you decide the run is good enough:
 
 ```bash

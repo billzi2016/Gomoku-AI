@@ -28,6 +28,8 @@ assets/opening-book/manifest.json
 
 运行时代码不关心生成器如何得到结果。它先读取 `assets/opening-book/manifest.json`，再加载 `active` 指向的 run 文件。生成器复用 `assets/js/ai-search-core.js`，所以离线搜索和浏览器搜索使用同一套根节点分片与结果合并逻辑。
 
+项目正式开局库预期在 Apple M2 Ultra 24 核 CPU 上生成。把这个性能当作基准。除非你的电脑更强，或者你把搜索时间加长到足够弥补性能差距，否则不要重新生成并激活开局库。默认耗时估算：`500 条 * 15 秒 = 7500 秒 = 125 分钟`，约 2 小时 5 分钟纯搜索时间，实际墙钟时间通常约 2 到 2.5 小时。
+
 当前生成命令：
 
 ```text

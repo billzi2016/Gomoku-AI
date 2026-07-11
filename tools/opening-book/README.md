@@ -28,6 +28,8 @@ The result file must use the compact format:
 
 The runtime does not care how the book was produced. It reads `assets/opening-book/manifest.json`, then loads the run file named by `active`. The generator reuses `assets/js/ai-search-core.js`, so offline search and browser search use the same root-sharding and result-merging logic.
 
+The project book is expected to be generated on an Apple M2 Ultra with 24 CPU cores. Treat that as the baseline. Do not regenerate and activate a book from a weaker or similar machine unless you increase the thinking time enough to compensate. Default time estimate: `500 entries * 15s = 7500s = 125 minutes`, about 2 hours 5 minutes of pure search time and roughly 2 to 2.5 hours wall time.
+
 Current generation command:
 
 ```text

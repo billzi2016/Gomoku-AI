@@ -38,70 +38,7 @@ const visited = new Set();
 const queued = new Set();
 const queue = [{ board: new Int8Array(SIZE * SIZE), side: BLACK, ply: 0 }];
 queued.add(canonicalizePosition(queue[0].board, true).key);
-const pool = new NodeWorkerPool(workerCount);
-
-console.log([
-    "opening-book generation",
-    `thinkMs=${thinkMs}`,
-    `workers=${workerCount}`,
-    `maxEntries=${maxEntries}`,
-    `maxPly=${maxPly}`,
-    `radius=${radius}`,
-    `branch=${branch}`
-].join(" "));
-
-for (const firstMove of centerCandidates(new Int8Array(SIZE * SIZE), radius)) {
-    const board = new Int8Array(SIZE * SIZE);
-    place(board, firstMove, BLACK);
-    enqueue(board, WHITE, 1);
-}
-
-try {
-    await pool.ready();
-
-    while (queue.length && entries.size < maxEntries) {
-        const state = queue.shift();
-        const key = canonicalizePosition(state.board, state.side === BLACK).key;
-        if (visited.has(key)) continue;
-        visited.add(key);
-
-        const best = await addSearchedEntry(state.board, state.side, `ply-${state.ply}`);
-        if (!best || state.ply + 1 >= maxPly) continue;
-
-        /*
-         * 为了覆盖常见人类变化，不只沿最佳线走。先把当前方最佳手落下，
-         * 再枚举对手在中心区域的若干合理回应，继续生成下一批 position。
-         */
-        const afterBest = new Int8Array(state.board);
-        place(afterBest, best, state.side);
-        const nextSide = -state.side;
-        if (state.ply + 1 >= maxPly) continue;
-
-        for (const reply of centerCandidates(afterBest, radius).slice(0, branch)) {
-            const next = new Int8Array(afterBest);
-            place(next, reply, nextSide);
-            enqueue(next, state.side, state.ply + 2);
-        }
-    }
-} finally {
-    await pool.terminate();
-}
-
-const output = {
-    v: 1,
-    size: SIZE,
-    rule: "freestyle",
-    generatedBy: "tools/opening-book/generate-opening-book.mjs",
-    thinkMs,
-    maxPly,
-    centerRadius: radius,
-    branch,
-    format: "entries: [canonicalKey, canonicalMoveIndex, score]",
-    entries: [...entries.values()]
-};
-
-await fs.writeFile(OUT, `${JSON.stringify(output)}\n`);
-console.log(`wrote ${output.entries.length} entries to ${path.relative(ROOT, OUT)}`);
+let pool = null;
 
 async function addSearchedEntry(board, side, label) {
     const isBlackTurn = side === BLACK;
@@ -307,3 +244,75 @@ function formatBytes(bytes) {
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}KB`;
     return `${(bytes / 1024 / 1024).toFixed(2)}MB`;
 }
+
+async function main() {
+    /*
+     * 主流程放在文件末尾调用，确保 NodeWorkerPool class 和所有工具函数
+     * 都已经完成初始化。这样不会踩 ES module 里 class 的暂时性死区。
+     */
+    console.log([
+        "opening-book generation",
+        `thinkMs=${thinkMs}`,
+        `workers=${workerCount}`,
+        `maxEntries=${maxEntries}`,
+        `maxPly=${maxPly}`,
+        `radius=${radius}`,
+        `branch=${branch}`
+    ].join(" "));
+
+    for (const firstMove of centerCandidates(new Int8Array(SIZE * SIZE), radius)) {
+        const board = new Int8Array(SIZE * SIZE);
+        place(board, firstMove, BLACK);
+        enqueue(board, WHITE, 1);
+    }
+
+    try {
+        pool = new NodeWorkerPool(workerCount);
+        await pool.ready();
+
+        while (queue.length && entries.size < maxEntries) {
+            const state = queue.shift();
+            const key = canonicalizePosition(state.board, state.side === BLACK).key;
+            if (visited.has(key)) continue;
+            visited.add(key);
+
+            const best = await addSearchedEntry(state.board, state.side, `ply-${state.ply}`);
+            if (!best || state.ply + 1 >= maxPly) continue;
+
+            /*
+             * 为了覆盖常见人类变化，不只沿最佳线走。先把当前方最佳手落下，
+             * 再枚举对手在中心区域的若干合理回应，继续生成下一批 position。
+             */
+            const afterBest = new Int8Array(state.board);
+            place(afterBest, best, state.side);
+            const nextSide = -state.side;
+            if (state.ply + 1 >= maxPly) continue;
+
+            for (const reply of centerCandidates(afterBest, radius).slice(0, branch)) {
+                const next = new Int8Array(afterBest);
+                place(next, reply, nextSide);
+                enqueue(next, state.side, state.ply + 2);
+            }
+        }
+    } finally {
+        if (pool) await pool.terminate();
+    }
+
+    const output = {
+        v: 1,
+        size: SIZE,
+        rule: "freestyle",
+        generatedBy: "tools/opening-book/generate-opening-book.mjs",
+        thinkMs,
+        maxPly,
+        centerRadius: radius,
+        branch,
+        format: "entries: [canonicalKey, canonicalMoveIndex, score]",
+        entries: [...entries.values()]
+    };
+
+    await fs.writeFile(OUT, `${JSON.stringify(output)}\n`);
+    console.log(`wrote ${output.entries.length} entries to ${path.relative(ROOT, OUT)}`);
+}
+
+await main();

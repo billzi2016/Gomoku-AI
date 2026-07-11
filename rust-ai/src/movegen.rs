@@ -53,7 +53,10 @@ pub fn generate_candidates(board: &Board, side: i8, limit: usize) -> Vec<ScoredM
                         continue;
                     }
                     seen[idx] = true;
-                    let mv = Move { r: nr as u8, c: nc as u8 };
+                    let mv = Move {
+                        r: nr as u8,
+                        c: nc as u8,
+                    };
                     // 这里一次性计算排序分，后面的 sort_by 不再触碰棋盘生成逻辑。
                     out.push(ScoredMove {
                         mv,

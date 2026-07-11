@@ -266,25 +266,33 @@ export class GomokuGame {
         document.getElementById("ai-stats-empty")?.remove();
 
         const sideText = side === BLACK ? "黑" : "白";
-        const sourceClass = source === "AI" ? "source-ai" : "source-human";
+        const isBook = Boolean(stats && stats.book);
+        const displaySource = isBook ? "BOOK" : source;
+        const sourceClass = isBook ? "source-book" : (source === "AI" ? "source-ai" : "source-human");
         const score = stats ? formatScore(stats.score) : "-";
         const scoreClass = stats ? scoreClassName(stats.score) : "score-neutral";
+        const depthText = isBook ? "-" : (stats ? stats.depth : "-");
+        const nodesText = isBook ? "-" : (stats ? formatCount(stats.nodes) : "-");
+        const npsText = isBook ? "-" : (stats ? formatCount(stats.nps) : "-");
+        const timeText = isBook ? "instant" : (stats ? Math.round(stats.timeMs) + "ms" : "-");
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>#${this.moveIndex}</td>
             <td>${sideText}</td>
-            <td class="${sourceClass}">${source}</td>
+            <td class="${sourceClass}">${displaySource}</td>
             <td>${point.r},${point.c}</td>
-            <td>${stats ? stats.depth : "-"}</td>
-            <td>${stats ? formatCount(stats.nodes) : "-"}</td>
-            <td>${stats ? formatCount(stats.nps) : "-"}</td>
-            <td>${stats ? Math.round(stats.timeMs) + "ms" : "-"}</td>
+            <td>${depthText}</td>
+            <td>${nodesText}</td>
+            <td>${npsText}</td>
+            <td>${timeText}</td>
             <td class="${scoreClass}">${score}</td>
         `;
         document.getElementById("ai-stats-body").appendChild(row);
 
-        const current = source === "AI"
-            ? `#${this.moveIndex} 白棋 AI 落子 ${point.r},${point.c}，深度 ${stats.depth}，评分 ${score}。`
+        const current = isBook
+            ? `#${this.moveIndex} ${sideText}棋命中开局库，落子 ${point.r},${point.c}，耗时 instant，评分 ${score}。`
+            : source === "AI"
+            ? `#${this.moveIndex} ${sideText}棋 AI 落子 ${point.r},${point.c}，深度 ${stats.depth}，评分 ${score}。`
             : `#${this.moveIndex} 黑棋 人类落子 ${point.r},${point.c}。`;
         document.getElementById("ai-current").textContent = current;
 

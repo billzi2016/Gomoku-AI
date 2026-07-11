@@ -225,6 +225,11 @@ body {
     font-weight: 800;
 }
 
+.source-book {
+    color: #7ee08b;
+    font-weight: 900;
+}
+
 .source-human {
     color: #f4d06f;
     font-weight: 800;

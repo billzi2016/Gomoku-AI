@@ -6,6 +6,7 @@
 use crate::board::Board;
 use crate::evaluate::{relative_score, root_tactical_score};
 use crate::movegen::{generate_candidates, ScoredMove};
+use crate::threat::root_forcing_score;
 use crate::types::{HeatPoint, Move, SearchOutput, EMPTY, INF, SIZE};
 
 // 根节点多保留一些候选，避免主动进攻点在热力图分片前被截掉。
@@ -117,8 +118,16 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
             }
             let mut next = board.clone();
             next.place(item.mv, side);
-            let score = if let Some(tactical) = root_tactical_score(&board, item.mv, side) {
-                // 根节点先处理“自己立即赢 / 对手立即赢必须堵”的强制战术。
+            let score = if let Some(tactical) = root_forcing_score(&board, item.mv, side) {
+                /*
+                 * VCF 先于普通根节点战术。
+                 *
+                 * 这样能避免一个看似主动的强制四，实际上让对手下一手进入
+                 * 连续冲四胜。只有 VCF 无法证明时，才回到普通根节点评分。
+                 */
+                tactical
+            } else if let Some(tactical) = root_tactical_score(&board, item.mv, side) {
+                // 根节点再处理“双成五点 / 强制四”等局部强战术。
                 tactical
             } else if next.has_five(item.mv, side) {
                 INF / 2
@@ -230,7 +239,15 @@ fn negamax(
     } else {
         HashFlag::Exact
     };
-    tt_store(&mut ctx.table, Entry { key, depth, score: best, flag });
+    tt_store(
+        &mut ctx.table,
+        Entry {
+            key,
+            depth,
+            score: best,
+            flag,
+        },
+    );
     best
 }
 
@@ -277,7 +294,10 @@ fn root_moves(board: &Board, side: i8, allowed: &[u8]) -> Vec<ScoredMove> {
             if r >= SIZE || c >= SIZE || board.cells()[idx as usize] != EMPTY {
                 return None;
             }
-            let mv = Move { r: r as u8, c: c as u8 };
+            let mv = Move {
+                r: r as u8,
+                c: c as u8,
+            };
             Some(ScoredMove {
                 mv,
                 order_score: crate::evaluate::quick_move_score(board, mv, side),
@@ -321,7 +341,11 @@ fn hash(board: &Board, side: i8) -> u64 {
      * 这里不是严格 Zobrist 表，但足以把棋盘内容和行动方混合成置换表 key。
      * 哈希只混合黑白 Bitboard 的 8 个 u64，不再扫描 225 个数组格子。
      */
-    let mut h: u64 = if side > 0 { 0x9e37_79b9_7f4a_7c15 } else { 0xbf58_476d_1ce4_e5b9 };
+    let mut h: u64 = if side > 0 {
+        0x9e37_79b9_7f4a_7c15
+    } else {
+        0xbf58_476d_1ce4_e5b9
+    };
     let (black, white) = board.bitboards();
     for i in 0..4 {
         h ^= black[i].wrapping_mul(0x1000_0000_01b3 ^ (i as u64 + 1));

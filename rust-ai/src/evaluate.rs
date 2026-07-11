@@ -158,7 +158,10 @@ fn follow_up_win_count(board: &Board, mv: Move, side: i8, stop_at: i32) -> i32 {
             if !next.is_empty_point(r, c) {
                 continue;
             }
-            let reply = Move { r: r as u8, c: c as u8 };
+            let reply = Move {
+                r: r as u8,
+                c: c as u8,
+            };
             if next.would_win(reply, side) {
                 wins += 1;
                 if wins >= stop_at {
@@ -357,15 +360,7 @@ fn fork_bonus(stats: ThreatStats) -> i32 {
     0
 }
 
-fn score_window(
-    board: &Board,
-    mv: Move,
-    side: i8,
-    sr: i16,
-    sc: i16,
-    dr: i16,
-    dc: i16,
-) -> i32 {
+fn score_window(board: &Board, mv: Move, side: i8, sr: i16, sc: i16, dr: i16, dc: i16) -> i32 {
     let mut line = [0_i8; 5];
     for step in 0..5 {
         let r = sr + dr * step;
@@ -389,14 +384,7 @@ fn score_window(
     classify_window(&line, before_open, after_open)
 }
 
-fn score_existing_window(
-    board: &Board,
-    side: i8,
-    sr: i16,
-    sc: i16,
-    dr: i16,
-    dc: i16,
-) -> i32 {
+fn score_existing_window(board: &Board, side: i8, sr: i16, sc: i16, dr: i16, dc: i16) -> i32 {
     /*
      * 评估当前局面中已经存在的五格窗口。
      *
@@ -438,9 +426,12 @@ fn classify_window(line: &[i8; 5], before_open: bool, after_open: bool) -> i32 {
 
     if stones == 4 && empty == 1 {
         let empty_idx = line.iter().position(|&v| v == 0).unwrap_or(0);
-        let true_open_four =
-            (empty_idx == 0 && after_open) || (empty_idx == 4 && before_open);
-        return if true_open_four { 12_000_000 } else { 8_000_000 };
+        let true_open_four = (empty_idx == 0 && after_open) || (empty_idx == 4 && before_open);
+        return if true_open_four {
+            12_000_000
+        } else {
+            8_000_000
+        };
     }
 
     if stones == 3 && empty == 2 {
@@ -466,8 +457,16 @@ fn has_true_open_three(line: &[i8; 5], before_open: bool, after_open: bool) -> b
      */
     for start in 0..=2 {
         if line[start] == 1 && line[start + 1] == 1 && line[start + 2] == 1 {
-            let left_open = if start == 0 { before_open } else { line[start - 1] == 0 };
-            let right_open = if start + 2 == 4 { after_open } else { line[start + 3] == 0 };
+            let left_open = if start == 0 {
+                before_open
+            } else {
+                line[start - 1] == 0
+            };
+            let right_open = if start + 2 == 4 {
+                after_open
+            } else {
+                line[start + 3] == 0
+            };
             if left_open && right_open {
                 return true;
             }
@@ -481,9 +480,8 @@ fn has_jump_three(line: &[i8; 5], before_open: bool, after_open: bool) -> bool {
      * 跳三/眠三有进攻价值，但不能按真活三处理。
      * 至少要求窗口两侧或内部仍有延展空间，否则只是普通散形。
      */
-    let open_slots = line.iter().filter(|&&v| v == 0).count() as i32
-        + before_open as i32
-        + after_open as i32;
+    let open_slots =
+        line.iter().filter(|&&v| v == 0).count() as i32 + before_open as i32 + after_open as i32;
     open_slots >= 3
 }
 
@@ -493,8 +491,16 @@ fn has_open_two(line: &[i8; 5], before_open: bool, after_open: bool) -> bool {
      */
     for start in 0..=3 {
         if line[start] == 1 && line[start + 1] == 1 {
-            let left_open = if start == 0 { before_open } else { line[start - 1] == 0 };
-            let right_open = if start + 1 == 4 { after_open } else { line[start + 2] == 0 };
+            let left_open = if start == 0 {
+                before_open
+            } else {
+                line[start - 1] == 0
+            };
+            let right_open = if start + 1 == 4 {
+                after_open
+            } else {
+                line[start + 2] == 0
+            };
             if left_open && right_open {
                 return true;
             }

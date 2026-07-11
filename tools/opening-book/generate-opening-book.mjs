@@ -44,6 +44,8 @@ const visited = new Set();
 const queued = new Set();
 const queue = [];
 let pool = null;
+let resumedEntries = 0;
+const processStartedAt = Date.now();
 
 async function addSearchedEntry(board, side, label) {
     const isBlackTurn = side === BLACK;
@@ -79,6 +81,7 @@ async function addSearchedEntry(board, side, label) {
     const packed = [canonical.key, move, result.score | 0];
     entries.set(canonical.key, packed);
     const elapsed = Date.now() - started;
+    const totalElapsed = Date.now() - processStartedAt;
     const estimatedBytes = estimateBytes(entries);
     console.log([
         `[done] ${entries.size}/${maxEntries}`,
@@ -90,6 +93,8 @@ async function addSearchedEntry(board, side, label) {
         `nodes=${result.nodes}`,
         `nps=${result.nps}`,
         `elapsed=${elapsed}ms`,
+        `total=${formatDuration(totalElapsed)}`,
+        `eta=${estimateEta(totalElapsed)}`,
         `queue=${queue.length}`,
         `json~${formatBytes(estimatedBytes)}`
     ].join(" "));
@@ -390,6 +395,32 @@ function formatBytes(bytes) {
     return `${(bytes / 1024 / 1024).toFixed(2)}MB`;
 }
 
+function estimateEta(totalElapsedMs) {
+    /*
+     * ETA 只用于终端显示，不写入 JSON。
+     * 断点续算时，平均耗时只按本次进程中新完成的 entries 估算，
+     * 避免把上一次运行的历史 entries 当成瞬间完成，导致 ETA 过小。
+     */
+    const completedThisRun = Math.max(1, entries.size - resumedEntries);
+    const remaining = Math.max(0, maxEntries - entries.size);
+    const averageMs = totalElapsedMs / completedThisRun;
+    return formatDuration(Math.round(averageMs * remaining));
+}
+
+function formatDuration(ms) {
+    /*
+     * 输出给人读的紧凑时间：15s、2m05s、1h58m。
+     * 这里不用毫秒，避免日志太吵。
+     */
+    const seconds = Math.max(0, Math.round(ms / 1000));
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const rest = seconds % 60;
+    if (hours > 0) return `${hours}h${String(minutes).padStart(2, "0")}m`;
+    if (minutes > 0) return `${minutes}m${String(rest).padStart(2, "0")}s`;
+    return `${rest}s`;
+}
+
 async function main() {
     /*
      * 主流程放在文件末尾调用，确保 NodeWorkerPool class 和所有工具函数
@@ -407,8 +438,8 @@ async function main() {
         `activate=${activate ? "yes" : "no"}`
     ].join(" "));
 
-    const resumed = await loadExistingRun();
-    console.log(`resumeEntries=${resumed} output=${path.relative(ROOT, runPath)}`);
+    resumedEntries = await loadExistingRun();
+    console.log(`resumeEntries=${resumedEntries} output=${path.relative(ROOT, runPath)}`);
 
     if (!queue.length) {
         seedInitialQueue();

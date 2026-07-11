@@ -11,6 +11,7 @@ src/types.rs    # Shared data structures serialized to JSON
 src/board.rs    # Board storage, Bitboards, and five-in-a-row detection
 src/movegen.rs  # Candidate generation and cached move ordering scores
 src/evaluate.rs # Static evaluation and threat scoring
+src/threat.rs   # VCF continuous-four tactical search
 src/search.rs   # Iterative deepening, NegaMax, Alpha-Beta, transposition table
 ```
 
@@ -56,6 +57,23 @@ Alpha-Beta pruning skips branches that cannot change the current decision. This 
 Iterative deepening searches depth 1, then depth 2, and continues until the time limit or maximum depth. If time expires, the engine returns the best move from the latest completed depth.
 
 The transposition table caches positions during a single move search. The key is derived from the black and white Bitboards plus the side to move.
+
+## VCF continuous-four search
+
+`src/threat.rs` handles VCF, or Victory by Continuous Four. In VCF, one side keeps creating fours that the opponent must block until a five-in-a-row point cannot be fully defended.
+
+This module does not replace NegaMax. It runs only as a root-candidate tactical check:
+
+```text
+win immediately
+block the opponent's immediate win
+check whether this move starts a VCF forced win
+check whether this move allows the opponent an immediate win or VCF forced win
+```
+
+If VCF proves a forcing win, the engine can take it. If VCF cannot prove the line, the move goes back to normal search. This improves attacking play without treating every open three as a forced win.
+
+To avoid getting countered, VCF checks the opponent as well. A move that looks aggressive but allows the opponent to win immediately or enter a continuous-four win receives a large negative score, so safer candidates can beat it.
 
 ## Threat scoring
 

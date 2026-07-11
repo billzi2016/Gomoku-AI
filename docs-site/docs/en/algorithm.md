@@ -39,8 +39,9 @@ Rust handles the input in this order:
 5. Normal search starts iterative deepening at depth 1, with a maximum depth of `12`.
 6. Each root candidate is placed on a cloned board, then `negamax()` searches the opponent's reply.
 7. At depth 0, full board, or sampled timeout, `relative_score()` returns a score from the current side's perspective.
-8. A depth updates the global best move only if every root candidate at that depth completed; if time expires halfway through the root list, that partial layer is discarded.
-9. Rust returns `r`, `c`, `score`, `depth`, `nodes`, `time_ms`, `nps`, and `heatmap`.
+8. The root first calls `root_forcing_score()` to check immediate wins, required blocks, own VCF, and opponent VCF.
+9. A depth updates the global best move only if every root candidate at that depth completed; if time expires halfway through the root list, that partial layer is discarded.
+10. Rust returns `r`, `c`, `score`, `depth`, `nodes`, `time_ms`, `nps`, and `heatmap`.
 
 Normal output checks:
 
@@ -127,7 +128,21 @@ These values define the current attack-defense balance:
 
 ### Root Tactical Shortcuts
 
-`root_tactical_score()` returns early only for highly forcing cases:
+Root search has two tactical shortcut layers. The first one is `root_forcing_score()` from `rust-ai/src/threat.rs`, which handles immediate wins, immediate blocks, and VCF continuous-four search.
+
+VCF receives the current board, a candidate move, and the side to move. It returns an optional score:
+
+```text
+own immediate five:                     620_000_000
+block opponent immediate five:          580_000_000
+own VCF forced win:                     540_000_000
+move allows opponent immediate/VCF win: -540_000_000 or lower
+no proved forcing line:                 None, return to normal search
+```
+
+VCF expands only moves that create a direct winning point for the next move. The defender only has to try blocking those direct winning points. A move is treated as a forced win only when every defensive block still leads back to attacker VCF. This restriction matters: it makes the AI more aggressive, but it does not treat every open three as already won.
+
+The second layer is `root_tactical_score()`, which returns early only for highly forcing local cases:
 
 ```text
 own immediate five:      500_000_000

@@ -11,6 +11,7 @@ GOMOKU AI 在浏览器中运行自由五子棋。GitHub Pages 只提供静态文
 ## 怎么阅读这些文档
 
 - 想了解整体，先看项目 README。
+- 想确认怎么下棋、freestyle 和 Renju 禁手差别，看玩法说明。
 - 需要确认规则、输入输出和正常结果，看规格说明。
 - 修改 UI、Worker 分发或热力图前，看 JavaScript 层。
 - 修改搜索、评估、Bitboard 或性能前，看 Rust 引擎。

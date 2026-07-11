@@ -46,14 +46,6 @@ impl Board {
         board
     }
 
-    pub fn get(&self, r: i16, c: i16) -> i8 {
-        // 越界视为空点，调用方可以少写边界分支。
-        if !in_board(r, c) {
-            return EMPTY;
-        }
-        self.cells[r as usize * SIZE + c as usize]
-    }
-
     pub fn place(&mut self, mv: Move, side: i8) {
         // 搜索会频繁 clone 后 place，因此这里必须同时更新数组和 bit mask。
         self.set_at(mv.r as usize * SIZE + mv.c as usize, side);
@@ -102,6 +94,38 @@ impl Board {
 
     pub fn cells(&self) -> &[i8; SIZE * SIZE] {
         &self.cells
+    }
+
+    /// 判断某个坐标是否属于指定方。
+    ///
+    /// 评估函数的热路径会大量查询“这个点是不是某方棋子”。
+    /// 这里直接查 Bitboard，避免每次都回到 `cells` 数组。
+    pub fn has_stone(&self, r: i16, c: i16, side: i8) -> bool {
+        if !in_board(r, c) {
+            return false;
+        }
+        let idx = r as usize * SIZE + c as usize;
+        let bits = self.bits_for(side);
+        (bits[idx / 64] & (1_u64 << (idx % 64))) != 0
+    }
+
+    /// 判断某个坐标是否为空。
+    ///
+    /// 空点等价于黑白双方 Bitboard 对应位都为 0。
+    pub fn is_empty_point(&self, r: i16, c: i16) -> bool {
+        if !in_board(r, c) {
+            return false;
+        }
+        let idx = r as usize * SIZE + c as usize;
+        let bit = 1_u64 << (idx % 64);
+        (self.black_bits[idx / 64] & bit) == 0 && (self.white_bits[idx / 64] & bit) == 0
+    }
+
+    /// 返回指定方 Bitboard。
+    ///
+    /// 静态评估会遍历同色棋子的置位点，避免逐格扫描 225 个数组元素。
+    pub fn bit_words(&self, side: i8) -> [u64; 4] {
+        self.bits_for(side)
     }
 
     /// 返回黑白双方 Bitboard。

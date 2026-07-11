@@ -3,8 +3,6 @@
 //! 搜索使用迭代加深、Alpha-Beta 剪枝和简单置换表。
 //! 所有超时返回都通过 `relative_score` 转成当前行动方视角，避免符号错乱。
 
-use std::collections::HashMap;
-
 use crate::board::Board;
 use crate::evaluate::{relative_score, root_tactical_score};
 use crate::movegen::{generate_candidates, ScoredMove};
@@ -15,6 +13,7 @@ const ROOT_LIMIT: usize = 36;
 // 子节点宽度略放大，让 Alpha-Beta 有机会验证进攻后的反击，而不是只看局部评分。
 const CHILD_LIMIT: usize = 22;
 const MAX_DEPTH: u8 = 12;
+const TT_SIZE: usize = 1 << 18;
 
 struct Context {
     // root_side 固定为本次搜索方，用于把叶子评估转换成正确视角。
@@ -25,15 +24,25 @@ struct Context {
     stopped: bool,
     // 节点计数用于 UI 展示 NPS，也能帮助观察棋力/性能变化。
     nodes: u64,
-    // 简单置换表：同一棋盘和行动方在足够深度下可以复用分数。
-    table: HashMap<u64, Entry>,
+    // 固定大小置换表：避免 HashMap 在 Wasm 堆上反复扩容和 rehash。
+    table: Vec<Option<Entry>>,
 }
 
 #[derive(Clone, Copy)]
 struct Entry {
+    // 保存完整 key，避免固定槽位碰撞时误用其他局面的分数。
+    key: u64,
     // 只有缓存深度不浅于当前请求深度时才复用。
     depth: u8,
     score: i32,
+    flag: HashFlag,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum HashFlag {
+    Exact,
+    Upper,
+    Lower,
 }
 
 pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: Vec<u8>) -> String {
@@ -72,7 +81,7 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
         deadline,
         stopped: false,
         nodes: 0,
-        table: HashMap::new(),
+        table: vec![None; TT_SIZE],
     };
 
     let mut best = roots[0].mv;
@@ -101,6 +110,7 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
         let mut depth_score = -INF;
         let mut depth_heat = Vec::with_capacity(roots.len());
 
+        let mut completed_roots = 0;
         for item in &roots {
             if ctx.stopped || timed_out(&ctx) {
                 break;
@@ -115,22 +125,28 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
             } else {
                 -negamax(&next, depth.saturating_sub(1), -side, -INF, INF, &mut ctx)
             };
+            if ctx.stopped {
+                break;
+            }
             depth_heat.push(HeatPoint {
                 r: item.mv.r,
                 c: item.mv.c,
                 score,
             });
+            completed_roots += 1;
             if score > depth_score {
                 depth_score = score;
                 depth_best = item.mv;
             }
         }
 
-        if !depth_heat.is_empty() {
+        if completed_roots == roots.len() {
             best = depth_best;
             best_score = depth_score;
             best_depth = depth;
             heatmap = depth_heat;
+        } else {
+            break;
         }
     }
 
@@ -167,10 +183,17 @@ fn negamax(
     }
 
     let key = hash(board, turn_side);
-    if let Some(entry) = ctx.table.get(&key) {
-        // 缓存深度足够时直接复用，避免重复搜索相同局面。
-        if entry.depth >= depth {
-            return entry.score;
+    let alpha_orig = alpha;
+    if let Some(entry) = tt_get(&ctx.table, key, depth) {
+        /*
+         * Alpha-Beta 中被剪枝的节点不一定是精确分。
+         * Exact 可以直接返回；Lower/Upper 只有在能证明当前窗口会失败时才能截断。
+         */
+        match entry.flag {
+            HashFlag::Exact => return entry.score,
+            HashFlag::Lower if entry.score >= beta => return entry.score,
+            HashFlag::Upper if entry.score <= alpha => return entry.score,
+            _ => {}
         }
     }
 
@@ -200,8 +223,40 @@ fn negamax(
         }
     }
 
-    ctx.table.insert(key, Entry { depth, score: best });
+    let flag = if best <= alpha_orig {
+        HashFlag::Upper
+    } else if best >= beta {
+        HashFlag::Lower
+    } else {
+        HashFlag::Exact
+    };
+    tt_store(&mut ctx.table, Entry { key, depth, score: best, flag });
     best
+}
+
+fn tt_get(table: &[Option<Entry>], key: u64, depth: u8) -> Option<Entry> {
+    let entry = table[tt_index(key)]?;
+    if entry.key == key && entry.depth >= depth {
+        Some(entry)
+    } else {
+        None
+    }
+}
+
+fn tt_store(table: &mut [Option<Entry>], entry: Entry) {
+    /*
+     * 深度优先替换。
+     *
+     * 固定槽位会有碰撞；更深的结果更贵也更可靠，所以保留深度不低于旧值的条目。
+     */
+    let index = tt_index(entry.key);
+    if table[index].map_or(true, |old| entry.depth >= old.depth) {
+        table[index] = Some(entry);
+    }
+}
+
+fn tt_index(key: u64) -> usize {
+    (key as usize) & (TT_SIZE - 1)
 }
 
 fn root_moves(board: &Board, side: i8, allowed: &[u8]) -> Vec<ScoredMove> {
@@ -229,7 +284,7 @@ fn root_moves(board: &Board, side: i8, allowed: &[u8]) -> Vec<ScoredMove> {
             })
         })
         .collect::<Vec<_>>();
-    roots.sort_by(|a, b| b.order_score.cmp(&a.order_score));
+    roots.sort_unstable_by(|a, b| b.order_score.cmp(&a.order_score));
     roots
 }
 

@@ -11,6 +11,214 @@ Read each section as one layer of the same question:
 
 If you only want to check whether the engine is doing real search, focus on candidate generation, move ordering, threat windows, NegaMax, and Alpha-Beta. Those parts decide whether the AI is calculating lines or only applying surface-level scores.
 
+<a id="actual-engine-algorithm"></a>
+
+## Actual Engine Algorithm
+
+This section documents the algorithm and numbers used by the current project code. The Wasm export is `search_best_move()` in `rust-ai/src/lib.rs`; search lives in `rust-ai/src/search.rs`; board representation and win detection live in `rust-ai/src/board.rs`; evaluation and move ordering live in `rust-ai/src/evaluate.rs`; candidate generation lives in `rust-ai/src/movegen.rs`.
+
+### Real Move Flow
+
+When the AI moves, the browser does not send a full search tree to Rust. JavaScript owns the UI, board array, and Worker pool, then sends the current position to Wasm.
+
+`search_best_move()` receives:
+
+```text
+cells             225-entry board, 1 black, -1 white, 0 empty
+is_black_turn     whether black is to move; in human-vs-AI mode the AI is usually white, so this is often false
+think_time_ms     default 5000 milliseconds
+allowed_moves     candidate points assigned to this Worker, encoded as row * 15 + col
+```
+
+Rust handles the input in this order:
+
+1. `Board::from_cells()` converts the 225-entry array into `cells`, `black_bits`, and `white_bits`.
+2. `root_moves()` decodes `allowed_moves` and verifies that each point is inside the board and empty.
+3. If `allowed_moves` is empty, `generate_candidates()` creates root candidates in Rust.
+4. If `think_time_ms <= 2`, Rust returns only the candidate heatmap and does not start recursive search; JavaScript uses this quick request before splitting work across Workers.
+5. Normal search starts iterative deepening at depth 1, with a maximum depth of `12`.
+6. Each root candidate is placed on a cloned board, then `negamax()` searches the opponent's reply.
+7. At depth 0, full board, or sampled timeout, `relative_score()` returns a score from the current side's perspective.
+8. A depth updates the global best move only if every root candidate at that depth completed; if time expires halfway through the root list, that partial layer is discarded.
+9. Rust returns `r`, `c`, `score`, `depth`, `nodes`, `time_ms`, `nps`, and `heatmap`.
+
+Normal output checks:
+
+```text
+r,c       should be an empty point and should come from this Worker's allowed_moves unless this is an unsharded root search.
+depth     should be greater than 0 during normal thinking; heatmap-only requests may return 0.
+nodes     should be greater than 0 during normal search.
+time_ms   is usually close to 5000 ms; very short searches often mean a forcing tactic was found early.
+heatmap   should cover candidate empty points, not occupied stones.
+```
+
+### Current Search Width And Time
+
+Current constants in `rust-ai/src/search.rs`:
+
+```text
+ROOT_LIMIT   = 36
+CHILD_LIMIT  = 22
+MAX_DEPTH    = 12
+TT_SIZE      = 1 << 18
+```
+
+Their meaning:
+
+- The root keeps up to 36 candidates so attacking moves are less likely to be cut before Worker sharding.
+- Child nodes keep up to 22 candidates so Alpha-Beta can verify replies after an attack.
+- Iterative deepening searches up to depth 12; if time expires first, Rust returns the last completed depth.
+- The transposition table uses fixed-size slots to avoid repeated growth and rehashing during search.
+
+There is no fixed time margin subtracted from the budget. Rust sets:
+
+```text
+deadline = Date.now() + think_time_ms
+```
+
+The recursive search samples the clock by node count instead of calling the JavaScript time function at every node. This avoids spending too much Wasm time on clock checks. In a normal search, the table time is close to 5 seconds. If it returns in a few dozen milliseconds, the root usually found an immediate win, required block, or forcing four.
+
+### Candidate Generation
+
+Freestyle Gomoku allows every empty point, but searching all 225 points would explode the branching factor. The current `generate_candidates()` rule is:
+
+```text
+empty board: return only center (7, 7)
+non-empty board: scan empty points within radius 2 of existing stones
+ordering: compute quick_move_score() once per candidate
+cutoff: keep the top limit moves by order_score
+```
+
+One performance rule matters here: sorting compares only cached `order_score` values. The comparator does not place moves, recurse, or generate child positions. This prevents move ordering from becoming a hidden search cost.
+
+### Real Move Ordering Values
+
+Current tactical thresholds in `rust-ai/src/evaluate.rs`:
+
+```text
+WIN_NOW          = 40_000_000
+BLOCK_WIN_NOW    = 35_000_000
+FORCE_FOUR       = 8_000_000
+OPEN_THREE       = 1_500_000
+DOUBLE_THREAT    = 4_500_000
+```
+
+`quick_move_score()` uses this real ordering:
+
+```text
+own immediate five:       WIN_NOW
+opponent immediate five:  BLOCK_WIN_NOW
+own forcing four:         34_000_000 + attack_threat + attack_fork
+block forcing four:       30_000_000 + defend_threat + defend_fork
+own double threat:        22_000_000 + attack_threat + attack_fork
+block double threat:      18_000_000 + defend_threat + defend_fork
+own open three:           11_000_000 + attack_threat + attack_fork
+block open three:          7_000_000 + defend_threat + defend_fork
+quiet position: center_bonus + attack * 8 + defend * 4 + attack_threat * 3 + defend_threat * 2 + attack_fork + defend_fork / 2
+```
+
+These values define the current attack-defense balance:
+
+- If the AI can win now, that is highest priority.
+- If the opponent can win next move, the AI must block.
+- If both sides have forcing threats, the AI prefers creating its own forcing four.
+- In quiet positions, attack is weighted higher than defense so the board does not drift into pure blocking.
+- Defense still exists, but it mainly handles immediate losses and forcing lines.
+
+### Root Tactical Shortcuts
+
+`root_tactical_score()` returns early only for highly forcing cases:
+
+```text
+own immediate five:      500_000_000
+opponent immediate five: 450_000_000
+move creates at least two direct winning replies: 380_000_000 + winning_reply_count * 10_000_000
+own forcing four:        300_000_000 + attack_threat + attack_fork
+block forcing four:      270_000_000 + defend_threat + defend_fork
+```
+
+"Move creates at least two direct winning replies" handles follow-up pressure. For example, if white already has a double-three structure, a move that gives white two immediate winning points next turn should keep the attack going because the opponent can usually block only one.
+
+Ordinary open threes do not shortcut root search. They raise move ordering, so Alpha-Beta searches them early, but the engine still checks the opponent's reply. This avoids attacking blindly when the opponent has a stronger counter.
+
+### Five-Cell Windows And Double Threats
+
+`window_threat_stats()` scans every five-cell window containing the candidate point. Each window is scored by `score_window()`:
+
+```text
+5 own stones:                    50_000_000
+4 own stones, 1 empty, two open:  12_000_000
+4 own stones, 1 empty, one open:   8_000_000
+4 own stones, 1 empty, closed:     4_000_000
+3 own stones, 2 empty, two open:   1_500_000
+3 own stones, 2 empty, one open:     450_000
+2 own stones, 3 empty, two open:      45_000
+other:                                  0
+```
+
+It also counts:
+
+```text
+force_count       windows scoring at least FORCE_FOUR
+open_three_count  windows scoring at least OPEN_THREE
+```
+
+`fork_bonus()` uses those counts to identify multi-threat moves:
+
+```text
+two or more forcing fours:       18_000_000
+one forcing four + one open three: 9_000_000
+two or more open threes:          4_500_000
+```
+
+This is the main reason the current engine attacks more than a purely defensive version. If one move creates two problems, the opponent can often answer only one of them, giving the AI a path into a winning line.
+
+### Global Window Evaluation
+
+Static evaluation does not only scan continuous stones. `score_side()` also runs a full-board five-cell sliding-window evaluation, so existing broken fours, jump threes, and open threes are visible at leaf nodes.
+
+This keeps move ordering and leaf evaluation consistent:
+
+```text
+Move ordering: XX_XX is a forcing threat.
+Leaf evaluation: XX_XX must still be understood as a forcing threat, not as two quiet twos.
+```
+
+The classifier checks where the empty points are inside the five-cell window. `XX_XX` is a forcing four, but not a true open four; `X_X_X` is a jump three or closed three, not a true open three.
+
+### Static Pattern Scores
+
+`pattern_score()` is used for continuous lines and local shape:
+
+```text
+five or longer: 20_000_000
+open four:       3_200_000
+four:              360_000
+open three:        110_000
+three:              12_000
+open two:            3_500
+two:                   600
+single with two ends:    80
+other:                  10
+```
+
+This is not a probability table. It gives leaf positions comparable integer scores. The final move still comes from NegaMax backing up many searched leaf scores to the root.
+
+### Verifying With The Search Table
+
+The right-side "AI Search Score" table shows whether these engineering choices are active:
+
+- `Depth`: the completed iterative-deepening depth. More complex positions may finish at lower depth.
+- `Nodes`: the number of searched positions. A wider candidate set usually raises this number.
+- `NPS`: nodes per second, mostly reflecting hardware and Wasm execution speed.
+- `Time`: normal searches are close to 5 seconds; forcing tactics can return much earlier.
+- `Score`: huge values usually indicate immediate five, required block, or forcing four; ordinary integers are heuristic/search estimates.
+- `Heatmap`: green points should cluster around wins, blocks, forcing fours, double threats, and open threes; red points are usually nearby but less relevant candidates.
+
+If the AI should be thinking but the table does not add a row, first check Worker and Wasm loading. If the table adds a row with `depth = 0`, it is usually a heatmap-only request or the search did not enter the normal sharded path.
+
+<a id="algorithm-deep-dive"></a>
+
 ## 1. Board state
 
 The board is 15 by 15, so it has 225 intersections. The engine stores it in row-major order:
@@ -350,9 +558,10 @@ The value stores:
 ```text
 depth searched
 score
+score flag: Exact / Upper / Lower
 ```
 
-A cached score is reused only when it was searched at least as deeply as the current request.
+A cached score can be reused only when it was searched at least as deeply as the current request. `Exact` can return directly; `Lower` and `Upper` can cut off only when they prove the current Alpha-Beta window fails.
 
 Normal result: repeated positions should not require the same full search again.
 

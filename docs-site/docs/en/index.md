@@ -11,6 +11,7 @@ GOMOKU AI runs a freestyle Gomoku game in the browser. GitHub Pages serves stati
 ## How to read these docs
 
 - Start with Project README if you want the big picture.
+- Read How To Play for Gomoku rules, freestyle handling, and Renju forbidden-move differences.
 - Read Specification if you need exact rules, inputs, outputs, and normal results.
 - Read JavaScript layer before changing UI, Worker dispatch, or the heatmap.
 - Read Rust engine before changing search, evaluation, Bitboards, or performance.

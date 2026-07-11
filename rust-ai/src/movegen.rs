@@ -65,7 +65,7 @@ pub fn generate_candidates(board: &Board, side: i8, limit: usize) -> Vec<ScoredM
     }
 
     // 只比较缓存分数，避免排序过程中反复 apply/search/生成子局面。
-    out.sort_by(|a, b| b.order_score.cmp(&a.order_score));
+    out.sort_unstable_by(|a, b| b.order_score.cmp(&a.order_score));
     out.truncate(limit);
     out
 }

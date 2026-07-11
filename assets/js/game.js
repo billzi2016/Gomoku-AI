@@ -46,8 +46,8 @@ export class GomokuGame {
         /*
          * 回到模式选择界面。
          *
-         * 这个方法不是“再来一局”；它会清空当前模式并显示覆盖菜单。
-         * 对局结束后的“再来一局”走 reset/startMode，保留当前模式重新开始。
+         * “再来一局”也走这里：清空棋盘并显示人机/人人/机机选择层，
+         * 让用户每局都可以重新决定模式。
          */
         this.mode = null;
         this.board = new Int8Array(SIZE * SIZE);
@@ -68,14 +68,9 @@ export class GomokuGame {
         /*
          * 终局后按钮调用这里。
          *
-         * 如果已经选过模式，就沿用当前模式开新局；如果还没选模式，
-         * 就回到菜单等待用户选择。
+         * 点击后不沿用上一局模式，而是回到模式选择状态。
          */
-        if (!this.mode) {
-            this.resetToMenu();
-            return;
-        }
-        this.startMode(this.mode);
+        this.resetToMenu();
     }
 
     startMode(mode) {

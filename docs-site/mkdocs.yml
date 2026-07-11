@@ -37,6 +37,7 @@ plugins:
             - GitHub: https://github.com/billzi2016/Gomoku-AI
             - 首页: index.md
             - 项目 README: project/README.zh.md
+            - 玩法说明: rules.zh.md
             - 规格说明: spec.zh.md
             - 算法说明: algorithm.zh.md
             - JavaScript 层: js/README.zh.md
@@ -58,6 +59,7 @@ nav:
   - GitHub: https://github.com/billzi2016/Gomoku-AI
   - Home: index.md
   - Project README: project/README.md
+  - How To Play: rules.md
   - Specification: spec.md
   - Algorithm: algorithm.md
   - JavaScript layer: js/README.md

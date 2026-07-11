@@ -4,7 +4,7 @@
 //! 搜索排序会先缓存 `quick_move_score` 的结果，避免在排序比较中重复递归或分配。
 
 use crate::board::{in_board, Board};
-use crate::types::{Move, EMPTY};
+use crate::types::{Move, SIZE};
 
 const DIRS: [(i16, i16); 4] = [(1, 0), (0, 1), (1, 1), (1, -1)];
 const WIN_NOW: i32 = 40_000_000;
@@ -118,6 +118,10 @@ pub fn root_tactical_score(board: &Board, mv: Move, side: i8) -> Option<i32> {
     if winning_move(board, mv, -side) {
         return Some(450_000_000);
     }
+    let attack_wins = follow_up_win_count(board, mv, side, 2);
+    if attack_wins >= 2 {
+        return Some(380_000_000 + attack_wins * 10_000_000);
+    }
     let attack_stats = window_threat_stats(board, mv, side);
     let defend_stats = window_threat_stats(board, mv, -side);
     let attack_threat = attack_stats.best;
@@ -133,26 +137,86 @@ pub fn root_tactical_score(board: &Board, mv: Move, side: i8) -> Option<i32> {
     None
 }
 
+fn follow_up_win_count(board: &Board, mv: Move, side: i8, stop_at: i32) -> i32 {
+    /*
+     * 根节点追击检测。
+     *
+     * “双三”真正可怕的地方不是当前分数高，而是落子后会产生多个下一手
+     * 直接成五的点。对手一手通常只能堵一个，剩下的点就是继续进攻的入口。
+     *
+     * 这个函数只在 root_tactical_score 里调用，不进入普通 move ordering
+     * comparator，也不在每个子节点反复跑。扫描空点时用 Bitboard 判断空位
+     * 和 would_win，避免回到 cells 做棋形判断。
+     */
+    let mut next = board.clone();
+    next.place(mv, side);
+    let mut wins = 0;
+    for r in 0..SIZE {
+        for c in 0..SIZE {
+            let r = r as i16;
+            let c = c as i16;
+            if !next.is_empty_point(r, c) {
+                continue;
+            }
+            let reply = Move { r: r as u8, c: c as u8 };
+            if next.would_win(reply, side) {
+                wins += 1;
+                if wins >= stop_at {
+                    return wins;
+                }
+            }
+        }
+    }
+    wins
+}
+
 fn score_side(board: &Board, side: i8) -> i32 {
     /*
      * 扫描同色连续线段。
      *
+     * 这里直接遍历该方 Bitboard 的置位点，而不是扫描 225 个 cells。
      * 只在一条线段的起点计分：如果前一个点仍是同色，说明这不是线段起点，
      * 直接跳过，避免同一条棋形被重复计入。
      */
     let mut score = 0;
-    for r in 0..15 {
-        for c in 0..15 {
-            if board.get(r, c) != side {
-                continue;
+    let bits = board.bit_words(side);
+    for (bucket, mut word) in bits.into_iter().enumerate() {
+        while word != 0 {
+            let offset = word.trailing_zeros() as usize;
+            let idx = bucket * 64 + offset;
+            if idx >= SIZE * SIZE {
+                break;
             }
+            let r = (idx / SIZE) as i16;
+            let c = (idx % SIZE) as i16;
             for &(dr, dc) in &DIRS {
                 let pr = r - dr;
                 let pc = c - dc;
-                if in_board(pr, pc) && board.get(pr, pc) == side {
+                if board.has_stone(pr, pc, side) {
                     continue;
                 }
                 score += line_score(board, r, c, dr, dc, side);
+            }
+            word &= word - 1;
+        }
+    }
+    score + window_score_side(board, side)
+}
+
+fn window_score_side(board: &Board, side: i8) -> i32 {
+    /*
+     * 全局五格窗口评估。
+     *
+     * 连续线段扫描很快，但它看不懂 XX_XX、XXX_X、X_XXX 这类断点棋形。
+     * 搜索叶子如果只看连续棋，会和 move ordering 的窗口启发不一致。
+     * 这里按全盘滑动窗口补上断点四、跳三、活三等形状，让静态评估
+     * 和候选排序使用同一套棋理。
+     */
+    let mut score = 0;
+    for r in 0..SIZE as i16 {
+        for c in 0..SIZE as i16 {
+            for &(dr, dc) in &DIRS {
+                score += score_existing_window(board, side, r, c, dr, dc);
             }
         }
     }
@@ -164,7 +228,7 @@ fn line_score(board: &Board, r: i16, c: i16, dr: i16, dc: i16, side: i8) -> i32 
     let mut len = 0;
     let mut nr = r;
     let mut nc = c;
-    while in_board(nr, nc) && board.get(nr, nc) == side {
+    while board.has_stone(nr, nc, side) {
         len += 1;
         nr += dr;
         nc += dc;
@@ -176,9 +240,9 @@ fn line_score(board: &Board, r: i16, c: i16, dr: i16, dc: i16, side: i8) -> i32 
     let open_a = {
         let ar = r - dr;
         let ac = c - dc;
-        in_board(ar, ac) && board.get(ar, ac) == EMPTY
+        board.is_empty_point(ar, ac)
     };
-    let open_b = in_board(nr, nc) && board.get(nr, nc) == EMPTY;
+    let open_b = board.is_empty_point(nr, nc);
     pattern_score(len, open_a as i32 + open_b as i32)
 }
 
@@ -206,7 +270,7 @@ fn count(board: &Board, mv: Move, side: i8, dr: i16, dc: i16) -> i32 {
     let mut total = 0;
     let mut r = mv.r as i16 + dr;
     let mut c = mv.c as i16 + dc;
-    while in_board(r, c) && board.get(r, c) == side {
+    while board.has_stone(r, c, side) {
         total += 1;
         r += dr;
         c += dc;
@@ -218,7 +282,7 @@ fn open_after(board: &Board, mv: Move, side: i8, dr: i16, dc: i16, stones: i32) 
     // 判断连续棋子外侧一格是否为空，空则说明该方向有延展空间。
     let r = mv.r as i16 + dr * (stones as i16 + 1);
     let c = mv.c as i16 + dc * (stones as i16 + 1);
-    in_board(r, c) && board.get(r, c) == EMPTY && side != 0
+    board.is_empty_point(r, c) && side != 0
 }
 
 fn pattern_score(len: i32, open: i32) -> i32 {
@@ -302,42 +366,141 @@ fn score_window(
     dr: i16,
     dc: i16,
 ) -> i32 {
-    let mut stones = 0;
-    let mut empty = 0;
+    let mut line = [0_i8; 5];
     for step in 0..5 {
         let r = sr + dr * step;
         let c = sc + dc * step;
         if !in_board(r, c) {
             return 0;
         }
-        let cell = if r == mv.r as i16 && c == mv.c as i16 {
-            side
-        } else {
-            board.get(r, c)
-        };
-        if cell == -side {
+        let is_candidate = r == mv.r as i16 && c == mv.c as i16;
+        if !is_candidate && board.has_stone(r, c, -side) {
             return 0;
         }
-        if cell == side {
-            stones += 1;
+        if is_candidate || board.has_stone(r, c, side) {
+            line[step as usize] = 1;
         } else {
-            empty += 1;
+            line[step as usize] = 0;
         }
     }
 
-    let before_open = in_board(sr - dr, sc - dc) && board.get(sr - dr, sc - dc) == EMPTY;
-    let after_open = in_board(sr + dr * 5, sc + dc * 5) && board.get(sr + dr * 5, sc + dc * 5) == EMPTY;
-    let open = before_open as i32 + after_open as i32;
-    match (stones, empty, open) {
-        (5, _, _) => 50_000_000,
-        (4, 1, 2) => 12_000_000,
-        (4, 1, 1) => 8_000_000,
-        (4, 1, 0) => 4_000_000,
-        (3, 2, 2) => 1_500_000,
-        (3, 2, 1) => 450_000,
-        (2, 3, 2) => 45_000,
-        _ => 0,
+    let before_open = board.is_empty_point(sr - dr, sc - dc);
+    let after_open = board.is_empty_point(sr + dr * 5, sc + dc * 5);
+    classify_window(&line, before_open, after_open)
+}
+
+fn score_existing_window(
+    board: &Board,
+    side: i8,
+    sr: i16,
+    sc: i16,
+    dr: i16,
+    dc: i16,
+) -> i32 {
+    /*
+     * 评估当前局面中已经存在的五格窗口。
+     *
+     * 和 score_window 的区别是这里没有候选落子；窗口内如果有对手棋，
+     * 这条窗口对 side 当前没有直接威胁价值。
+     */
+    let mut line = [0_i8; 5];
+    for step in 0..5 {
+        let r = sr + dr * step;
+        let c = sc + dc * step;
+        if !in_board(r, c) {
+            return 0;
+        }
+        if board.has_stone(r, c, -side) {
+            return 0;
+        }
+        if board.has_stone(r, c, side) {
+            line[step as usize] = 1;
+        }
     }
+
+    let before_open = board.is_empty_point(sr - dr, sc - dc);
+    let after_open = board.is_empty_point(sr + dr * 5, sc + dc * 5);
+    classify_window(&line, before_open, after_open) / 2
+}
+
+fn classify_window(line: &[i8; 5], before_open: bool, after_open: bool) -> i32 {
+    /*
+     * 五格窗口分类。
+     *
+     * 这里不能只看 stones/empty/open 数量，否则 XX_XX 会被误当成
+     * _XXXX_ 这种真活四，X_X_X 也会被误当成真活三。
+     */
+    let stones = line.iter().filter(|&&v| v == 1).count() as i32;
+    let empty = 5 - stones;
+    if stones == 5 {
+        return 50_000_000;
+    }
+
+    if stones == 4 && empty == 1 {
+        let empty_idx = line.iter().position(|&v| v == 0).unwrap_or(0);
+        let true_open_four =
+            (empty_idx == 0 && after_open) || (empty_idx == 4 && before_open);
+        return if true_open_four { 12_000_000 } else { 8_000_000 };
+    }
+
+    if stones == 3 && empty == 2 {
+        if has_true_open_three(line, before_open, after_open) {
+            return 1_500_000;
+        }
+        if has_jump_three(line, before_open, after_open) {
+            return 450_000;
+        }
+    }
+
+    if stones == 2 && empty == 3 && has_open_two(line, before_open, after_open) {
+        return 45_000;
+    }
+
+    0
+}
+
+fn has_true_open_three(line: &[i8; 5], before_open: bool, after_open: bool) -> bool {
+    /*
+     * 真活三要求存在连续三子，并且这组三子的两侧都是空点。
+     * 例如 _XXX_、边界外侧为空的 XXX__ / __XXX 也能形成活三含义。
+     */
+    for start in 0..=2 {
+        if line[start] == 1 && line[start + 1] == 1 && line[start + 2] == 1 {
+            let left_open = if start == 0 { before_open } else { line[start - 1] == 0 };
+            let right_open = if start + 2 == 4 { after_open } else { line[start + 3] == 0 };
+            if left_open && right_open {
+                return true;
+            }
+        }
+    }
+    false
+}
+
+fn has_jump_three(line: &[i8; 5], before_open: bool, after_open: bool) -> bool {
+    /*
+     * 跳三/眠三有进攻价值，但不能按真活三处理。
+     * 至少要求窗口两侧或内部仍有延展空间，否则只是普通散形。
+     */
+    let open_slots = line.iter().filter(|&&v| v == 0).count() as i32
+        + before_open as i32
+        + after_open as i32;
+    open_slots >= 3
+}
+
+fn has_open_two(line: &[i8; 5], before_open: bool, after_open: bool) -> bool {
+    /*
+     * 活二只作为很弱的形状信号。要求至少有一个连续二，并且两侧有空间。
+     */
+    for start in 0..=3 {
+        if line[start] == 1 && line[start + 1] == 1 {
+            let left_open = if start == 0 { before_open } else { line[start - 1] == 0 };
+            let right_open = if start + 1 == 4 { after_open } else { line[start + 2] == 0 };
+            if left_open && right_open {
+                return true;
+            }
+        }
+    }
+    false
 }
 
 fn center_bonus(mv: Move) -> i32 {

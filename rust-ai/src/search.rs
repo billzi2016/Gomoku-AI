@@ -6,7 +6,7 @@
 use std::collections::HashMap;
 
 use crate::board::Board;
-use crate::evaluate::relative_score;
+use crate::evaluate::{relative_score, root_tactical_score};
 use crate::movegen::{generate_candidates, ScoredMove};
 use crate::types::{HeatPoint, Move, SearchOutput, EMPTY, INF, SIZE};
 
@@ -85,7 +85,9 @@ pub fn search_best_move_json(cells: Vec<i8>, side: i8, think_ms: u32, allowed: V
             }
             let mut next = board.clone();
             next.place(item.mv, side);
-            let score = if next.has_five(item.mv, side) {
+            let score = if let Some(tactical) = root_tactical_score(&board, item.mv, side) {
+                tactical
+            } else if next.has_five(item.mv, side) {
                 INF / 2
             } else {
                 -negamax(&next, depth.saturating_sub(1), -side, -INF, INF, &mut ctx)

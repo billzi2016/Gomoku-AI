@@ -31,9 +31,29 @@ pub fn relative_score(board: &Board, turn_side: i8, root_side: i8) -> i32 {
 /// 这是 move ordering 的热路径，只看该点四个方向的攻防形状。
 /// 这里不能调用搜索、不能生成子局面，也不能计算双方完整候选列表。
 pub fn quick_move_score(board: &Board, mv: Move, side: i8) -> i32 {
+    if winning_move(board, mv, side) {
+        return 40_000_000;
+    }
+    if winning_move(board, mv, -side) {
+        return 35_000_000;
+    }
     let attack = local_shape_score(board, mv, side);
     let defend = local_shape_score(board, mv, -side);
-    center_bonus(mv) + attack * 3 + defend * 2
+    center_bonus(mv) + attack * 3 + defend * 5
+}
+
+/// 根节点战术分。
+///
+/// 根节点必须优先处理确定性战术：自己能五连就直接赢，
+/// 对手下一手能五连就必须堵。这个函数只检查当前候选点，不生成候选列表。
+pub fn root_tactical_score(board: &Board, mv: Move, side: i8) -> Option<i32> {
+    if winning_move(board, mv, side) {
+        return Some(500_000_000);
+    }
+    if winning_move(board, mv, -side) {
+        return Some(450_000_000);
+    }
+    None
 }
 
 fn score_side(board: &Board, side: i8) -> i32 {
@@ -127,4 +147,10 @@ fn center_bonus(mv: Move) -> i32 {
     let dr = (mv.r as i32 - 7).abs();
     let dc = (mv.c as i32 - 7).abs();
     120 - (dr + dc) * 8
+}
+
+fn winning_move(board: &Board, mv: Move, side: i8) -> bool {
+    let mut next = board.clone();
+    next.place(mv, side);
+    next.has_five(mv, side)
 }

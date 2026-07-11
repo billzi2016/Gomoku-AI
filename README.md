@@ -2,7 +2,7 @@
 
 Rust/Wasm Gomoku AI running entirely in the browser with Bitboard win detection, NegaMax Minimax, Alpha-Beta pruning, iterative deepening, transposition-table caching, threat-aware evaluation, and Web Worker root-move parallelism. The AI is designed for freestyle Gomoku: human black moves first, AI white moves second, and there are no forbidden-move rules.
 
-[中文说明](README.zh.md)
+[中文说明](https://github.com/billzi2016/Gomoku-AI/blob/main/README.zh.md)
 
 ## Live Demo
 

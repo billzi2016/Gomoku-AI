@@ -2,7 +2,7 @@
 
 这是一个完全运行在浏览器里的 Rust/Wasm 五子棋 AI。引擎使用 Bitboard 胜负判断、NegaMax Minimax、Alpha-Beta 剪枝、迭代加深、置换表缓存、威胁感知评估和 Web Worker 根节点并行搜索。规则是自由五子棋：人类黑子先手，AI 白子后手，没有任何禁手。
 
-[English README](README.md)
+[English README](https://github.com/billzi2016/Gomoku-AI/blob/main/README.md)
 
 ## 在线演示
 

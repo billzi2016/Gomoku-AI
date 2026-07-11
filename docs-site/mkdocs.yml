@@ -33,6 +33,18 @@ plugins:
         - locale: zh
           name: 简体中文
           build: true
+          nav:
+            - GitHub: https://github.com/billzi2016/Gomoku-AI
+            - 首页: index.md
+            - 项目 README: project/README.zh.md
+            - 规格说明: spec.zh.md
+            - 算法说明: algorithm.zh.md
+            - JavaScript 层: js/README.zh.md
+            - Rust 引擎: rust/README.zh.md
+            - Wasm 绑定: wasm/README.zh.md
+            - 过程文档:
+                - MkDocs PRD: prd/mkdocs_prd.zh.md
+                - GitHub Actions PRD: prd/github_action_prd.zh.md
 
 markdown_extensions:
   - admonition
@@ -44,23 +56,13 @@ markdown_extensions:
 
 nav:
   - GitHub: https://github.com/billzi2016/Gomoku-AI
-  - English:
-      - Home: en/index.md
-      - Project README: en/README.md
-      - Specification: en/spec.md
-      - JavaScript layer: en/js/README.md
-      - Rust engine: en/rust/README.md
-      - Wasm bindings: en/wasm/README.md
-      - Process documents:
-          - MkDocs PRD: en/prd/mkdocs_prd.md
-          - GitHub Actions PRD: en/prd/github_action_prd.md
-  - 中文:
-      - 首页: zh/index.zh.md
-      - 项目 README: zh/README.zh.md
-      - 规格说明: zh/spec.zh.md
-      - JavaScript 层: zh/js/README.zh.md
-      - Rust 引擎: zh/rust/README.zh.md
-      - Wasm 绑定: zh/wasm/README.zh.md
-      - 过程文档:
-          - MkDocs PRD: zh/prd/mkdocs_prd.zh.md
-          - GitHub Actions PRD: zh/prd/github_action_prd.zh.md
+  - Home: index.md
+  - Project README: project/README.md
+  - Specification: spec.md
+  - Algorithm: algorithm.md
+  - JavaScript layer: js/README.md
+  - Rust engine: rust/README.md
+  - Wasm bindings: wasm/README.md
+  - Process documents:
+      - MkDocs PRD: prd/mkdocs_prd.md
+      - GitHub Actions PRD: prd/github_action_prd.md

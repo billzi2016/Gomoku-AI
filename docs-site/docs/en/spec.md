@@ -39,7 +39,7 @@ Normal result: an AI search result has a move, score, completed depth, node coun
 
 ## Search behavior
 
-The engine searches with NegaMax and Alpha-Beta pruning. Iterative deepening keeps a complete result available when the time limit expires. The transposition table reduces repeated work inside one search.
+The engine searches with VCF continuous-four tactics, counter-kill defense checks, NegaMax, and Alpha-Beta pruning. Iterative deepening keeps a complete result available when the time limit expires. The transposition table reduces repeated work inside one search.
 
 The evaluator recognizes immediate wins, forced blocks, open threes, fours, and broken fours. Defensive threat scores are intentionally strong so the AI blocks urgent human threats.
 

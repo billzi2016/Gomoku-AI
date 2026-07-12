@@ -1,0 +1,637 @@
+(
+  ;GM[4]FF[4]SZ[15]AP[Gomoku-AI-json2sgf]RU[freestyle]GN[book-t15000-e500-p8-r4-b8-v1.json]C[Exported from Gomoku-AI opening-book JSON.\nPositions are canonicalized by symmetry and translation in the runtime JSON.\nthinkMs: 15000\nmaxEntries: 500\nmaxPly: 8\ncenterRadius: 4\nbranch: 8\nentries: 500]
+  ;TR[hh]PL[B]C[book key: B|\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 1610660]
+  ;AB[gf][if][gh]AW[hg][ih][gj]TR[hf]PL[B]C[book key: B|B29,B2b,B33,W2p,W35,W3x\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4881490]
+  ;AB[gf][hg][hi]AW[gh][gi][ij]TR[hh]PL[B]C[book key: B|B29,B2p,B3j,W33,W3i,W3z\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4964950]
+  (
+    ;AB[gf][ih]AW[gh][ij]TR[hi]PL[B]C[book key: B|B29,B35,W33,W3z\nside to move: B\nrecommended move: 8,7 / SGF hi\nscore: 3581070]
+    ;AB[gf][hg][ih]AW[if][gh][ij]TR[ji]PL[B]C[book key: B|B29,B2p,B35,W2b,W33,W3z\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 400000000]
+    ;AB[gf][hg][ih]AW[ig][gh][ij]TR[fe]PL[B]C[book key: B|B29,B2p,B35,W2q,W33,W3z\nside to move: B\nrecommended move: 4,5 / SGF fe\nscore: 400000000]
+    ;AB[gf][hg][ih]AW[gh][hh][ij]TR[fe]PL[B]C[book key: B|B29,B2p,B35,W33,W34,W3z\nside to move: B\nrecommended move: 4,5 / SGF fe\nscore: 400000000]
+    ;AB[gf][hg][ih]AW[gh][jh][ij]TR[fe]PL[B]C[book key: B|B29,B2p,B35,W33,W36,W3z\nside to move: B\nrecommended move: 4,5 / SGF fe\nscore: 400000000]
+    ;AB[gf][hg][ih]AW[gh][ii][ij]TR[fe]PL[B]C[book key: B|B29,B2p,B35,W33,W3k,W3z\nside to move: B\nrecommended move: 4,5 / SGF fe\nscore: 400000000]
+    ;AB[gf][ih][hi]AW[if][gh][ij]TR[hg]PL[B]C[book key: B|B29,B35,B3j,W2b,W33,W3z\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4872700]
+    ;AB[gf][ih][hi]AW[hg][gh][ij]TR[if]PL[B]C[book key: B|B29,B35,B3j,W2p,W33,W3z\nside to move: B\nrecommended move: 5,8 / SGF if\nscore: 4503630]
+    ;AB[gf][ih][hi]AW[ig][gh][ij]TR[hg]PL[B]C[book key: B|B29,B35,B3j,W2q,W33,W3z\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 5885600]
+    ;AB[gf][ih][hi]AW[jg][gh][ij]TR[hg]PL[B]C[book key: B|B29,B35,B3j,W2r,W33,W3z\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4586000]
+    ;AB[gf][ih][hi]AW[gh][hh][ij]TR[if]PL[B]C[book key: B|B29,B35,B3j,W33,W34,W3z\nside to move: B\nrecommended move: 5,8 / SGF if\nscore: 4729580]
+    ;AB[gf][ih][hi]AW[gh][jh][ij]TR[hg]PL[B]C[book key: B|B29,B35,B3j,W33,W36,W3z\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4821970]
+    ;AB[gf][ih][hi]AW[gh][ii][ij]TR[hg]PL[B]C[book key: B|B29,B35,B3j,W33,W3k,W3z\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 5885160]
+    ;AB[gf][ih][hi]AW[gh][ji][ij]TR[jg]PL[B]C[book key: B|B29,B35,B3j,W33,W3l,W3z\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 3523560]
+  )
+  ;AB[hf][gg][gh]AW[hh][ih][gj]TR[gf]PL[B]C[book key: B|B2a,B2o,B33,W34,W35,W3x\nside to move: B\nrecommended move: 5,6 / SGF gf\nscore: 4881630]
+  ;AB[hf][gg][jh]AW[hh][ii][jj]TR[kk]PL[B]C[book key: B|B2a,B2o,B36,W34,W3k,W40\nside to move: B\nrecommended move: 10,10 / SGF kk\nscore: 278000000]
+  ;AB[hf][ig][ih]AW[if][hh][ij]TR[jg]PL[B]C[book key: B|B2a,B2q,B35,W2b,W34,W3z\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 4777410]
+  ;AB[hf][ig][ih]AW[hg][hh][ij]TR[ge]PL[B]C[book key: B|B2a,B2q,B35,W2p,W34,W3z\nside to move: B\nrecommended move: 4,6 / SGF ge\nscore: 4926560]
+  ;AB[hf][ig][ih]AW[hh][hi][ij]TR[if]PL[B]C[book key: B|B2a,B2q,B35,W34,W3j,W3z\nside to move: B\nrecommended move: 5,8 / SGF if\nscore: 4833800]
+  ;AB[hf][ig][ih]AW[hh][ii][ij]TR[gg]PL[B]C[book key: B|B2a,B2q,B35,W34,W3k,W3z\nside to move: B\nrecommended move: 6,6 / SGF gg\nscore: 4914890]
+  ;AB[hf][ig][ii]AW[hh][hi][hj]TR[hk]PL[B]C[book key: B|B2a,B2q,B3k,W34,W3j,W3y\nside to move: B\nrecommended move: 10,7 / SGF hk\nscore: 300000000]
+  ;AB[hf][ig][ii]AW[hh][hi][ij]TR[jh]PL[B]C[book key: B|B2a,B2q,B3k,W34,W3j,W3z\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 4491060]
+  ;AB[gg][hg][ig]AW[jg][hh][ii]TR[eg]PL[B]C[book key: B|B2o,B2p,B2q,W2r,W34,W3k\nside to move: B\nrecommended move: 6,4 / SGF eg\nscore: 308000000]
+  ;AB[gg][hg][gi]AW[ig][jg][hh]TR[gh]PL[B]C[book key: B|B2o,B2p,B3i,W2q,W2r,W34\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4948990]
+  ;AB[gg][hg][gi]AW[ig][gh][hh]TR[fh]PL[B]C[book key: B|B2o,B2p,B3i,W2q,W33,W34\nside to move: B\nrecommended move: 7,5 / SGF fh\nscore: 4584400]
+  ;AB[gg][hg][gi]AW[ig][hh][ih]TR[gh]PL[B]C[book key: B|B2o,B2p,B3i,W2q,W34,W35\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4584990]
+  ;AB[gg][ig][ih]AW[jg][hh][ii]TR[hf]PL[B]C[book key: B|B2o,B2q,B35,W2r,W34,W3k\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4492150]
+  ;AB[gg][ig][ih]AW[hh][jh][ii]TR[hg]PL[B]C[book key: B|B2o,B2q,B35,W34,W36,W3k\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4491130]
+  ;AB[gg][ig][ih]AW[hh][ii][ji]TR[jg]PL[B]C[book key: B|B2o,B2q,B35,W34,W3k,W3l\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 4491500]
+  ;AB[gg][ig][gi]AW[hg][hh][ii]TR[hf]PL[B]C[book key: B|B2o,B2q,B3i,W2p,W34,W3k\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4595740]
+  ;AB[gg][ig][gi]AW[jg][hh][ii]TR[gh]PL[B]C[book key: B|B2o,B2q,B3i,W2r,W34,W3k\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4783510]
+  ;AB[gg][ig][gi]AW[hh][ih][ii]TR[gh]PL[B]C[book key: B|B2o,B2q,B3i,W34,W35,W3k\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4678340]
+  ;AB[gg][ig][gi]AW[hh][jh][ii]TR[hg]PL[B]C[book key: B|B2o,B2q,B3i,W34,W36,W3k\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4919810]
+  (
+    ;AB[gg][ii]AW[hg][ig]TR[hh]PL[B]C[book key: B|B2o,B3k,W2p,W2q\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4585580]
+    ;AB[gg][hh][ii]AW[hg][ig][gh]TR[jj]PL[B]C[book key: B|B2o,B34,B3k,W2p,W2q,W33\nside to move: B\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[hg][ig][gi]TR[jj]PL[B]C[book key: B|B2o,B34,B3k,W2p,W2q,W3i\nside to move: B\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+  )
+  ;AB[gg][ii]AW[hg][gi]TR[hh]PL[B]C[book key: B|B2o,B3k,W2p,W3i\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4635660]
+  ;AB[gg][ii]AW[ig][hh]TR[gi]PL[B]C[book key: B|B2o,B3k,W2q,W34\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 4451740]
+  (
+    ;AB[gg][ii]AW[ig][jh]TR[hf]PL[B]C[book key: B|B2o,B3k,W2q,W36\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4255480]
+    ;AB[hf][gg][ii]AW[ig][jh][hj]TR[gi]PL[B]C[book key: B|B2a,B2o,B3k,W2q,W36,W3y\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 5104310]
+    ;AB[hf][gg][ii]AW[ig][jh][ij]TR[gi]PL[B]C[book key: B|B2a,B2o,B3k,W2q,W36,W3z\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 5610680]
+    ;AB[gg][hh][ii]AW[ig][ih][jh]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W35,W36\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][jh][gi]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W36,W3i\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][jh][hi]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W36,W3j\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][jh][ji]TR[jj]PL[B]C[book key: B|B2o,B34,B3k,W2q,W36,W3l\nside to move: B\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][jh][ij]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W36,W3z\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ih][ii]AW[ig][jh][jj]TR[ee]PL[W]C[book key: W|B2o,B34,B35,B3k,W2q,W36,W40\nside to move: W\nrecommended move: 4,4 / SGF ee\nscore: 278000000]
+  )
+  (
+    ;AB[gg][ii]AW[ig][gi]TR[hh]PL[B]C[book key: B|B2o,B3k,W2q,W3i\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4645310]
+    ;AB[gg][hh][ii]AW[ig][gi][ji]TR[jj]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3i,W3l\nside to move: B\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][gi][jj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3i,W40\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 308000000]
+  )
+  (
+    ;AB[gg][ii]AW[ig][ji]TR[hh]PL[B]C[book key: B|B2o,B3k,W2q,W3l\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4678320]
+    ;AB[gg][hh][ii]AW[ig][ih][ji]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W35,W3l\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][hi][ji]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3j,W3l\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][ji][hj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3l,W3y\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][ji][ij]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3l,W3z\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][ji][jj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3l,W40\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 308000000]
+  )
+  (
+    ;AB[gg][ii]AW[ig][ij]TR[hh]PL[B]C[book key: B|B2o,B3k,W2q,W3z\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4634710]
+    ;AB[gg][hh][ii]AW[ig][ih][ij]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W35,W3z\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][hi][ij]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3j,W3z\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][hj][ij]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3y,W3z\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][ij][jj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3z,W40\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 308000000]
+  )
+  ;AB[hg][ih][hi]AW[gh][ji][hj]TR[ig]PL[B]C[book key: B|B2p,B35,B3j,W33,W3l,W3y\nside to move: B\nrecommended move: 6,8 / SGF ig\nscore: 4493760]
+  (
+    ;AB[hg][hi]AW[gg][ih]TR[gh]PL[B]C[book key: B|B2p,B3j,W2o,W35\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4727910]
+    ;AB[hg][ig][hi]AW[gg][jg][ih]TR[gh]PL[B]C[book key: B|B2p,B2q,B3j,W2o,W2r,W35\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4727900]
+    ;AB[hg][hh][hi]AW[gg][jg][ih]TR[hj]PL[B]C[book key: B|B2p,B34,B3j,W2o,W2r,W35\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[gg][gh][ih]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W2o,W33,W35\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[gg][ih][jh]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W2o,W35,W36\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+  )
+  ;AB[hg][hi]AW[ig][ih]TR[ij]PL[B]C[book key: B|B2p,B3j,W2q,W35\nside to move: B\nrecommended move: 9,8 / SGF ij\nscore: 2506700]
+  (
+    ;AB[hg][hi]AW[jg][gh]TR[hh]PL[B]C[book key: B|B2p,B3j,W2r,W33\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 4683490]
+    ;AB[hg][hh][hi]AW[fg][jg][gh]TR[hj]PL[B]C[book key: B|B2p,B34,B3j,W2n,W2r,W33\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[gg][jg][gh]TR[hj]PL[B]C[book key: B|B2p,B34,B3j,W2o,W2r,W33\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[ig][jg][gh]TR[hj]PL[B]C[book key: B|B2p,B34,B3j,W2q,W2r,W33\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[jg][gh][ih]TR[hj]PL[B]C[book key: B|B2p,B34,B3j,W2r,W33,W35\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 400000000]
+    ;AB[hg][ih][hi]AW[ig][jg][gh]TR[ji]PL[B]C[book key: B|B2p,B35,B3j,W2q,W2r,W33\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4774580]
+    ;AB[hg][ih][hi]AW[jg][gh][hh]TR[ji]PL[B]C[book key: B|B2p,B35,B3j,W2r,W33,W34\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4540000]
+  )
+  (
+    ;AB[hg][hi]AW[gh][ih]TR[hh]PL[B]C[book key: B|B2p,B3j,W33,W35\nside to move: B\nrecommended move: 7,7 / SGF hh\nscore: 284730]
+    ;AB[hg][hh][hi]AW[gh][ih][jh]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W33,W35,W36\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[gh][ih][gj]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W33,W35,W3x\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+  )
+  (
+    ;AB[hg][hi]AW[hh][ih]TR[gh]PL[B]C[book key: B|B2p,B3j,W34,W35\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4492680]
+    ;AB[hg][hi][ii]AW[hh][ih][ij]TR[jh]PL[B]C[book key: B|B2p,B3j,B3k,W34,W35,W3z\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 4491220]
+  )
+  (
+    ;AB[hg][hi]AW[ih][hj]TR[gh]PL[B]C[book key: B|B2p,B3j,W35,W3y\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4196910]
+    ;AB[hg][hi][ii]AW[ih][hj][ij]TR[gi]PL[B]C[book key: B|B2p,B3j,B3k,W35,W3y,W3z\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 4492150]
+  )
+  ;AB[hg][hi]AW[ih][ij]TR[ii]PL[B]C[book key: B|B2p,B3j,W35,W3z\nside to move: B\nrecommended move: 8,8 / SGF ii\nscore: 4491730]
+  (
+    ;AB[hg]AW[hi]TR[ji]PL[B]C[book key: B|B2p,W3j\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 2453330]
+    ;AB[gg][hg][gi]AW[ig][hh][hi]TR[eg]PL[B]C[book key: B|B2o,B2p,B3i,W2q,W34,W3j\nside to move: B\nrecommended move: 6,4 / SGF eg\nscore: 4586440]
+    ;AB[hg][gh][ji]AW[jg][hi][ij]TR[fi]PL[B]C[book key: B|B2p,B33,B3l,W2r,W3j,W3z\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 4965970]
+    ;AB[hg][gh][ji]AW[ih][hi][ij]TR[jg]PL[B]C[book key: B|B2p,B33,B3l,W35,W3j,W3z\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 4584560]
+    ;AB[hg][gh][ji]AW[jh][hi][ij]TR[if]PL[B]C[book key: B|B2p,B33,B3l,W36,W3j,W3z\nside to move: B\nrecommended move: 5,8 / SGF if\nscore: 4832200]
+    ;AB[hg][gh][ji]AW[hi][ii][ij]TR[ih]PL[B]C[book key: B|B2p,B33,B3l,W3j,W3k,W3z\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 5977920]
+    ;AB[hg][gh][ji]AW[hi][ij][jj]TR[gj]PL[B]C[book key: B|B2p,B33,B3l,W3j,W3z,W40\nside to move: B\nrecommended move: 9,6 / SGF gj\nscore: 4183040]
+    ;AB[gf][gg][hg][hj]AW[jg][ih][hi]TR[gj]PL[W]C[book key: W|B29,B2o,B2p,B3y,W2r,W35,W3j\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 400000000]
+    ;AB[hf][gg][hg][hj]AW[jg][ih][hi]TR[gj]PL[W]C[book key: W|B2a,B2o,B2p,B3y,W2r,W35,W3j\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 400000000]
+    (
+      ;AB[gg][hg][jg]AW[ih][hi]TR[ig]PL[W]C[book key: W|B2o,B2p,B2r,W35,W3j\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 300000000]
+      ;AB[gg][hg][jg][gh]AW[ig][ih][hi]TR[gi]PL[W]C[book key: W|B2o,B2p,B2r,B33,W2q,W35,W3j\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 2461440]
+      ;AB[gg][hg][jg][gh]AW[ih][gi][hi]TR[ig]PL[W]C[book key: W|B2o,B2p,B2r,B33,W35,W3i,W3j\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 300000000]
+      ;AB[gg][hg][jg][hh]AW[ig][ih][hi]TR[ii]PL[W]C[book key: W|B2o,B2p,B2r,B34,W2q,W35,W3j\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4628640]
+      ;AB[gg][hg][jg][hh]AW[ih][hi][ii]TR[ig]PL[W]C[book key: W|B2o,B2p,B2r,B34,W35,W3j,W3k\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 300000000]
+      ;AB[gg][hg][jg][hj]AW[ig][ih][hi]TR[ii]PL[W]C[book key: W|B2o,B2p,B2r,B3y,W2q,W35,W3j\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4770730]
+    )
+    (
+      ;AB[gg][hg][gh]AW[ih][hi]TR[ig]PL[W]C[book key: W|B2o,B2p,B33,W35,W3j\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 2215770]
+      ;AB[gg][hg][gh]AW[hh][ih][hi]TR[if]PL[B]C[book key: B|B2o,B2p,B33,W34,W35,W3j\nside to move: B\nrecommended move: 5,8 / SGF if\nscore: 5977920]
+      ;AB[gg][hg][ig][gh]AW[ih][gi][hi]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B33,W35,W3i,W3j\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 300000000]
+      ;AB[gg][hg][gh][hh]AW[ig][ih][hi]TR[gj]PL[W]C[book key: W|B2o,B2p,B33,B34,W2q,W35,W3j\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 4346390]
+      ;AB[gg][hg][gh][hh]AW[ih][hi][ii]TR[jg]PL[W]C[book key: W|B2o,B2p,B33,B34,W35,W3j,W3k\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 4346390]
+    )
+    (
+      ;AB[hg][ig]AW[hi]TR[gh]PL[W]C[book key: W|B2p,B2q,W3j\nside to move: W\nrecommended move: 7,6 / SGF gh\nscore: 2029660]
+      (
+        ;AB[hg][ig]AW[hh][hi]TR[gg]PL[B]C[book key: B|B2p,B2q,W34,W3j\nside to move: B\nrecommended move: 6,6 / SGF gg\nscore: 4728630]
+        ;AB[gg][hg][ig]AW[jg][hh][hi]TR[eg]PL[B]C[book key: B|B2o,B2p,B2q,W2r,W34,W3j\nside to move: B\nrecommended move: 6,4 / SGF eg\nscore: 308000000]
+      )
+      ;AB[gf][hg][ig][hj]AW[gh][ih][hi]TR[jg]PL[W]C[book key: W|B29,B2p,B2q,B3y,W33,W35,W3j\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 4890890]
+      ;AB[gg][hg][ig][jg]AW[fg][kg][hi]TR[fh]PL[W]C[book key: W|B2o,B2p,B2q,B2r,W2n,W2s,W3j\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 4255980]
+      (
+        ;AB[gg][hg][ig]AW[gh][hi]TR[jg]PL[W]C[book key: W|B2o,B2p,B2q,W33,W3j\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 300000000]
+        ;AB[gg][hg][ig]AW[gh][hh][hi]TR[fg]PL[B]C[book key: B|B2o,B2p,B2q,W33,W34,W3j\nside to move: B\nrecommended move: 6,5 / SGF fg\nscore: 400000000]
+        ;AB[gg][hg][ig][hh]AW[jg][gh][hi]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2r,W33,W3j\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 278000000]
+        ;AB[gg][hg][ig][hh]AW[gh][gi][hi]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W33,W3i,W3j\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 300000000]
+        ;AB[gg][hg][ig][ih]AW[jg][gh][hi]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B35,W2r,W33,W3j\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 278000000]
+        ;AB[gg][hg][ig][hj]AW[jg][gh][hi]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,B3y,W2r,W33,W3j\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+      )
+      ;AB[hg][ig][hh][ih]AW[gh][hi][ji]TR[gi]PL[W]C[book key: W|B2p,B2q,B34,B35,W33,W3j,W3l\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 4177810]
+    )
+    (
+      ;AB[hg][hh]AW[hi]TR[ji]PL[W]C[book key: W|B2p,B34,W3j\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 231080]
+      ;AB[hg][gh][hh]AW[gg][jg][hi]TR[ih]PL[B]C[book key: B|B2p,B33,B34,W2o,W2r,W3j\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 4913690]
+      (
+        ;AB[hg][hh]AW[ig][hi]TR[ih]PL[B]C[book key: B|B2p,B34,W2q,W3j\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 2555990]
+        ;AB[hg][gh][hh]AW[gg][ig][hi]TR[fi]PL[B]C[book key: B|B2p,B33,B34,W2o,W2q,W3j\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 5058290]
+        ;AB[hg][hh][jh]AW[gg][ig][hi]TR[ih]PL[B]C[book key: B|B2p,B34,B36,W2o,W2q,W3j\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 4491640]
+        ;AB[hg][hh][ii]AW[ig][ih][hi]TR[jg]PL[B]C[book key: B|B2p,B34,B3k,W2q,W35,W3j\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 4441510]
+      )
+      (
+        ;AB[hg][hh]AW[ih][hi]TR[jg]PL[B]C[book key: B|B2p,B34,W35,W3j\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 4492750]
+        ;AB[hg][ig][hh]AW[ih][hi][ii]TR[gi]PL[B]C[book key: B|B2p,B2q,B34,W35,W3j,W3k\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 4678470]
+        ;AB[hg][gh][hh]AW[gg][ih][hi]TR[gj]PL[B]C[book key: B|B2p,B33,B34,W2o,W35,W3j\nside to move: B\nrecommended move: 9,6 / SGF gj\nscore: 2332080]
+        ;AB[gg][hg][hh]AW[ih][hi]TR[ii]PL[W]C[book key: W|B2o,B2p,B34,W35,W3j\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 3992050]
+      )
+      (
+        ;AB[gg][hg][hh]AW[hi][ji]TR[jj]PL[W]C[book key: W|B2o,B2p,B34,W3j,W3l\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 2029760]
+        ;AB[gf][gg][hg][hh]AW[hi][ji][jj]TR[jg]PL[W]C[book key: W|B29,B2o,B2p,B34,W3j,W3l,W40\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 4158340]
+        ;AB[hf][gg][hg][hh]AW[hi][ji][jj]TR[hd]PL[W]C[book key: W|B2a,B2o,B2p,B34,W3j,W3l,W40\nside to move: W\nrecommended move: 3,7 / SGF hd\nscore: 278000000]
+        ;AB[gg][hg][ig][hh]AW[hi][ji][jj]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W3j,W3l,W40\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 300000000]
+        ;AB[gg][hg][jg][hh]AW[hi][ii][ji]TR[ki]PL[W]C[book key: W|B2o,B2p,B2r,B34,W3j,W3k,W3l\nside to move: W\nrecommended move: 8,10 / SGF ki\nscore: 400000000]
+        ;AB[gg][hg][jg][hh]AW[hi][ji][jj]TR[ig]PL[W]C[book key: W|B2o,B2p,B2r,B34,W3j,W3l,W40\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 300000000]
+        ;AB[gg][hg][gh][hh]AW[jg][hi][ji]TR[jh]PL[W]C[book key: W|B2o,B2p,B33,B34,W2r,W3j,W3l\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 4014270]
+        ;AB[gg][hg][hh][ih]AW[gh][hi][ji]TR[ii]PL[W]C[book key: W|B2o,B2p,B34,B35,W33,W3j,W3l\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4489450]
+        ;AB[gg][hg][hh][ih]AW[jh][hi][ji]TR[ii]PL[W]C[book key: W|B2o,B2p,B34,B35,W36,W3j,W3l\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4783100]
+        ;AB[gg][hg][hh][ih]AW[hi][ji][jj]TR[ii]PL[W]C[book key: W|B2o,B2p,B34,B35,W3j,W3l,W40\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4783100]
+      )
+    )
+    (
+      ;AB[hg][ih]AW[hi]TR[ji]PL[W]C[book key: W|B2p,B35,W3j\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 198000]
+      ;AB[gg][hg][ih]AW[gh][hh][hi]TR[fg]PL[B]C[book key: B|B2o,B2p,B35,W33,W34,W3j\nside to move: B\nrecommended move: 6,5 / SGF fg\nscore: 5057710]
+      ;AB[hg][gh][ih]AW[gg][hh][hi]TR[ji]PL[B]C[book key: B|B2p,B33,B35,W2o,W34,W3j\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4727980]
+      ;AB[hg][gh][ih]AW[gg][gi][hi]TR[fi]PL[B]C[book key: B|B2p,B33,B35,W2o,W3i,W3j\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 5885090]
+      ;AB[hg][gh][ih]AW[gg][hi][gj]TR[ji]PL[B]C[book key: B|B2p,B33,B35,W2o,W3j,W3x\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 5978430]
+      ;AB[hg][gh][ih]AW[ig][jg][hi]TR[fi]PL[B]C[book key: B|B2p,B33,B35,W2q,W2r,W3j\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 5885160]
+      ;AB[hg][gh][ih]AW[ig][jh][hi]TR[fi]PL[B]C[book key: B|B2p,B33,B35,W2q,W36,W3j\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 4773560]
+      ;AB[hg][gh][ih]AW[jg][hh][hi]TR[ji]PL[B]C[book key: B|B2p,B33,B35,W2r,W34,W3j\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4821320]
+      ;AB[hg][gh][ih]AW[jg][jh][hi]TR[ji]PL[B]C[book key: B|B2p,B33,B35,W2r,W36,W3j\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4821460]
+      ;AB[hg][gh][ih]AW[hh][jh][hi]TR[ig]PL[B]C[book key: B|B2p,B33,B35,W34,W36,W3j\nside to move: B\nrecommended move: 6,8 / SGF ig\nscore: 10430140]
+      ;AB[hg][gh][ih]AW[hh][gi][hi]TR[ji]PL[B]C[book key: B|B2p,B33,B35,W34,W3i,W3j\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4680720]
+      ;AB[hg][gh][ih]AW[hh][hi][gj]TR[gg]PL[B]C[book key: B|B2p,B33,B35,W34,W3j,W3x\nside to move: B\nrecommended move: 6,6 / SGF gg\nscore: 14561220]
+      ;AB[hg][gh][ih]AW[jh][hi][ii]TR[fi]PL[B]C[book key: B|B2p,B33,B35,W36,W3j,W3k\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 4491060]
+      ;AB[hg][gh][ih]AW[jh][hi][ij]TR[ig]PL[B]C[book key: B|B2p,B33,B35,W36,W3j,W3z\nside to move: B\nrecommended move: 6,8 / SGF ig\nscore: 10291800]
+      ;AB[hg][ih][ii]AW[hh][hi][ij]TR[gh]PL[B]C[book key: B|B2p,B35,B3k,W34,W3j,W3z\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4584400]
+      ;AB[hg][ih][ij]AW[hi][ii][hj]TR[ji]PL[B]C[book key: B|B2p,B35,B3z,W3j,W3k,W3y\nside to move: B\nrecommended move: 8,9 / SGF ji\nscore: 4680720]
+      ;AB[gf][hf][hg][ih]AW[hi][ji][ij]TR[ed]PL[W]C[book key: W|B29,B2a,B2p,B35,W3j,W3l,W3z\nside to move: W\nrecommended move: 3,4 / SGF ed\nscore: 278000000]
+      (
+        ;AB[gg][hg][ih]AW[hi][ji]TR[jh]PL[W]C[book key: W|B2o,B2p,B35,W3j,W3l\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 2360360]
+        ;AB[hf][gg][hg][ih]AW[hi][ji][ij]TR[kh]PL[W]C[book key: W|B2a,B2o,B2p,B35,W3j,W3l,W3z\nside to move: W\nrecommended move: 7,10 / SGF kh\nscore: 5836940]
+        ;AB[gg][hg][ig][ih]AW[jh][hi][ji]TR[jg]PL[W]C[book key: W|B2o,B2p,B2q,B35,W36,W3j,W3l\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 300000000]
+        ;AB[gg][hg][ig][ih]AW[hi][ii][ji]TR[ki]PL[W]C[book key: W|B2o,B2p,B2q,B35,W3j,W3k,W3l\nside to move: W\nrecommended move: 8,10 / SGF ki\nscore: 400000000]
+        ;AB[gg][hg][jg][ih]AW[jh][hi][ji]TR[ig]PL[W]C[book key: W|B2o,B2p,B2r,B35,W36,W3j,W3l\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 300000000]
+      )
+      ;AB[hg][gh][ih][jh]AW[hh][hi][ij]TR[ji]PL[W]C[book key: W|B2p,B33,B35,B36,W34,W3j,W3z\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 1468030]
+      (
+        ;AB[hg][gh][ih]AW[hi][ji]TR[jh]PL[W]C[book key: W|B2p,B33,B35,W3j,W3l\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 1609420]
+        ;AB[hg][gh][ih]AW[ig][hi][ji]TR[fi]PL[B]C[book key: B|B2p,B33,B35,W2q,W3j,W3l\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 4681170]
+        ;AB[hg][gh][ih]AW[hh][hi][ji]TR[gi]PL[B]C[book key: B|B2p,B33,B35,W34,W3j,W3l\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 4585070]
+        (
+          ;AB[hg][gh][ih]AW[jh][hi][ji]TR[fi]PL[B]C[book key: B|B2p,B33,B35,W36,W3j,W3l\nside to move: B\nrecommended move: 8,5 / SGF fi\nscore: 3344080]
+          ;AB[gg][hg][gh][ih]AW[jh][hi][ji]TR[jg]PL[W]C[book key: W|B2o,B2p,B33,B35,W36,W3j,W3l\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 2314250]
+          ;AB[hg][ig][gh][ih]AW[jh][hi][ji]TR[ii]PL[W]C[book key: W|B2p,B2q,B33,B35,W36,W3j,W3l\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4727220]
+          ;AB[hg][gh][hh][ih]AW[jh][hi][ji]TR[fh]PL[W]C[book key: W|B2p,B33,B34,B35,W36,W3j,W3l\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 278000000]
+        )
+        ;AB[hf][hg][gh][ih]AW[hi][ji][ij]TR[kh]PL[W]C[book key: W|B2a,B2p,B33,B35,W3j,W3l,W3z\nside to move: W\nrecommended move: 7,10 / SGF kh\nscore: 4587000]
+        ;AB[hg][ig][gh][ih]AW[hi][ii][ji]TR[gi]PL[W]C[book key: W|B2p,B2q,B33,B35,W3j,W3k,W3l\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 400000000]
+        ;AB[hg][gh][ih][jh]AW[hi][ji][ij]TR[hh]PL[W]C[book key: W|B2p,B33,B35,B36,W3j,W3l,W3z\nside to move: W\nrecommended move: 7,7 / SGF hh\nscore: 300000000]
+      )
+    )
+  )
+  ;AB[gf][gg][gh][gj]AW[ih][gi][hi]TR[gd]PL[W]C[book key: W|B29,B2o,B33,B3x,W35,W3i,W3j\nside to move: W\nrecommended move: 3,6 / SGF gd\nscore: 278000000]
+  (
+    ;AB[gf][gg][gh]AW[ih][gj]TR[ge]PL[W]C[book key: W|B29,B2o,B33,W35,W3x\nside to move: W\nrecommended move: 4,6 / SGF ge\nscore: 300000000]
+    (
+      ;AB[gf][gg][gh]AW[hg][ih][gj]TR[ge]PL[B]C[book key: B|B29,B2o,B33,W2p,W35,W3x\nside to move: B\nrecommended move: 4,6 / SGF ge\nscore: 400000000]
+      ;AB[gf][gg][gh][gi]AW[hg][ih][gj]TR[ge]PL[W]C[book key: W|B29,B2o,B33,B3i,W2p,W35,W3x\nside to move: W\nrecommended move: 4,6 / SGF ge\nscore: 450000000]
+    )
+    ;AB[gf][gg][hg][gh]AW[if][ih][gj]TR[ge]PL[W]C[book key: W|B29,B2o,B2p,B33,W2b,W35,W3x\nside to move: W\nrecommended move: 4,6 / SGF ge\nscore: 300000000]
+    ;AB[gf][gg][gh][hh]AW[ih][hi][gj]TR[jg]PL[W]C[book key: W|B29,B2o,B33,B34,W35,W3j,W3x\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+    ;AB[gf][gg][gh][hi]AW[ih][gj][ij]TR[ge]PL[W]C[book key: W|B29,B2o,B33,B3j,W35,W3x,W3z\nside to move: W\nrecommended move: 4,6 / SGF ge\nscore: 300000000]
+  )
+  ;AB[gf][hg][gh][gj]AW[if][ih][gi]TR[ig]PL[W]C[book key: W|B29,B2p,B33,B3x,W2b,W35,W3i\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 4584300]
+  (
+    ;AB[gf][hg][gh]AW[ih][gj]TR[if]PL[W]C[book key: W|B29,B2p,B33,W35,W3x\nside to move: W\nrecommended move: 5,8 / SGF if\nscore: 2110450]
+    ;AB[gf][hg][gh][hh]AW[if][ih][gj]TR[ig]PL[W]C[book key: W|B29,B2p,B33,B34,W2b,W35,W3x\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 4500830]
+    ;AB[gf][hg][gh][hh]AW[ih][hi][gj]TR[jg]PL[W]C[book key: W|B29,B2p,B33,B34,W35,W3j,W3x\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+    ;AB[gf][hg][gh][hh]AW[ih][gj][ij]TR[ii]PL[W]C[book key: W|B29,B2p,B33,B34,W35,W3x,W3z\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 5057970]
+    ;AB[gf][hg][gh][gi]AW[if][ih][gj]TR[gg]PL[W]C[book key: W|B29,B2p,B33,B3i,W2b,W35,W3x\nside to move: W\nrecommended move: 6,6 / SGF gg\nscore: 278000000]
+    ;AB[gf][hg][gh][gi]AW[gg][ih][gj]TR[hi]PL[W]C[book key: W|B29,B2p,B33,B3i,W2o,W35,W3x\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 2460370]
+    ;AB[gf][hg][gh][hi]AW[if][ih][gj]TR[ij]PL[W]C[book key: W|B29,B2p,B33,B3j,W2b,W35,W3x\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 654320]
+    ;AB[gf][hg][gh][hi]AW[ih][gj][ij]TR[ii]PL[W]C[book key: W|B29,B2p,B33,B3j,W35,W3x,W3z\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4918980]
+  )
+  ;AB[gf][fh][gh][jh]AW[ih][hi][gj]TR[jg]PL[W]C[book key: W|B29,B32,B33,B36,W35,W3j,W3x\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+  (
+    ;AB[gf][gh][gi]AW[ih][gj]TR[gg]PL[W]C[book key: W|B29,B33,B3i,W35,W3x\nside to move: W\nrecommended move: 6,6 / SGF gg\nscore: 278000000]
+    ;AB[gf][gh][jh][gi]AW[gg][ih][gj]TR[ij]PL[W]C[book key: W|B29,B33,B36,B3i,W2o,W35,W3x\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 4350760]
+    ;AB[gf][gh][gi][hi]AW[gg][ih][gj]TR[ii]PL[W]C[book key: W|B29,B33,B3i,B3j,W2o,W35,W3x\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 1986500]
+    ;AB[gf][gh][gi][hi]AW[ih][gj][ij]TR[gg]PL[W]C[book key: W|B29,B33,B3i,B3j,W35,W3x,W3z\nside to move: W\nrecommended move: 6,6 / SGF gg\nscore: 278000000]
+  )
+  ;AB[gf][gh][hi]AW[ih][gj]TR[ij]PL[W]C[book key: W|B29,B33,B3j,W35,W3x\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 2242110]
+  (
+    ;AB[gf][gh][hi]AW[ih][ij]TR[gg]PL[W]C[book key: W|B29,B33,B3j,W35,W3z\nside to move: W\nrecommended move: 6,6 / SGF gg\nscore: 2464420]
+    ;AB[gf][gg][gh][hi]AW[ih][hj][ij]TR[gi]PL[W]C[book key: W|B29,B2o,B33,B3j,W35,W3y,W3z\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 300000000]
+    ;AB[gf][hg][gh][hi]AW[gg][ih][ij]TR[ii]PL[W]C[book key: W|B29,B2p,B33,B3j,W2o,W35,W3z\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4583220]
+    ;AB[gf][hg][gh][hi]AW[ih][hj][ij]TR[gj]PL[W]C[book key: W|B29,B2p,B33,B3j,W35,W3y,W3z\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 4918980]
+    ;AB[gf][fh][gh][hi]AW[ih][ji][ij]TR[hk]PL[W]C[book key: W|B29,B32,B33,B3j,W35,W3l,W3z\nside to move: W\nrecommended move: 10,7 / SGF hk\nscore: 6023620]
+    ;AB[gf][gh][gi][hi]AW[gg][ih][ij]TR[ii]PL[W]C[book key: W|B29,B33,B3i,B3j,W2o,W35,W3z\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4677040]
+    ;AB[gf][gh][gi][hi]AW[ih][ii][ij]TR[ik]PL[W]C[book key: W|B29,B33,B3i,B3j,W35,W3k,W3z\nside to move: W\nrecommended move: 10,8 / SGF ik\nscore: 400000000]
+  )
+  ;AB[hf][ig][jg][ih]AW[gi][ii][gj]TR[hi]PL[W]C[book key: W|B2a,B2q,B2r,B35,W3i,W3k,W3x\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 4597950]
+  ;AB[gg][hg][ig][gh]AW[fg][kg][fi]TR[gi]PL[W]C[book key: W|B2o,B2p,B2q,B33,W2n,W2s,W3h\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 2439580]
+  ;AB[gg][hg][ig][ih]AW[fg][kg][fi]TR[ii]PL[W]C[book key: W|B2o,B2p,B2q,B35,W2n,W2s,W3h\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 1833560]
+  ;AB[gg][hg][ig][ih]AW[fg][kg][ii]TR[jh]PL[W]C[book key: W|B2o,B2p,B2q,B35,W2n,W2s,W3k\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 2225160]
+  ;AB[gg][hg][ig][jh]AW[fg][kg][ii]TR[ki]PL[W]C[book key: W|B2o,B2p,B2q,B36,W2n,W2s,W3k\nside to move: W\nrecommended move: 8,10 / SGF ki\nscore: 1597280]
+  ;AB[gg][hg][ig][hi]AW[fg][jg][fh]TR[gi]PL[W]C[book key: W|B2o,B2p,B2q,B3j,W2n,W2r,W32\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 4245670]
+  ;AB[gg][hg][ig][hi]AW[fg][kg][fi]TR[fh]PL[W]C[book key: W|B2o,B2p,B2q,B3j,W2n,W2s,W3h\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 2263890]
+  (
+    ;AB[gg][hg][ig]AW[jg][ji]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,W2r,W3l\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+    ;AB[gg][hg][ig][hh]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+    ;AB[gg][hg][ig][hh]AW[jg][hi][ji]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2r,W3j,W3l\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+    ;AB[gg][hg][ig][ih]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B2q,B35,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+    ;AB[gg][hg][ig][hi]AW[jg][jh][ji]TR[jj]PL[W]C[book key: W|B2o,B2p,B2q,B3j,W2r,W36,W3l\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+  )
+  (
+    ;AB[gg][hg][ig]AW[jh][ii]TR[jg]PL[W]C[book key: W|B2o,B2p,B2q,W36,W3k\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 300000000]
+    ;AB[gg][hg][ig]AW[hh][jh][ii]TR[fg]PL[B]C[book key: B|B2o,B2p,B2q,W34,W36,W3k\nside to move: B\nrecommended move: 6,5 / SGF fg\nscore: 400000000]
+    ;AB[gg][hg][ig][hh]AW[jg][jh][ii]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2r,W36,W3k\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+    ;AB[gg][hg][ig][hh]AW[jh][hi][ii]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W36,W3j,W3k\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 300000000]
+    ;AB[gg][hg][ig][hh]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+    ;AB[gg][hg][ig][ih]AW[jg][jh][ii]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,B35,W2r,W36,W3k\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+    ;AB[gg][hg][ig][ih]AW[jh][ii][ji]TR[jg]PL[W]C[book key: W|B2o,B2p,B2q,B35,W36,W3k,W3l\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 300000000]
+    ;AB[gg][hg][ig][ij]AW[jg][jh][ii]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,B3z,W2r,W36,W3k\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+  )
+  (
+    ;AB[gg][hg][gh]AW[ig][ii]TR[gi]PL[W]C[book key: W|B2o,B2p,B33,W2q,W3k\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 1985980]
+    ;AB[gg][hg][gh][hh]AW[ig][ih][ii]TR[ij]PL[W]C[book key: W|B2o,B2p,B33,B34,W2q,W35,W3k\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+    ;AB[gg][hg][gh][hh]AW[ig][gi][ii]TR[fh]PL[W]C[book key: W|B2o,B2p,B33,B34,W2q,W3i,W3k\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 2073590]
+  )
+  (
+    ;AB[gg][hg][ih]AW[jg][ji]TR[kh]PL[W]C[book key: W|B2o,B2p,B35,W2r,W3l\nside to move: W\nrecommended move: 7,10 / SGF kh\nscore: 4228230]
+    ;AB[gg][hg][gh][ih]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B33,B35,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+    ;AB[gg][hg][hh][ih]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B34,B35,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+    ;AB[gg][hg][ih][hi]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B35,B3j,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+  )
+  ;AB[gg][hg][gi]AW[ig][ii]TR[ih]PL[W]C[book key: W|B2o,B2p,B3i,W2q,W3k\nside to move: W\nrecommended move: 7,8 / SGF ih\nscore: 2368550]
+  (
+    ;AB[gg][hg][hi]AW[jg][jh]TR[hf]PL[W]C[book key: W|B2o,B2p,B3j,W2r,W36\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 2317820]
+    ;AB[gg][hg][hh][hi]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B34,B3j,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+  )
+  (
+    ;AB[gg][ig]AW[gi]TR[eg]PL[W]C[book key: W|B2o,B2q,W3i\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 750000]
+    (
+      ;AB[gg][ig]AW[hh][gi]TR[hg]PL[B]C[book key: B|B2o,B2q,W34,W3i\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4728490]
+      ;AB[gg][hg][ig]AW[gh][hh][gi]TR[jg]PL[B]C[book key: B|B2o,B2p,B2q,W33,W34,W3i\nside to move: B\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+      ;AB[gg][ig][jh]AW[gh][hh][gi]TR[hf]PL[B]C[book key: B|B2o,B2q,B36,W33,W34,W3i\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 5057710]
+      ;AB[gg][ig][ii]AW[hh][jh][gi]TR[hg]PL[B]C[book key: B|B2o,B2q,B3k,W34,W36,W3i\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 5106050]
+      ;AB[gg][ig][ii]AW[hh][gi][ji]TR[jh]PL[B]C[book key: B|B2o,B2q,B3k,W34,W3i,W3l\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 4821900]
+      ;AB[gg][ig][ii]AW[hh][gi][jj]TR[hg]PL[B]C[book key: B|B2o,B2q,B3k,W34,W3i,W40\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 4773490]
+    )
+    ;AB[gg][hg][ig][gh]AW[gi][hi][ii]TR[ji]PL[W]C[book key: W|B2o,B2p,B2q,B33,W3i,W3j,W3k\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 400000000]
+    ;AB[gg][ig][hh][hi]AW[gi][hj][jj]TR[ik]PL[W]C[book key: W|B2o,B2q,B34,B3j,W3i,W3y,W40\nside to move: W\nrecommended move: 10,8 / SGF ik\nscore: 5179770]
+    (
+      ;AB[gg][ig][hh]AW[gi][ii]TR[fg]PL[W]C[book key: W|B2o,B2q,B34,W3i,W3k\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 4265320]
+      ;AB[gf][gg][ig][hh]AW[gi][ii][hj]TR[fi]PL[W]C[book key: W|B29,B2o,B2q,B34,W3i,W3k,W3y\nside to move: W\nrecommended move: 8,5 / SGF fi\nscore: 5798110]
+      ;AB[gg][ig][hh][ih]AW[jg][gi][ii]TR[ji]PL[W]C[book key: W|B2o,B2q,B34,B35,W2r,W3i,W3k\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4583220]
+      ;AB[gg][ig][hh][ih]AW[jh][gi][ii]TR[ji]PL[W]C[book key: W|B2o,B2q,B34,B35,W36,W3i,W3k\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 5658820]
+      ;AB[gg][ig][hh][jh]AW[jg][gi][ii]TR[hi]PL[W]C[book key: W|B2o,B2q,B34,B36,W2r,W3i,W3k\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 4490300]
+      ;AB[gg][ig][hh][jh]AW[gh][gi][ii]TR[hi]PL[W]C[book key: W|B2o,B2q,B34,B36,W33,W3i,W3k\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 4397400]
+    )
+    ;AB[gg][ig][ih][jh]AW[gi][hi][ii]TR[fi]PL[W]C[book key: W|B2o,B2q,B35,B36,W3i,W3j,W3k\nside to move: W\nrecommended move: 8,5 / SGF fi\nscore: 400000000]
+  )
+  ;AB[hg][ig][gh][ih]AW[gg][ij][jj]TR[kj]PL[W]C[book key: W|B2p,B2q,B33,B35,W2o,W3z,W40\nside to move: W\nrecommended move: 9,10 / SGF kj\nscore: 2022630]
+  ;AB[hg][ig][gh][ih]AW[hh][ij][jj]TR[kj]PL[W]C[book key: W|B2p,B2q,B33,B35,W34,W3z,W40\nside to move: W\nrecommended move: 9,10 / SGF kj\nscore: 3104890]
+  ;AB[hg][ig][gh][ih]AW[jh][hj][ij]TR[gj]PL[W]C[book key: W|B2p,B2q,B33,B35,W36,W3y,W3z\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 4080170]
+  (
+    ;AB[hg][ig][gh]AW[jg][ji]TR[if]PL[W]C[book key: W|B2p,B2q,B33,W2r,W3l\nside to move: W\nrecommended move: 5,8 / SGF if\nscore: 3905320]
+    ;AB[hg][ig][gh][hh]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2p,B2q,B33,B34,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+    ;AB[hg][ig][gh][hh]AW[jg][hi][ji]TR[ki]PL[W]C[book key: W|B2p,B2q,B33,B34,W2r,W3j,W3l\nside to move: W\nrecommended move: 8,10 / SGF ki\nscore: 3250130]
+    ;AB[hg][ig][gh][ih]AW[jg][jh][ji]TR[jj]PL[W]C[book key: W|B2p,B2q,B33,B35,W2r,W36,W3l\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+    ;AB[hg][ig][gh][hi]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2p,B2q,B33,B3j,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+  )
+  ;AB[hg][gh][ih][ii]AW[ji][gj][ij]TR[jj]PL[W]C[book key: W|B2p,B33,B35,B3k,W3l,W3x,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 4727220]
+  (
+    ;AB[hg][gh][ih]AW[jg][ji]TR[jh]PL[W]C[book key: W|B2p,B33,B35,W2r,W3l\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 2554720]
+    ;AB[hg][gh][hh][ih]AW[jg][hi][ji]TR[jh]PL[W]C[book key: W|B2p,B33,B34,B35,W2r,W3j,W3l\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 300000000]
+    ;AB[hg][gh][ih][hi]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2p,B33,B35,B3j,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+    ;AB[hg][gh][ih][hi]AW[jg][ji][hj]TR[jh]PL[W]C[book key: W|B2p,B33,B35,B3j,W2r,W3l,W3y\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 4397400]
+  )
+  ;AB[hg][ih][hi][ii]AW[ji][gj][ij]TR[hk]PL[W]C[book key: W|B2p,B35,B3j,B3k,W3l,W3x,W3z\nside to move: W\nrecommended move: 10,7 / SGF hk\nscore: 5752090]
+  ;AB[hg][ih][hi][ji]AW[gh][gi][gj]TR[gk]PL[W]C[book key: W|B2p,B35,B3j,B3l,W33,W3i,W3x\nside to move: W\nrecommended move: 10,6 / SGF gk\nscore: 400000000]
+  ;AB[hg][ih][hi][ji]AW[gh][gj][hj]TR[gf]PL[W]C[book key: W|B2p,B35,B3j,B3l,W33,W3x,W3y\nside to move: W\nrecommended move: 5,6 / SGF gf\nscore: 300000000]
+  (
+    ;AB[hh]TR[hf]PL[W]C[book key: W|B34\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 186090]
+    ;AB[hf][gg][hh]AW[hg][ig][hj]TR[gf]PL[B]C[book key: B|B2a,B2o,B34,W2p,W2q,W3y\nside to move: B\nrecommended move: 5,6 / SGF gf\nscore: 14512880]
+    ;AB[hf][gg][hh]AW[ig][gh][hj]TR[ie]PL[B]C[book key: B|B2a,B2o,B34,W2q,W33,W3y\nside to move: B\nrecommended move: 4,8 / SGF ie\nscore: 5978940]
+    ;AB[hf][gg][hh]AW[ig][hi][hj]TR[gh]PL[B]C[book key: B|B2a,B2o,B34,W2q,W3j,W3y\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 10243460]
+    ;AB[gg][hg][hh]AW[ig][gh][gi]TR[hf]PL[B]C[book key: B|B2o,B2p,B34,W2q,W33,W3i\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4964440]
+    ;AB[gg][hg][hh]AW[gh][jh][gi]TR[ff]PL[B]C[book key: B|B2o,B2p,B34,W33,W36,W3i\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 5978940]
+    ;AB[gg][hh][ih]AW[hg][ig][gi]TR[jh]PL[B]C[book key: B|B2o,B34,B35,W2p,W2q,W3i\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 4964950]
+    ;AB[gg][hh][ih]AW[hg][ig][hj]TR[gh]PL[B]C[book key: B|B2o,B34,B35,W2p,W2q,W3y\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4914730]
+    ;AB[gg][hh][ih]AW[ig][gh][hi]TR[ij]PL[B]C[book key: B|B2o,B34,B35,W2q,W33,W3j\nside to move: B\nrecommended move: 9,8 / SGF ij\nscore: 4441920]
+    ;AB[gg][hh][ih]AW[ig][jh][hi]TR[hf]PL[B]C[book key: B|B2o,B34,B35,W2q,W36,W3j\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4492150]
+    ;AB[gg][hh][ih]AW[ig][gi][hi]TR[ii]PL[B]C[book key: B|B2o,B34,B35,W2q,W3i,W3j\nside to move: B\nrecommended move: 8,8 / SGF ii\nscore: 4964440]
+    ;AB[gg][hh][ih]AW[ig][hi][hj]TR[gh]PL[B]C[book key: B|B2o,B34,B35,W2q,W3j,W3y\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4867410]
+    ;AB[gg][hh][jh]AW[ig][jg][ji]TR[ii]PL[B]C[book key: B|B2o,B34,B36,W2q,W2r,W3l\nside to move: B\nrecommended move: 8,8 / SGF ii\nscore: 4964950]
+    ;AB[gg][hh][jh]AW[ig][jg][jj]TR[ih]PL[B]C[book key: B|B2o,B34,B36,W2q,W2r,W40\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 4540050]
+    ;AB[gg][hh][ii]AW[ig][hi][hj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3j,W3y\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+    ;AB[gg][hh][ii]AW[ig][hi][jj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W3j,W40\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 308000000]
+    ;AB[hg][hh][ih]AW[ig][gh][ji]TR[hi]PL[B]C[book key: B|B2p,B34,B35,W2q,W33,W3l\nside to move: B\nrecommended move: 8,7 / SGF hi\nscore: 4635200]
+    ;AB[hg][hh][jh]AW[gg][ig][gi]TR[hi]PL[B]C[book key: B|B2p,B34,B36,W2o,W2q,W3i\nside to move: B\nrecommended move: 8,7 / SGF hi\nscore: 4914360]
+    ;AB[hg][hh][hi]AW[fh][gh][jh]TR[hj]PL[B]C[book key: B|B2p,B34,B3j,W32,W33,W36\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[gh][ji][gj]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W33,W3l,W3x\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+    ;AB[hg][hh][hi]AW[gh][ji][ij]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W33,W3l,W3z\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+    ;AB[hg][hh][ii]AW[ig][gh][jh]TR[gg]PL[B]C[book key: B|B2p,B34,B3k,W2q,W33,W36\nside to move: B\nrecommended move: 6,6 / SGF gg\nscore: 5058220]
+    (
+      ;AB[hh][ih]AW[hg][hi]TR[gh]PL[B]C[book key: B|B34,B35,W2p,W3j\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4771730]
+      ;AB[gg][hh][ih]AW[hg][ig][hi]TR[gh]PL[B]C[book key: B|B2o,B34,B35,W2p,W2q,W3j\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 5058730]
+    )
+    (
+      ;AB[hh]AW[ih]TR[hg]PL[B]C[book key: B|B34,W35\nside to move: B\nrecommended move: 6,7 / SGF hg\nscore: 2348180]
+      ;AB[gg][hg][hh]AW[gh][ih][gi]TR[ii]PL[B]C[book key: B|B2o,B2p,B34,W33,W35,W3i\nside to move: B\nrecommended move: 8,8 / SGF ii\nscore: 6083230]
+      ;AB[gg][hh][ii]AW[ig][ih][hj]TR[ff]PL[B]C[book key: B|B2o,B34,B3k,W2q,W35,W3y\nside to move: B\nrecommended move: 5,5 / SGF ff\nscore: 400000000]
+      ;AB[gg][hh][ii]AW[ig][ih][jj]TR[ee]PL[B]C[book key: B|B2o,B34,B3k,W2q,W35,W40\nside to move: B\nrecommended move: 4,4 / SGF ee\nscore: 308000000]
+      ;AB[hg][hh][hi]AW[ih][ji][gj]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W35,W3l,W3x\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 400000000]
+      (
+        ;AB[hg][hh]AW[ih][ii]TR[ig]PL[B]C[book key: B|B2p,B34,W35,W3k\nside to move: B\nrecommended move: 6,8 / SGF ig\nscore: 4727540]
+        ;AB[hg][ig][hh]AW[ih][ii][hj]TR[jh]PL[B]C[book key: B|B2p,B2q,B34,W35,W3k,W3y\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 14561220]
+        ;AB[hg][gh][hh][jh]AW[ih][ii][hj]TR[ij]PL[W]C[book key: W|B2p,B33,B34,B36,W35,W3k,W3y\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 4491480]
+      )
+      ;AB[gf][gh][hh][gj]AW[if][ig][ih]TR[ie]PL[W]C[book key: W|B29,B33,B34,B3x,W2b,W2q,W35\nside to move: W\nrecommended move: 4,8 / SGF ie\nscore: 400000000]
+      (
+        ;AB[gf][gh][hh]AW[ih][gj]TR[hi]PL[W]C[book key: W|B29,B33,B34,W35,W3x\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 4501710]
+        ;AB[gf][gh][hh][jh]AW[ih][hi][gj]TR[jg]PL[W]C[book key: W|B29,B33,B34,B36,W35,W3j,W3x\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+        ;AB[gf][gh][hh][gi]AW[gg][ih][gj]TR[hi]PL[W]C[book key: W|B29,B33,B34,B3i,W2o,W35,W3x\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 2452660]
+        ;AB[gf][gh][hh][gi]AW[ih][hi][gj]TR[jg]PL[W]C[book key: W|B29,B33,B34,B3i,W35,W3j,W3x\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+        ;AB[gf][gh][hh][gi]AW[ih][gj][ij]TR[ge]PL[W]C[book key: W|B29,B33,B34,B3i,W35,W3x,W3z\nside to move: W\nrecommended move: 4,6 / SGF ge\nscore: 278000000]
+        ;AB[gf][gh][hh][hi]AW[ih][gj][ij]TR[ii]PL[W]C[book key: W|B29,B33,B34,B3j,W35,W3x,W3z\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4677420]
+      )
+      (
+        ;AB[gf][gh][hh]AW[ih][ij]TR[ii]PL[W]C[book key: W|B29,B33,B34,W35,W3z\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 2544160]
+        ;AB[gf][gg][gh][hh]AW[ih][ii][ij]TR[ik]PL[W]C[book key: W|B29,B2o,B33,B34,W35,W3k,W3z\nside to move: W\nrecommended move: 10,8 / SGF ik\nscore: 400000000]
+        ;AB[gf][gg][gh][hh]AW[ih][ij][jj]TR[ge]PL[W]C[book key: W|B29,B2o,B33,B34,W35,W3z,W40\nside to move: W\nrecommended move: 4,6 / SGF ge\nscore: 300000000]
+        ;AB[gf][hg][gh][hh]AW[ih][ii][ij]TR[ik]PL[W]C[book key: W|B29,B2p,B33,B34,W35,W3k,W3z\nside to move: W\nrecommended move: 10,8 / SGF ik\nscore: 400000000]
+        ;AB[gf][gh][hh][gi]AW[ih][ii][ij]TR[ik]PL[W]C[book key: W|B29,B33,B34,B3i,W35,W3k,W3z\nside to move: W\nrecommended move: 10,8 / SGF ik\nscore: 400000000]
+        ;AB[gf][gh][hh][hi]AW[gg][ih][ij]TR[hj]PL[W]C[book key: W|B29,B33,B34,B3j,W2o,W35,W3z\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 4202830]
+        ;AB[gf][gh][hh][hi]AW[hg][ih][ij]TR[kj]PL[W]C[book key: W|B29,B33,B34,B3j,W2p,W35,W3z\nside to move: W\nrecommended move: 9,10 / SGF kj\nscore: 2253150]
+        ;AB[gf][gh][hh][hi]AW[ih][ii][ij]TR[ik]PL[W]C[book key: W|B29,B33,B34,B3j,W35,W3k,W3z\nside to move: W\nrecommended move: 10,8 / SGF ik\nscore: 400000000]
+      )
+      ;AB[hf][gh][hh][jh]AW[ih][ii][hj]TR[ig]PL[W]C[book key: W|B2a,B33,B34,B36,W35,W3k,W3y\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 4491890]
+      (
+        ;AB[hg][gh][hh]AW[ih][ij]TR[gj]PL[W]C[book key: W|B2p,B33,B34,W35,W3z\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 1855990]
+        ;AB[gg][hg][gh][hh]AW[ih][ij][jj]TR[gj]PL[W]C[book key: W|B2o,B2p,B33,B34,W35,W3z,W40\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 2413040]
+      )
+    )
+    (
+      ;AB[hh]AW[ii]TR[hj]PL[B]C[book key: B|B34,W3k\nside to move: B\nrecommended move: 9,7 / SGF hj\nscore: 2546740]
+      ;AB[hf][hh][ih]AW[ig][ii][hj]TR[jh]PL[B]C[book key: B|B2a,B34,B35,W2q,W3k,W3y\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 4926560]
+      ;AB[gg][hh][jh]AW[ig][jg][ii]TR[ih]PL[B]C[book key: B|B2o,B34,B36,W2q,W2r,W3k\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 4444310]
+      ;AB[hg][hh][jh]AW[gg][ig][ii]TR[ih]PL[B]C[book key: B|B2p,B34,B36,W2o,W2q,W3k\nside to move: B\nrecommended move: 7,8 / SGF ih\nscore: 5102850]
+      (
+        ;AB[hh][ih]AW[hg][ii]TR[gi]PL[B]C[book key: B|B34,B35,W2p,W3k\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 4491640]
+        ;AB[gg][hh][ih]AW[hg][ig][ii]TR[gh]PL[B]C[book key: B|B2o,B34,B35,W2p,W2q,W3k\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4629980]
+        ;AB[hh][ih][hi]AW[hg][ii][hj]TR[jh]PL[B]C[book key: B|B34,B35,B3j,W2p,W3k,W3y\nside to move: B\nrecommended move: 7,9 / SGF jh\nscore: 4773480]
+        ;AB[hh][ih][hi]AW[hg][ii][ij]TR[gj]PL[B]C[book key: B|B34,B35,B3j,W2p,W3k,W3z\nside to move: B\nrecommended move: 9,6 / SGF gj\nscore: 4774580]
+      )
+      (
+        ;AB[hh][ih]AW[hi][ii]TR[gi]PL[B]C[book key: B|B34,B35,W3j,W3k\nside to move: B\nrecommended move: 8,6 / SGF gi\nscore: 2554970]
+        ;AB[gg][hh][ih]AW[ig][hi][ii]TR[gh]PL[B]C[book key: B|B2o,B34,B35,W2q,W3j,W3k\nside to move: B\nrecommended move: 7,6 / SGF gh\nscore: 4629980]
+      )
+      ;AB[gf][hf][gg][hh]AW[gi][ii][hj]TR[fh]PL[W]C[book key: W|B29,B2a,B2o,B34,W3i,W3k,W3y\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 5704770]
+      ;AB[gf][gg][gh][hh]AW[gi][ii][hj]TR[gd]PL[W]C[book key: W|B29,B2o,B33,B34,W3i,W3k,W3y\nside to move: W\nrecommended move: 3,6 / SGF gd\nscore: 278000000]
+      ;AB[hf][fh][hh][ih]AW[jh][ii][hj]TR[gk]PL[W]C[book key: W|B2a,B32,B34,B35,W36,W3k,W3y\nside to move: W\nrecommended move: 10,6 / SGF gk\nscore: 400000000]
+      ;AB[hf][gh][hh][gi]AW[ii][gj][hj]TR[fj]PL[W]C[book key: W|B2a,B33,B34,B3i,W3k,W3x,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 4584820]
+      ;AB[hf][gh][hh][hi]AW[ii][hj][ij]TR[he]PL[W]C[book key: W|B2a,B33,B34,B3j,W3k,W3y,W3z\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 278000000]
+      ;AB[gg][hg][ig][hh]AW[fg][kg][ii]TR[jh]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2n,W2s,W3k\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 224730]
+      (
+        ;AB[gg][hg][hh]AW[ig][ii]TR[hf]PL[W]C[book key: W|B2o,B2p,B34,W2q,W3k\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 2411510]
+        ;AB[gg][hg][hh][gi]AW[ig][ih][ii]TR[ij]PL[W]C[book key: W|B2o,B2p,B34,B3i,W2q,W35,W3k\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+        ;AB[gg][hg][hh][gi]AW[ig][jh][ii]TR[if]PL[W]C[book key: W|B2o,B2p,B34,B3i,W2q,W36,W3k\nside to move: W\nrecommended move: 5,8 / SGF if\nscore: 5658820]
+        ;AB[gg][hg][hh][hi]AW[ig][jh][ii]TR[hj]PL[W]C[book key: W|B2o,B2p,B34,B3j,W2q,W36,W3k\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 300000000]
+      )
+      (
+        ;AB[gg][hg][hh]AW[jh][ii]TR[hj]PL[W]C[book key: W|B2o,B2p,B34,W36,W3k\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 2257650]
+        ;AB[gg][hg][gh][hh]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2o,B2p,B33,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+        ;AB[gg][hg][hh][ih]AW[jh][ii][ji]TR[jg]PL[W]C[book key: W|B2o,B2p,B34,B35,W36,W3k,W3l\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 4865050]
+        ;AB[gg][hg][hh][ih]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2o,B2p,B34,B35,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+        ;AB[gg][hg][hh][gi]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2o,B2p,B34,B3i,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+        ;AB[gg][hg][hh][hi]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2o,B2p,B34,B3j,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+        ;AB[gg][hg][hh][hj]AW[jh][hi][ii]TR[ji]PL[W]C[book key: W|B2o,B2p,B34,B3y,W36,W3j,W3k\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4770230]
+      )
+      (
+        ;AB[gg][hg][hh]AW[gi][ii]TR[hi]PL[W]C[book key: W|B2o,B2p,B34,W3i,W3k\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 2214160]
+        ;AB[gg][hg][hh]AW[gh][gi][ii]TR[hi]PL[B]C[book key: B|B2o,B2p,B34,W33,W3i,W3k\nside to move: B\nrecommended move: 8,7 / SGF hi\nscore: 4629980]
+        ;AB[gf][gg][hg][hh]AW[gi][ii][hj]TR[gk]PL[W]C[book key: W|B29,B2o,B2p,B34,W3i,W3k,W3y\nside to move: W\nrecommended move: 10,6 / SGF gk\nscore: 4504540]
+        ;AB[gg][hg][ig][hh]AW[jg][gi][ii]TR[fg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2r,W3i,W3k\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 278000000]
+        ;AB[gg][hg][ig][hh]AW[gi][hi][ii]TR[ji]PL[W]C[book key: W|B2o,B2p,B2q,B34,W3i,W3j,W3k\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 400000000]
+        ;AB[gg][hg][hh][ih]AW[gi][ii][hj]TR[ji]PL[W]C[book key: W|B2o,B2p,B34,B35,W3i,W3k,W3y\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4287990]
+      )
+      ;AB[gg][hh][ih][hi]AW[ig][jh][ii]TR[hj]PL[W]C[book key: W|B2o,B34,B35,B3j,W2q,W36,W3k\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 4572990]
+      (
+        ;AB[hg][gh][hh]AW[jh][ii]TR[hj]PL[W]C[book key: W|B2p,B33,B34,W36,W3k\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 2122260]
+        ;AB[hg][ig][gh][hh]AW[jg][jh][ii]TR[hj]PL[W]C[book key: W|B2p,B2q,B33,B34,W2r,W36,W3k\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 4082020]
+        ;AB[hg][ig][gh][hh]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2p,B2q,B33,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+        ;AB[hg][gh][hh][ih]AW[jh][ii][ji]TR[fh]PL[W]C[book key: W|B2p,B33,B34,B35,W36,W3k,W3l\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 278000000]
+        ;AB[hg][gh][hh][ih]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2p,B33,B34,B35,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      )
+    )
+    ;AB[hf][gg][hh][ih]AW[jh][ji][jj]TR[jk]PL[W]C[book key: W|B2a,B2o,B34,B35,W36,W3l,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 400000000]
+    ;AB[hf][gg][hh][jh]AW[ff][fh][hj]TR[gi]PL[W]C[book key: W|B2a,B2o,B34,B36,W28,W32,W3y\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 4583640]
+    ;AB[hf][gg][hh][ii]AW[hg][jh][jj]TR[ff]PL[W]C[book key: W|B2a,B2o,B34,B3k,W2p,W36,W40\nside to move: W\nrecommended move: 5,5 / SGF ff\nscore: 278000000]
+    (
+      ;AB[hf][gg][hh]AW[jh][hj]TR[ii]PL[W]C[book key: W|B2a,B2o,B34,W36,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 1487350]
+      ;AB[hf][gg][hg][hh]AW[jh][ii][hj]TR[gk]PL[W]C[book key: W|B2a,B2o,B2p,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 10,6 / SGF gk\nscore: 400000000]
+      ;AB[hf][gg][ig][hh]AW[jf][jh][hj]TR[jg]PL[W]C[book key: W|B2a,B2o,B2q,B34,W2c,W36,W3y\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 4534790]
+      ;AB[hf][gg][gh][hh]AW[jh][ii][hj]TR[gk]PL[W]C[book key: W|B2a,B2o,B33,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 10,6 / SGF gk\nscore: 400000000]
+      ;AB[hf][gg][hh][ih]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B2o,B34,B35,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][gg][hh][hi]AW[hg][jh][hj]TR[ii]PL[W]C[book key: W|B2a,B2o,B34,B3j,W2p,W36,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 2358220]
+      ;AB[hf][gg][hh][ii]AW[jh][hj][jj]TR[ee]PL[W]C[book key: W|B2a,B2o,B34,B3k,W36,W3y,W40\nside to move: W\nrecommended move: 4,4 / SGF ee\nscore: 278000000]
+    )
+    ;AB[hf][ig][hh][hi]AW[gi][hj][jj]TR[hg]PL[W]C[book key: W|B2a,B2q,B34,B3j,W3i,W3y,W40\nside to move: W\nrecommended move: 6,7 / SGF hg\nscore: 278000000]
+    ;AB[hf][fh][hh][ih]AW[gh][jh][hj]TR[ii]PL[W]C[book key: W|B2a,B32,B34,B35,W33,W36,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 2122920]
+    ;AB[hf][fh][hh][ii]AW[hg][jh][jj]TR[ji]PL[W]C[book key: W|B2a,B32,B34,B3k,W2p,W36,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4688390]
+    ;AB[hf][fh][hh][ii]AW[jh][hj][jj]TR[ji]PL[W]C[book key: W|B2a,B32,B34,B3k,W36,W3y,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 5106170]
+    ;AB[hf][gh][hh][ih]AW[fh][kh][fj]TR[fi]PL[W]C[book key: W|B2a,B33,B34,B35,W32,W37,W3w\nside to move: W\nrecommended move: 8,5 / SGF fi\nscore: 2440080]
+    ;AB[hf][gh][hh][ih]AW[jh][ji][jj]TR[jk]PL[W]C[book key: W|B2a,B33,B34,B35,W36,W3l,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 400000000]
+    ;AB[hf][gh][hh][gi]AW[jg][jh][gj]TR[hg]PL[W]C[book key: W|B2a,B33,B34,B3i,W2r,W36,W3x\nside to move: W\nrecommended move: 6,7 / SGF hg\nscore: 3876000]
+    ;AB[hf][gh][hh][hi]AW[jh][ji][jj]TR[jg]PL[W]C[book key: W|B2a,B33,B34,B3j,W36,W3l,W40\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+    ;AB[hf][gh][hh][ii]AW[hg][jh][jj]TR[ji]PL[W]C[book key: W|B2a,B33,B34,B3k,W2p,W36,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4725410]
+    ;AB[hf][gh][hh][ii]AW[jg][jh][jj]TR[ji]PL[W]C[book key: W|B2a,B33,B34,B3k,W2r,W36,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 400000000]
+    ;AB[hf][gh][hh][ii]AW[jh][ji][jj]TR[jg]PL[W]C[book key: W|B2a,B33,B34,B3k,W36,W3l,W40\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+    ;AB[hf][gh][hh][hj]AW[hg][jh][ji]TR[ih]PL[W]C[book key: W|B2a,B33,B34,B3y,W2p,W36,W3l\nside to move: W\nrecommended move: 7,8 / SGF ih\nscore: 4632990]
+    (
+      ;AB[hf][gh][hh]AW[jh][hj]TR[ii]PL[W]C[book key: W|B2a,B33,B34,W36,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 2235660]
+      ;AB[hf][hg][gh][hh]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B2p,B33,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][ig][gh][hh]AW[jf][jh][hj]TR[jg]PL[W]C[book key: W|B2a,B2q,B33,B34,W2c,W36,W3y\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 4535300]
+      ;AB[hf][ig][gh][hh]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B2q,B33,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][gh][hh][ih]AW[jh][gi][hj]TR[fh]PL[W]C[book key: W|B2a,B33,B34,B35,W36,W3i,W3y\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 278000000]
+      ;AB[hf][gh][hh][ih]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B33,B34,B35,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][gh][hh][gi]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B33,B34,B3i,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][gh][hh][hi]AW[hg][jh][hj]TR[ii]PL[W]C[book key: W|B2a,B33,B34,B3j,W2p,W36,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4442640]
+      ;AB[hf][gh][hh][hi]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B33,B34,B3j,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][gh][hh][ii]AW[jh][hj][jj]TR[ji]PL[W]C[book key: W|B2a,B33,B34,B3k,W36,W3y,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 5057830]
+    )
+    ;AB[hf][hh][ih][jh]AW[fh][kh][hj]TR[gi]PL[W]C[book key: W|B2a,B34,B35,B36,W32,W37,W3y\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 2201330]
+    ;AB[hf][hh][ih][jh]AW[gh][gi][hj]TR[kh]PL[W]C[book key: W|B2a,B34,B35,B36,W33,W3i,W3y\nside to move: W\nrecommended move: 7,10 / SGF kh\nscore: 278000000]
+    ;AB[hf][hh][ih][gi]AW[ig][jh][jj]TR[jg]PL[W]C[book key: W|B2a,B34,B35,B3i,W2q,W36,W40\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 2270140]
+    ;AB[hf][hh][ih][gi]AW[jh][ji][jj]TR[jk]PL[W]C[book key: W|B2a,B34,B35,B3i,W36,W3l,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 400000000]
+    ;AB[hf][hh][jh][ii]AW[gh][hj][jj]TR[ij]PL[W]C[book key: W|B2a,B34,B36,B3k,W33,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 4584150]
+    ;AB[hf][hh][gi][ii]AW[hg][jh][jj]TR[ji]PL[W]C[book key: W|B2a,B34,B3i,B3k,W2p,W36,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4726710]
+    ;AB[hf][hh][gi][ii]AW[jh][ji][jj]TR[jk]PL[W]C[book key: W|B2a,B34,B3i,B3k,W36,W3l,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 400000000]
+    (
+      ;AB[hf][hh][gi]AW[jh][hj]TR[fj]PL[W]C[book key: W|B2a,B34,B3i,W36,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 2253940]
+      ;AB[hf][ig][hh][gi]AW[jf][jh][hj]TR[ek]PL[W]C[book key: W|B2a,B2q,B34,B3i,W2c,W36,W3y\nside to move: W\nrecommended move: 10,4 / SGF ek\nscore: 278000000]
+      ;AB[hf][hh][ih][gi]AW[jh][ii][hj]TR[kg]PL[W]C[book key: W|B2a,B34,B35,B3i,W36,W3k,W3y\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 400000000]
+      ;AB[hf][hh][gi][hi]AW[hg][jh][hj]TR[ii]PL[W]C[book key: W|B2a,B34,B3i,B3j,W2p,W36,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4347420]
+      ;AB[hf][hh][gi][hi]AW[jh][hj][jj]TR[he]PL[W]C[book key: W|B2a,B34,B3i,B3j,W36,W3y,W40\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 278000000]
+      ;AB[hf][hh][gi][ii]AW[jh][hj][jj]TR[ij]PL[W]C[book key: W|B2a,B34,B3i,B3k,W36,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 4919490]
+    )
+    ;AB[hf][hh][hi][ii]AW[gi][hj][jj]TR[hg]PL[W]C[book key: W|B2a,B34,B3j,B3k,W3i,W3y,W40\nside to move: W\nrecommended move: 6,7 / SGF hg\nscore: 278000000]
+    ;AB[gg][hg][ig][hh]AW[fg][kg][fi]TR[fh]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2n,W2s,W3h\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 1756320]
+    ;AB[gg][hg][hh][hi]AW[hf][jf][hk]TR[jh]PL[W]C[book key: W|B2o,B2p,B34,B3j,W2a,W2c,W4d\nside to move: W\nrecommended move: 7,9 / SGF jh\nscore: 1741240]
+    ;AB[gg][hg][hh][ii]AW[jh][ij][jj]TR[ee]PL[W]C[book key: W|B2o,B2p,B34,B3k,W36,W3z,W40\nside to move: W\nrecommended move: 4,4 / SGF ee\nscore: 278000000]
+    ;AB[gg][ig][hh][ih]AW[jh][hj][jj]TR[ij]PL[W]C[book key: W|B2o,B2q,B34,B35,W36,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 4404080]
+    ;AB[gg][ig][hh][ii]AW[jh][ij][jj]TR[ee]PL[W]C[book key: W|B2o,B2q,B34,B3k,W36,W3z,W40\nside to move: W\nrecommended move: 4,4 / SGF ee\nscore: 278000000]
+    ;AB[gg][ig][hh][ii]AW[hj][ij][jj]TR[kj]PL[W]C[book key: W|B2o,B2q,B34,B3k,W3y,W3z,W40\nside to move: W\nrecommended move: 9,10 / SGF kj\nscore: 400000000]
+    ;AB[gg][hh][ih][jh]AW[fh][kh][hj]TR[ff]PL[W]C[book key: W|B2o,B34,B35,B36,W32,W37,W3y\nside to move: W\nrecommended move: 5,5 / SGF ff\nscore: 3980010]
+    ;AB[gg][hh][ih][hi]AW[ig][jg][jh]TR[kg]PL[W]C[book key: W|B2o,B34,B35,B3j,W2q,W2r,W36\nside to move: W\nrecommended move: 6,10 / SGF kg\nscore: 4415050]
+    ;AB[gg][hh][ih][hi]AW[jh][hj][jj]TR[ii]PL[W]C[book key: W|B2o,B34,B35,B3j,W36,W3y,W40\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 4584240]
+    ;AB[gg][hh][ih][ii]AW[hj][ij][jj]TR[kj]PL[W]C[book key: W|B2o,B34,B35,B3k,W3y,W3z,W40\nside to move: W\nrecommended move: 9,10 / SGF kj\nscore: 400000000]
+    ;AB[gg][hh][ih][hj]AW[jh][ji][jj]TR[jk]PL[W]C[book key: W|B2o,B34,B35,B3y,W36,W3l,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 400000000]
+    (
+      ;AB[gg][hh][ih]AW[gi][hj]TR[ii]PL[W]C[book key: W|B2o,B34,B35,W3i,W3y\nside to move: W\nrecommended move: 8,8 / SGF ii\nscore: 2080930]
+      ;AB[hf][gg][hh][ih]AW[gi][ii][hj]TR[hi]PL[W]C[book key: W|B2a,B2o,B34,B35,W3i,W3k,W3y\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 5057390]
+      ;AB[gg][hh][ih][jh]AW[gh][gi][hj]TR[lh]PL[W]C[book key: W|B2o,B34,B35,B36,W33,W3i,W3y\nside to move: W\nrecommended move: 7,11 / SGF lh\nscore: 278000000]
+      ;AB[gg][hh][ih][jh]AW[gi][ii][hj]TR[gh]PL[W]C[book key: W|B2o,B34,B35,B36,W3i,W3k,W3y\nside to move: W\nrecommended move: 7,6 / SGF gh\nscore: 300000000]
+      ;AB[gg][hh][ih][ii]AW[gi][hj][ij]TR[ff]PL[W]C[book key: W|B2o,B34,B35,B3k,W3i,W3y,W3z\nside to move: W\nrecommended move: 5,5 / SGF ff\nscore: 300000000]
+    )
+    ;AB[gg][hh][jh][ii]AW[gh][hj][jj]TR[ff]PL[W]C[book key: W|B2o,B34,B36,B3k,W33,W3y,W40\nside to move: W\nrecommended move: 5,5 / SGF ff\nscore: 278000000]
+    ;AB[hg][ig][hh][ih]AW[gg][ij][jj]TR[hj]PL[W]C[book key: W|B2p,B2q,B34,B35,W2o,W3z,W40\nside to move: W\nrecommended move: 9,7 / SGF hj\nscore: 303480]
+    ;AB[hg][gh][hh][ih]AW[fh][jh][fi]TR[hf]PL[W]C[book key: W|B2p,B33,B34,B35,W32,W36,W3h\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 2172970]
+    ;AB[hg][gh][hh][ih]AW[fh][kh][fj]TR[fi]PL[W]C[book key: W|B2p,B33,B34,B35,W32,W37,W3w\nside to move: W\nrecommended move: 8,5 / SGF fi\nscore: 89210]
+    ;AB[hg][gh][hh][ih]AW[fh][kh][ij]TR[ji]PL[W]C[book key: W|B2p,B33,B34,B35,W32,W37,W3z\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 363000]
+    ;AB[hg][gh][hh][ii]AW[jg][jh][jj]TR[ji]PL[W]C[book key: W|B2p,B33,B34,B3k,W2r,W36,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 400000000]
+    ;AB[hg][gh][hh][ii]AW[jh][ij][jj]TR[ji]PL[W]C[book key: W|B2p,B33,B34,B3k,W36,W3z,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4832390]
+    (
+      ;AB[hg][gh][hh]AW[jh][ji]TR[jg]PL[W]C[book key: W|B2p,B33,B34,W36,W3l\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 352840]
+      ;AB[gg][hg][gh][hh]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2o,B2p,B33,B34,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+      ;AB[hg][gh][hh][ih]AW[jg][jh][ji]TR[jf]PL[W]C[book key: W|B2p,B33,B34,B35,W2r,W36,W3l\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 400000000]
+      ;AB[hg][gh][hh][ih]AW[jh][ji][ij]TR[fh]PL[W]C[book key: W|B2p,B33,B34,B35,W36,W3l,W3z\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 278000000]
+      ;AB[hg][gh][hh][ii]AW[jg][jh][ji]TR[jj]PL[W]C[book key: W|B2p,B33,B34,B3k,W2r,W36,W3l\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+      ;AB[hg][gh][hh][ii]AW[jh][ji][jj]TR[jg]PL[W]C[book key: W|B2p,B33,B34,B3k,W36,W3l,W40\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 400000000]
+    )
+    ;AB[hg][hh][ih][jh]AW[fh][kh][kj]TR[hf]PL[W]C[book key: W|B2p,B34,B35,B36,W32,W37,W41\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 1951140]
+    ;AB[hg][hh][ih][jh]AW[gh][ji][ij]TR[kh]PL[W]C[book key: W|B2p,B34,B35,B36,W33,W3l,W3z\nside to move: W\nrecommended move: 7,10 / SGF kh\nscore: 278000000]
+    ;AB[hg][hh][ih][jh]AW[gh][gj][ij]TR[lh]PL[W]C[book key: W|B2p,B34,B35,B36,W33,W3x,W3z\nside to move: W\nrecommended move: 7,11 / SGF lh\nscore: 278000000]
+    ;AB[hg][hh][ih][gi]AW[ig][jh][jj]TR[ji]PL[W]C[book key: W|B2p,B34,B35,B3i,W2q,W36,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4489280]
+    ;AB[hg][hh][ih][ii]AW[ji][gj][ij]TR[jj]PL[W]C[book key: W|B2p,B34,B35,B3k,W3l,W3x,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 4177810]
+    ;AB[hg][hh][ih][ji]AW[gh][gj][ij]TR[gf]PL[W]C[book key: W|B2p,B34,B35,B3l,W33,W3x,W3z\nside to move: W\nrecommended move: 5,6 / SGF gf\nscore: 300000000]
+    ;AB[hg][hh][gi][ii]AW[jh][ji][jj]TR[jk]PL[W]C[book key: W|B2p,B34,B3i,B3k,W36,W3l,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 400000000]
+    ;AB[hg][hh][gi][ii]AW[jh][ij][jj]TR[ji]PL[W]C[book key: W|B2p,B34,B3i,B3k,W36,W3z,W40\nside to move: W\nrecommended move: 8,9 / SGF ji\nscore: 4832390]
+    (
+      ;AB[hg][hh]AW[hj]TR[gj]PL[W]C[book key: W|B2p,B34,W3y\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 936100]
+      ;AB[gf][hg][hh]AW[ig][gh][hj]TR[fe]PL[B]C[book key: B|B29,B2p,B34,W2q,W33,W3y\nside to move: B\nrecommended move: 4,5 / SGF fe\nscore: 4833800]
+      ;AB[gf][hg][hh]AW[gh][ii][hj]TR[he]PL[B]C[book key: B|B29,B2p,B34,W33,W3k,W3y\nside to move: B\nrecommended move: 4,7 / SGF he\nscore: 4730020]
+      ;AB[hf][hg][hh]AW[gg][ig][hj]TR[he]PL[B]C[book key: B|B2a,B2p,B34,W2o,W2q,W3y\nside to move: B\nrecommended move: 4,7 / SGF he\nscore: 400000000]
+      ;AB[hf][hg][hh]AW[gg][jh][hj]TR[he]PL[B]C[book key: B|B2a,B2p,B34,W2o,W36,W3y\nside to move: B\nrecommended move: 4,7 / SGF he\nscore: 400000000]
+      ;AB[hg][hh][jh]AW[gg][ig][hj]TR[jf]PL[B]C[book key: B|B2p,B34,B36,W2o,W2q,W3y\nside to move: B\nrecommended move: 5,9 / SGF jf\nscore: 12582180]
+      ;AB[hg][hh][hi]AW[gh][ji][hj]TR[he]PL[B]C[book key: B|B2p,B34,B3j,W33,W3l,W3y\nside to move: B\nrecommended move: 4,7 / SGF he\nscore: 308000000]
+      (
+        ;AB[hg][hh]AW[ih][hj]TR[if]PL[B]C[book key: B|B2p,B34,W35,W3y\nside to move: B\nrecommended move: 5,8 / SGF if\nscore: 4549070]
+        ;AB[gf][hg][hh]AW[gh][ih][hj]TR[gg]PL[B]C[book key: B|B29,B2p,B34,W33,W35,W3y\nside to move: B\nrecommended move: 6,6 / SGF gg\nscore: 4823430]
+        ;AB[hg][ig][hh]AW[hf][ih][hj]TR[jf]PL[B]C[book key: B|B2p,B2q,B34,W2a,W35,W3y\nside to move: B\nrecommended move: 5,9 / SGF jf\nscore: 5014170]
+        ;AB[hg][hh][gi]AW[gg][ih][hj]TR[ig]PL[B]C[book key: B|B2p,B34,B3i,W2o,W35,W3y\nside to move: B\nrecommended move: 6,8 / SGF ig\nscore: 4833730]
+        ;AB[hg][hh][hi]AW[gh][ih][hj]TR[hf]PL[B]C[book key: B|B2p,B34,B3j,W33,W35,W3y\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 308000000]
+        ;AB[hg][hh][ii]AW[ig][ih][hj]TR[hf]PL[B]C[book key: B|B2p,B34,B3k,W2q,W35,W3y\nside to move: B\nrecommended move: 5,7 / SGF hf\nscore: 4833730]
+      )
+      ;AB[hf][hg][fh][hh]AW[jh][ii][hj]TR[gk]PL[W]C[book key: W|B2a,B2p,B32,B34,W36,W3k,W3y\nside to move: W\nrecommended move: 10,6 / SGF gk\nscore: 400000000]
+      ;AB[hf][hg][hh][jh]AW[gh][hj][ij]TR[he]PL[W]C[book key: W|B2a,B2p,B34,B36,W33,W3y,W3z\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 300000000]
+      ;AB[gg][hg][ig][hh]AW[jg][gj][hj]TR[eg]PL[W]C[book key: W|B2o,B2p,B2q,B34,W2r,W3x,W3y\nside to move: W\nrecommended move: 6,4 / SGF eg\nscore: 278000000]
+      ;AB[gg][hg][hh][hi]AW[hf][if][hj]TR[ig]PL[W]C[book key: W|B2o,B2p,B34,B3j,W2a,W2b,W3y\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 2314430]
+      ;AB[gg][hg][hh][hi]AW[ig][jh][hj]TR[hf]PL[W]C[book key: W|B2o,B2p,B34,B3j,W2q,W36,W3y\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 278000000]
+      ;AB[gg][hg][hh][ii]AW[gj][hj][jj]TR[ij]PL[W]C[book key: W|B2o,B2p,B34,B3k,W3x,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+      (
+        ;AB[gg][hg][hh]AW[hj][ij]TR[fg]PL[W]C[book key: W|B2o,B2p,B34,W3y,W3z\nside to move: W\nrecommended move: 6,5 / SGF fg\nscore: 936330]
+        ;AB[gg][hg][hh][ih]AW[gj][hj][ij]TR[fj]PL[W]C[book key: W|B2o,B2p,B34,B35,W3x,W3y,W3z\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 400000000]
+        ;AB[gg][hg][hh][ih]AW[hj][ij][jj]TR[gj]PL[W]C[book key: W|B2o,B2p,B34,B35,W3y,W3z,W40\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 400000000]
+        ;AB[gg][hg][hh][jh]AW[gh][hj][ij]TR[jj]PL[W]C[book key: W|B2o,B2p,B34,B36,W33,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 3201500]
+        ;AB[gg][hg][hh][hi]AW[hf][hj][ij]TR[ig]PL[W]C[book key: W|B2o,B2p,B34,B3j,W2a,W3y,W3z\nside to move: W\nrecommended move: 6,8 / SGF ig\nscore: 4254160]
+        ;AB[gg][hg][hh][ii]AW[hj][ij][jj]TR[gj]PL[W]C[book key: W|B2o,B2p,B34,B3k,W3y,W3z,W40\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 400000000]
+      )
+      ;AB[hg][ig][gh][hh]AW[jg][gj][hj]TR[fj]PL[W]C[book key: W|B2p,B2q,B33,B34,W2r,W3x,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 2073840]
+      ;AB[hg][ig][hh][gi]AW[jg][gj][hj]TR[fj]PL[W]C[book key: W|B2p,B2q,B34,B3i,W2r,W3x,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 300000000]
+      ;AB[hg][ig][hh][hi]AW[hf][if][hj]TR[jf]PL[W]C[book key: W|B2p,B2q,B34,B3j,W2a,W2b,W3y\nside to move: W\nrecommended move: 5,9 / SGF jf\nscore: 3019990]
+      ;AB[hg][ig][hh][hi]AW[jg][gj][hj]TR[he]PL[W]C[book key: W|B2p,B2q,B34,B3j,W2r,W3x,W3y\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 278000000]
+      ;AB[hg][ig][hh][hi]AW[gi][hj][jj]TR[hf]PL[W]C[book key: W|B2p,B2q,B34,B3j,W3i,W3y,W40\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 278000000]
+      ;AB[hg][ig][hh][ii]AW[jg][gj][hj]TR[fj]PL[W]C[book key: W|B2p,B2q,B34,B3k,W2r,W3x,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 1681360]
+      ;AB[hg][ig][hh][ii]AW[gj][hj][jj]TR[ij]PL[W]C[book key: W|B2p,B2q,B34,B3k,W3x,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+      ;AB[hg][gh][hh][ih]AW[jh][gi][hj]TR[fh]PL[W]C[book key: W|B2p,B33,B34,B35,W36,W3i,W3y\nside to move: W\nrecommended move: 7,5 / SGF fh\nscore: 278000000]
+      ;AB[hg][hh][ih][jh]AW[fh][kh][hj]TR[gi]PL[W]C[book key: W|B2p,B34,B35,B36,W32,W37,W3y\nside to move: W\nrecommended move: 8,6 / SGF gi\nscore: 2164380]
+      ;AB[hg][hh][ih][jh]AW[gh][gi][hj]TR[kh]PL[W]C[book key: W|B2p,B34,B35,B36,W33,W3i,W3y\nside to move: W\nrecommended move: 7,10 / SGF kh\nscore: 278000000]
+      ;AB[hg][hh][ih][hi]AW[hf][if][hj]TR[jg]PL[W]C[book key: W|B2p,B34,B35,B3j,W2a,W2b,W3y\nside to move: W\nrecommended move: 6,9 / SGF jg\nscore: 2122670]
+      ;AB[hg][hh][ih][ii]AW[gj][hj][jj]TR[ij]PL[W]C[book key: W|B2p,B34,B35,B3k,W3x,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+      (
+        ;AB[hg][hh][ih]AW[hj][ij]TR[jj]PL[W]C[book key: W|B2p,B34,B35,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 2074860]
+        ;AB[hg][gh][hh][ih]AW[gj][hj][ij]TR[jj]PL[W]C[book key: W|B2p,B33,B34,B35,W3x,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+        ;AB[hg][gh][hh][ih]AW[hj][ij][jj]TR[gj]PL[W]C[book key: W|B2p,B33,B34,B35,W3y,W3z,W40\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 400000000]
+        ;AB[hg][hh][ih][jh]AW[gh][hj][ij]TR[lh]PL[W]C[book key: W|B2p,B34,B35,B36,W33,W3y,W3z\nside to move: W\nrecommended move: 7,11 / SGF lh\nscore: 278000000]
+        ;AB[hg][hh][ih][jh]AW[gj][hj][ij]TR[jj]PL[W]C[book key: W|B2p,B34,B35,B36,W3x,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+        ;AB[hg][hh][ih][gi]AW[hj][ij][jj]TR[kj]PL[W]C[book key: W|B2p,B34,B35,B3i,W3y,W3z,W40\nside to move: W\nrecommended move: 9,10 / SGF kj\nscore: 400000000]
+      )
+      ;AB[hg][hh][jh][hi]AW[gf][hf][hj]TR[gg]PL[W]C[book key: W|B2p,B34,B36,B3j,W29,W2a,W3y\nside to move: W\nrecommended move: 6,6 / SGF gg\nscore: 4364990]
+      ;AB[hg][hh][jh][ii]AW[gh][hj][jj]TR[ij]PL[W]C[book key: W|B2p,B34,B36,B3k,W33,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 4629730]
+      (
+        ;AB[hg][hh][jh]AW[gj][hj]TR[ih]PL[W]C[book key: W|B2p,B34,B36,W3x,W3y\nside to move: W\nrecommended move: 7,8 / SGF ih\nscore: 3296880]
+        ;AB[hf][hg][hh][jh]AW[ih][gj][hj]TR[he]PL[W]C[book key: W|B2a,B2p,B34,B36,W35,W3x,W3y\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 300000000]
+        ;AB[gg][hg][hh][jh]AW[ih][gj][hj]TR[fj]PL[W]C[book key: W|B2o,B2p,B34,B36,W35,W3x,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 4398580]
+        ;AB[hg][gh][hh][jh]AW[ih][gj][hj]TR[fi]PL[W]C[book key: W|B2p,B33,B34,B36,W35,W3x,W3y\nside to move: W\nrecommended move: 8,5 / SGF fi\nscore: 4676720]
+        ;AB[hg][gh][hh][jh]AW[gj][hj][ij]TR[jj]PL[W]C[book key: W|B2p,B33,B34,B36,W3x,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 400000000]
+        ;AB[hg][hh][jh][gi]AW[ih][gj][hj]TR[fj]PL[W]C[book key: W|B2p,B34,B36,B3i,W35,W3x,W3y\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 4725410]
+        ;AB[hg][hh][jh][hi]AW[ih][gj][hj]TR[he]PL[W]C[book key: W|B2p,B34,B36,B3j,W35,W3x,W3y\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 278000000]
+        ;AB[hg][hh][jh][ii]AW[ih][gj][hj]TR[hi]PL[W]C[book key: W|B2p,B34,B36,B3k,W35,W3x,W3y\nside to move: W\nrecommended move: 8,7 / SGF hi\nscore: 4583560]
+        ;AB[hg][hh][jh][ii]AW[gj][hj][jj]TR[ij]PL[W]C[book key: W|B2p,B34,B36,B3k,W3x,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+      )
+      ;AB[hg][hh][gi][ii]AW[ji][hj][jj]TR[jk]PL[W]C[book key: W|B2p,B34,B3i,B3k,W3l,W3y,W40\nside to move: W\nrecommended move: 10,9 / SGF jk\nscore: 4964050]
+      ;AB[hg][hh][gi][ii]AW[gj][hj][jj]TR[ij]PL[W]C[book key: W|B2p,B34,B3i,B3k,W3x,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+      (
+        ;AB[hg][hh][gi]AW[hj][ij]TR[fj]PL[W]C[book key: W|B2p,B34,B3i,W3y,W3z\nside to move: W\nrecommended move: 9,5 / SGF fj\nscore: 2066030]
+        ;AB[hg][hh][jh][gi]AW[gh][hj][ij]TR[jj]PL[W]C[book key: W|B2p,B34,B36,B3i,W33,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 4490740]
+        ;AB[hg][hh][gi][ii]AW[hj][ij][jj]TR[gj]PL[W]C[book key: W|B2p,B34,B3i,B3k,W3y,W3z,W40\nside to move: W\nrecommended move: 9,6 / SGF gj\nscore: 400000000]
+      )
+      ;AB[hg][hh][hi][ii]AW[gi][hj][jj]TR[he]PL[W]C[book key: W|B2p,B34,B3j,B3k,W3i,W3y,W40\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 278000000]
+      ;AB[hg][hh][hi][ii]AW[gj][hj][jj]TR[ij]PL[W]C[book key: W|B2p,B34,B3j,B3k,W3x,W3y,W40\nside to move: W\nrecommended move: 9,8 / SGF ij\nscore: 400000000]
+      (
+        ;AB[hg][hh][hi]AW[hj][ij]TR[hf]PL[W]C[book key: W|B2p,B34,B3j,W3y,W3z\nside to move: W\nrecommended move: 5,7 / SGF hf\nscore: 278000000]
+        ;AB[hg][ig][hh][hi]AW[hf][hj][ij]TR[gg]PL[W]C[book key: W|B2p,B2q,B34,B3j,W2a,W3y,W3z\nside to move: W\nrecommended move: 6,6 / SGF gg\nscore: 2124930]
+        ;AB[hg][hh][jh][hi]AW[gh][hj][ij]TR[he]PL[W]C[book key: W|B2p,B34,B36,B3j,W33,W3y,W3z\nside to move: W\nrecommended move: 4,7 / SGF he\nscore: 278000000]
+      )
+      (
+        ;AB[hg][hh][ii]AW[hj][ij]TR[jj]PL[W]C[book key: W|B2p,B34,B3k,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 2534010]
+        ;AB[hg][hh][jh][ii]AW[gh][hj][ij]TR[jj]PL[W]C[book key: W|B2p,B34,B36,B3k,W33,W3y,W3z\nside to move: W\nrecommended move: 9,9 / SGF jj\nscore: 4629730]
+      )
+    )
+  )
+)

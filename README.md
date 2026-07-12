@@ -1,6 +1,6 @@
 # GOMOKU AI
 
-Rust/Wasm Gomoku AI running entirely in the browser with Bitboard win detection, NegaMax Minimax, Alpha-Beta pruning, iterative deepening, transposition-table caching, threat-aware evaluation, and Web Worker root-move parallelism. The AI is designed for freestyle Gomoku: human black moves first, AI white moves second, and there are no forbidden-move rules.
+Rust/Wasm Gomoku AI running entirely in the browser with Bitboard win detection, VCF continuous-four search, counter-kill defense checks, NegaMax Minimax, Alpha-Beta pruning, iterative deepening, transposition-table caching, threat-aware evaluation, and Web Worker root-move parallelism. The AI is designed for freestyle Gomoku: human black moves first, AI white moves second, and there are no forbidden-move rules.
 
 [中文说明](https://github.com/billzi2016/Gomoku-AI/blob/main/README.zh.md)
 
@@ -20,6 +20,8 @@ https://billzi2016.github.io/Gomoku-AI/docs/
 - Freestyle Gomoku rules: no forbidden moves, no Renju restrictions, any empty point is legal.
 - Rust/Wasm search engine for the compute-heavy AI core.
 - Bitboard-based five-in-a-row detection over a 15x15 board.
+- VCF continuous-four search for forcing attack lines.
+- Counter-kill defense checks to reject attacks that allow the opponent an immediate win or VCF line.
 - NegaMax Minimax search with Alpha-Beta pruning.
 - Iterative deepening so the engine always has a usable best move inside the time limit.
 - Transposition table to reuse searched positions during a move search.
@@ -199,6 +201,8 @@ Gomoku AI loses quickly if it only evaluates material-like shape scores. This en
 
 - If the AI can win immediately, it plays the winning move.
 - If the human can win immediately, the AI blocks.
+- If the AI can enter a VCF continuous-four forced win, it can take that attacking line.
+- If an attack allows the human an immediate win or VCF line, the counter-kill check suppresses it.
 - Broken fours such as `XX_XX`, `XXX_X`, and `X_XXX` are recognized with 5-cell window scoring.
 - Open threes are treated as serious threats because they can become forcing sequences.
 - The AI's own forcing attack is scored above the opponent's quiet threat, so the engine does not fill the board with passive blocks.
@@ -211,6 +215,8 @@ This does not claim to be a solved Gomoku engine. It is a practical browser AI a
 
 - **Rust/Wasm**: the search core is written in Rust and compiled to WebAssembly, so all computation runs locally in the visitor's browser.
 - **Bitboards**: black and white stones are stored in compact `u64` chunks. Win detection uses bit shifts and masks.
+- **VCF continuous-four search**: the root checks forced continuous-four wins and only overrides normal search when the forcing line is proven.
+- **Counter-kill defense checks**: after a candidate move, the engine checks opponent immediate wins and opponent VCF so it does not attack into a forced loss.
 - **NegaMax Minimax**: the engine assumes both sides choose strong moves and uses a symmetric NegaMax form.
 - **Alpha-Beta pruning**: branches that cannot affect the final decision are cut early.
 - **Iterative deepening**: searches depth 1, then depth 2, and so on, keeping a stable best move under time pressure.

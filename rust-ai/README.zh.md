@@ -1,6 +1,6 @@
 # Rust/Wasm 引擎
 
-这个目录放五子棋 AI 引擎。它会编译成 WebAssembly，并由浏览器 Worker 调用。JavaScript 层负责 UI 和并行任务分发；Rust 负责候选生成、局面评估、Bitboard 胜负判断和 NegaMax 搜索。
+这个目录放五子棋 AI 引擎。它会编译成 WebAssembly，并由浏览器 Worker 调用。JavaScript 层负责 UI 和并行任务分发；Rust 负责候选生成、局面评估、Bitboard 胜负判断、VCF 连续冲四算杀、反杀防御检查和 NegaMax 搜索。
 
 ## 文件
 

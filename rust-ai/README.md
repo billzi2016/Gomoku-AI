@@ -1,6 +1,6 @@
 # Rust/Wasm engine
 
-This directory contains the Gomoku AI engine. It is compiled to WebAssembly and called from browser Workers. The JavaScript layer handles UI and parallel job dispatch; Rust handles candidate generation, evaluation, Bitboard win checks, and NegaMax search.
+This directory contains the Gomoku AI engine. It is compiled to WebAssembly and called from browser Workers. The JavaScript layer handles UI and parallel job dispatch; Rust handles candidate generation, evaluation, Bitboard win checks, VCF continuous-four search, counter-kill defense checks, and NegaMax search.
 
 ## Files
 
